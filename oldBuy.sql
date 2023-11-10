@@ -73,7 +73,11 @@ CREATE TABLE CATEGORY (
 -- 상품 테이블
 CREATE TABLE PRODUCT (
     PRODUCT_NO          NUMBER                  NOT NULL    ,
+<<<<<<< HEAD
+    SELLER_NO           NUMBER                  NULL        ,
+=======
     SELLER_NO           NUMBER                  NOT NULL    ,
+>>>>>>> main
     BUYER_NO            NUMBER                  NULL        ,
     CATEGORY_ID         NUMBER                  NOT NULL    ,
     PRODUCT_NAME        VARCHAR2(100 BYTE)      NOT NULL    ,
@@ -86,8 +90,13 @@ CREATE TABLE PRODUCT (
     PRODUCT_STATE       NUMBER                  NULL        ,        -- 판매상태 0:판매중 1:예약중 2:판매완료
     PRODUCT_TRADE_ADDRESS   VARCHAR2(100 BYTE)  NULL        ,
     CONSTRAINT PK_PRODUCT PRIMARY KEY (PRODUCT_NO),
+<<<<<<< HEAD
+    CONSTRAINT FK_USER_TO_PRODUCT_1 FOREIGN KEY(SELLER_NO) REFERENCES USER_T(USER_NO) ON DELETE SET NULL,           -- 판매자 탈퇴 시, SELLER_NO NULL 처리
+    CONSTRAINT FK_USER_TO_PRODUCT_2 FOREIGN KEY(BUYER_NO) REFERENCES USER_T(USER_NO) ON DELETE SET NULL,            -- 구매자 탈퇴 시, BUYER_NO NULL 처리
+=======
     CONSTRAINT FK_USER_TO_PRODUCT_1 FOREIGN KEY(SELLER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,            -- 사용자 탈퇴 시, PRODUCT 삭제
     CONSTRAINT FK_USER_TO_PRODUCT_2 FOREIGN KEY(BUYER_NO) REFERENCES USER_T(USER_NO) ON DELETE SET NULL,            -- 사용자 탈퇴 시, BUYER_NO NULL 처리
+>>>>>>> main
     CONSTRAINT FK_CATEGORY_PRODUCT FOREIGN KEY(CATEGORY_ID) REFERENCES CATEGORY(CATEGORY_ID) ON DELETE CASCADE      -- 카테고리 삭제 시, 상품 삭제
 );
 
@@ -133,7 +142,11 @@ CREATE TABLE REVIEW (
     REVIEW_SCORE    NUMBER              NOT NULL            ,
     CREATED_AT      TIMESTAMP           NOT NULL            ,
     CONSTRAINT PK_REVIEW PRIMARY KEY(REVIEW_NO),
+<<<<<<< HEAD
+    CONSTRAINT FK_USER_REVIEW FOREIGN KEY(BUYER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,                   -- 구매자 탈퇴 시, 리뷰 삭제
+=======
     CONSTRAINT FK_USER_REVIEW FOREIGN KEY(BUYER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,                   -- 사용자 탈퇴 시, 리뷰 삭제
+>>>>>>> main
     CONSTRAINT FK_PRODUCT_TO_REVIEW_1 FOREIGN KEY (PRODUCT_NO) REFERENCES PRODUCT(PRODUCT_NO) ON DELETE CASCADE     -- 상품 삭제 시, 리뷰 삭제
 );
 
@@ -151,7 +164,10 @@ CREATE TABLE INACTIVE_USER (
     DETAIL_ADDRESS  VARCHAR2(100 BYTE)  NULL                ,
     AGREE           NUMBER              NOT NULL            ,
     STATE           NUMBER              NULL                ,
+<<<<<<< HEAD
+=======
     PW_MODIFIED_AT  TIMESTAMP           NULL                ,
+>>>>>>> main
     JOINED_AT       TIMESTAMP           NULL                ,
     INACTIVED_AT    TIMESTAMP           NULL                ,
     CONSTRAINT PK_INACTIVE_USER PRIMARY KEY(USER_NO)
@@ -180,7 +196,10 @@ CREATE TABLE INQUIRY (
 CREATE TABLE NOTICE (
     NOTICE_NO           NUMBER              NOT NULL        ,
     USER_NO             NUMBER              NOT NULL        ,
+<<<<<<< HEAD
+=======
     EMAIL               VARCHAR2(100 BYTE)  NULL            ,
+>>>>>>> main
     TITLE               VARCHAR2(1000 BYTE) NOT NULL        ,
     CONTENTS            VARCHAR2(4000 BYTE) NOT NULL        ,
     CREATED_AT          TIMESTAMP           NULL            ,
@@ -198,7 +217,11 @@ CREATE TABLE PRODUCT_COMMENT (
     CREATED_AT          TIMESTAMP           NULL            ,
     DEPTH               NUMBER              NOT NULL        ,   -- 0:원글, 1:댓글
     GROUP_NO            NUMBER              NOT NULL        ,   -- 원글과 모든 댓글(댓글, 대댓글)은 동일한 GROUP_NO을 가져야 함
+<<<<<<< HEAD
+    STATUS              NUMBER              NULL            ,   -- 0:삭제  1:정상
+=======
     STATUS              NUMBER              NULL            ,
+>>>>>>> main
     CONSTRAINT PK_PRODUCT_COMMENT PRIMARY KEY(COMMENT_NO),
     CONSTRAINT FK_PRODUCT_PRODUCT_COMMENT FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT(PRODUCT_NO) ON DELETE CASCADE,     -- 상품 삭제 시, 상품 댓글 삭제
     CONSTRAINT FK_USER_PRODUCT_COMMENT FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE                -- 사용자 탈퇴 시, 상품 댓글 삭제
@@ -219,6 +242,52 @@ CREATE TABLE ASK (
 
 -- INSERT 쿼리 테스트
 
+<<<<<<< HEAD
+-- 관리자 (USER_T)
+INSERT INTO USER_T VALUES (USER_SEQ.NEXTVAL, 'master0504@naver.com', '관리자1', '1111', 'F', '010-1111-1111', 0, 0, SYSTIMESTAMP, 0, '11111', '지번주소', '상세주소', '도로주소');
+
+---사용자 (USER_T)
+INSERT INTO USER_T VALUES (USER_SEQ.NEXTVAL, 'admin1@naver.com', '사용자1', '1111', 'F', '010-1111-1111', 1, 1, SYSTIMESTAMP, 1, '11111', '지번주소', '상세주소', '도로주소');
+INSERT INTO USER_T VALUES (USER_SEQ.NEXTVAL, 'admin2@naver.com', '사용자2', '2222', 'M', '010-1111-1111', 1, 1, SYSTIMESTAMP, 1, '11111', '지번주소', '상세주소', '도로주소');
+
+-- 카테고리 (CATEGORY)
+INSERT INTO CATEGORY VALUES (CATEGORY_SEQ.NEXTVAL, '가전제품');
+
+-- 상품 (PRODUCT)
+INSERT INTO PRODUCT VALUES (PRODUCT_SEQ.NEXTVAL, 1, 1, 1, '컴퓨터', 1000, '정밀한 기계다.', SYSTIMESTAMP, SYSTIMESTAMP, 1, 1, 1, 'KM타워');
+
+-- 상품 이미지 (PRODUCT_IMAGE)
+INSERT INTO PRODUCT_IMAGE VALUES (PRODUCT_IMAGE_SEQ.NEXTVAL, 1, 'upload/image', 'computer.jpg', 1);
+
+-- 찜 목록 (WISH_LIST)
+INSERT INTO WISHLIST VALUES (WISHLIST_SEQ.NEXTVAL, 1, 1, SYSTIMESTAMP);
+
+-- 알림 (ALARM)
+INSERT INTO ALARM VALUES (ALARM_SEQ.NEXTVAL, 1, 1, 'Y', SYSTIMESTAMP);
+
+-- 리뷰 (REVIEW)
+INSERT INTO REVIEW VALUES (REVIEW_SEQ.NEXTVAL, 1, 1, '내용입니다.', 1, SYSTIMESTAMP);
+
+-- 휴면 회원 (INACTIVE_USER)
+INSERT INTO INACTIVE_USER VALUES (INACTIVE_USER_SEQ.NEXTVAL, 'goo2jo@naver.com', '1111', '구디2조', 'F', '010-1111-2222', '11411', '가산로', '가산동131-1', 'KM타워 G호', 1, 1, SYSTIMESTAMP, SYSTIMESTAMP);
+
+-- 탈퇴한 회원 (LEAVE_USER)
+INSERT INTO LEAVE_USER VALUES ('goo2jo@naver.com', SYSTIMESTAMP, SYSTIMESTAMP);
+
+-- 1:1 문의 (INQUIRY)
+INSERT INTO INQUIRY VALUES (INQUIRY_SEQ.NEXTVAL, 1, '질문받아라~', '질문이야', SYSTIMESTAMP, SYSTIMESTAMP);
+
+-- 공지사항 (NOTICE)
+INSERT INTO NOTICE VALUES (NOTICE_SEQ.NEXTVAL, 1, '제목입니다1', '내용입니다2', SYSTIMESTAMP, 1);
+INSERT INTO NOTICE VALUES (NOTICE_SEQ.NEXTVAL, 1, '제목입니다1',  '내용입니다2', SYSTIMESTAMP, 1);
+
+-- 상품댓글 (PRODUCT_COMMENT)
+INSERT INTO PRODUCT_COMMENT VALUES (PRODUCT_COMMENT_SEQ.NEXTVAL, 1, 1, '내용입니다4', SYSTIMESTAMP, 1, 1, 1);
+
+-- 1:1 문의 답변 (ASK)
+INSERT INTO ASK VALUES (ASK_SEQ.NEXTVAL, 1, 1, '내용입니다4', SYSTIMESTAMP);
+COMMIT;
+=======
 -- 관리자 INSERT 
 INSERT INTO USER_T VALUES (USER_SEQ.NEXTVAL, 'master0504@naver.com', '관리자1', '1111', 'F', '010-1111-1111', 0, 0, SYSTIMESTAMP, 0, '11111', '지번주소', '상세주소', '도로주소');
 
@@ -269,6 +338,7 @@ COMMIT;
 
 -- 상품댓글
 INSERT INTO NOTICE VALUES (NOTICE_SEQ.NEXTVAL, 1, 1, '내용입니다3', SYSTIMESTAMP, 1);
+>>>>>>> main
 
 -- 1:1 문의 답변
 INSERT INTO ASK VALUES (ASK_SEQ.NEXTVAL, 1, 1, '내용입니다4', SYSTIMESTAMP);
