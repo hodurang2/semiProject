@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MvcController {
 
-  @GetMapping({"/", "/main.do"})
+  @GetMapping({"/", "/index.do"})
   public String main() {
-    return "layout/main";
+    return "/index";
   }
   
 }
