@@ -7,9 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
-<div>테스트</div>
-
-
+  <div>알림</div>
 </body>
 </html>
