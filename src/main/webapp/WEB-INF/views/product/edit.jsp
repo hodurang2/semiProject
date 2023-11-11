@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div>디테일</div>
+<div>편집</div>
 
 
 </body>
