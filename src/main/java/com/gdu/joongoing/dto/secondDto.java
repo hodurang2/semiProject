@@ -1,4 +1,4 @@
-package com.gdu.second.dto;
+package com.gdu.joongoing.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

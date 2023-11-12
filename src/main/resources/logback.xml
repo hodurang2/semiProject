@@ -8,25 +8,25 @@
   <!-- Console에 로그를 찍는 Appender -->
   <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
     <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="com.gdu.myhome.logback.MyLogbackLayout"/>
+      <layout class="com.gdu.joongoing.logback.MyLogbackLayout"/>
     </encoder>
   </appender>
  
   <!-- 매일 새로운 로그 파일을 만드는 RollingFileAppender -->
   <appender name="rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-      <fileNamePattern>/logs/myhome.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>/logs/joongoing.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
       <maxFileSize>100MB</maxFileSize>
       <maxHistory>30</maxHistory>
       <totalSizeCap>3GB</totalSizeCap>
     </rollingPolicy>
     <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-      <layout class="com.gdu.myhome.logback.MyLogbackLayout"/>
+      <layout class="com.gdu.joongoing.logback.MyLogbackLayout"/>
     </encoder>
   </appender>
   
   <!-- Application Loggers -->
-  <logger name="com.gdu.myhome"      level="debug" />
+  <logger name="com.gdu.joongoing"      level="debug" />
   
   <!-- 3rdparty Loggers -->
   <logger name="org.springframework" level="info" />

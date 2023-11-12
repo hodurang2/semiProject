@@ -1,4 +1,4 @@
-package com.gdu.second.service;
+package com.gdu.joongoing.service;
 
 import org.springframework.stereotype.Service;
 
