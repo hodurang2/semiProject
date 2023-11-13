@@ -32,7 +32,7 @@
     </div>
     <div class="list_wrap">
       <ul class="mypage_list">
-        <li><a href="${contextPath}/mypage/list.do">거래내역</a></li>
+        <li><a href="${contextPath}/mypage/trade.do">거래내역</a></li>
         <li><a href="${contextPath}/mypage/wishlist.do">찜목록보기</a></li>
         <li><a href="${contextPath}/mypage/review.do">리뷰보기</a></li>
       </ul>
