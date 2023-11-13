@@ -1,6 +1,7 @@
 package com.gdu.joongoing.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gdu.joongoing.service.MypageService;
@@ -13,5 +14,15 @@ import lombok.RequiredArgsConstructor;
 public class MypageController {
   
   private final MypageService mypageService;
-
+  
+  @GetMapping("/detail.do")
+  public String myPage() {
+    return "mypage/detail";
+  }
+  
+  @GetMapping("/modify.do")
+  public String modifyUser() {
+    return "mypage/modify";
+  }
+  
 }

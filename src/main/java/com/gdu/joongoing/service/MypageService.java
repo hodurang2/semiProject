@@ -1,5 +1,7 @@
 package com.gdu.joongoing.service;
 
-public interface MypageService {
+import com.gdu.joongoing.dto.UserDto;
 
+public interface MypageService {
+  public UserDto getUser2(String email);
 }
