@@ -78,9 +78,9 @@ public class UserController {
     return userService.sendCode(email);
   }
   
-  @GetMapping("/mypage.form")
-  public String mypageForm() {
-    return "mypage/detail";
+  @GetMapping("/find.form")
+  public String findForm() {
+    return "user/find";
   }
   
 }

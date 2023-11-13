@@ -80,15 +80,15 @@
     
     <hr class="my-3">
     
-    <div class="row mb-2">
+    <div>
       <label for="address" class="col-sm-3 col-form-label">주소</label>
       <select name="sido" id="sido"></select>
       <select name="sigungu" id="sigungu"></select>
     </div>
     <div>
       <label for="address" class="col-sm-3 col-form-label">관심지역</label>
-      <select name="interestCity" id="interestSido"></select>
-      <select name="interestCity" id="interestsigungu"></select>
+      <select name="interestCity1" id="interestSido"></select>
+      <select name="interestCity2" id="interestsigungu"></select>
     </div>
     
     <script>
