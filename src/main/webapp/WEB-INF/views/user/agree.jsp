@@ -106,7 +106,7 @@ $(() => {
   
   const fnJoinForm = () => {
 	$('#frm_agree').submit((ev) => {
-	  if(!$('#service').is(':checked') && !$('#privacy').is(':checked')) {
+	  if(!$('#service').is(':checked') || !$('#privacy').is(':checked')) {
 		alert('필수 약관에 동의하세요.');
 		ev.preventDefault();
 		return;

@@ -56,10 +56,10 @@
     </div>
 
     <div class="row mb-2">
-      <label for="mobile" class="col-sm-3 col-form-label">휴대전화번호</label>
-      <div class="col-sm-9"><input type="text" name="mobile" id="mobile" class="form-control"></div>
+      <label for="phone" class="col-sm-3 col-form-label">휴대전화번호</label>
+      <div class="col-sm-9"><input type="text" name="phone" id="phone" class="form-control"></div>
       <div class="col-sm-3"></div>
-      <div class="col-sm-9 mb-3" id="msg_mobile"></div>
+      <div class="col-sm-9 mb-3" id="msg_phone"></div>
     </div>
 
     <div class="row mb-2">
@@ -87,8 +87,8 @@
     </div>
     <div>
       <label for="address" class="col-sm-3 col-form-label">관심지역</label>
-      <select name="interestCity" id="sido"></select>
-      <select name="interestCity" id="sigungu"></select>
+      <select name="interestCity" id="interestSido"></select>
+      <select name="interestCity" id="interestsigungu"></select>
     </div>
     
     <script>
@@ -109,10 +109,12 @@ $(() => {
 	  fnCheckPassword();
 	  fnCheckPassword2();
 	  fnCheckName();
-	  fnCheckMobile();
+	  fnCheckphone();
 	  fnJoin();
 	  fnAddress();
 	  fnResetAddress();
+	  fnResetInterestAddress();
+	  fnInterestAddress();
 	})
 
 
@@ -121,7 +123,7 @@ $(() => {
 	var pwPassed = false;
 	var pw2Passed = false;
 	var namePassed = false;
-	var mobilePassed = false;
+	var phonePassed = false;
 	var area0 = ["시/도 선택","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
 	var area1 = ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
     var area2 = ["계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
@@ -260,16 +262,16 @@ $(() => {
 	  })
 	}
 
-	const fnCheckMobile = () => {
-	  $('#mobile').keyup((ev) => {
+	const fnCheckphone = () => {
+	  $('#phone').keyup((ev) => {
 	    ev.target.value = ev.target.value.replaceAll('-', '');
 	    // 휴대전화번호 검사 정규식 (010숫자8개)
-	    let regMobile = /^010[0-9]{8}$/;
-	    mobilePassed = regMobile.test(ev.target.value);
-	    if(mobilePassed){
-	      $('#msg_mobile').text('');
+	    let regphone = /^010[0-9]{8}$/;
+	    phonePassed = regphone.test(ev.target.value);
+	    if(phonePassed){
+	      $('#msg_phone').text('');
 	    } else {
-	      $('#msg_mobile').text('휴대전화번호를 확인하세요.');       
+	      $('#msg_phone').text('휴대전화번호를 확인하세요.');       
 	    }
 	  })
 	}
@@ -293,10 +295,38 @@ $(() => {
 		var $sigungu = $(this).next(); // 선택영역 시군구 객체
 		$("option",$sigungu).remove(); // 시군구 초기화
 		if(area == "area0")
-		  $gugun.append("<option value=''>시/군/구 선택</option>");
+		  $sigungu.append("<option value=''>시/군/구 선택</option>");
 		else {
 		  $.each(eval(area), function() {
 		  $sigungu.append("<option value='"+this+"'>"+this+"</option>");
+		  });
+		}
+	  });
+	}
+	
+	// 관심지역 시/도 선택 박스 초기화
+	function fnResetInterestAddress(){
+  	  $("#interestSido").each(function() {
+  	    $selinterestsido = $(this);
+  	    $.each(eval(area0), function() {
+  	      $selinterestsido.append("<option value='"+this+"'>"+this+"</option>");
+  	    });
+  	    $selinterestsido.next().append("<option value=''>시/군/구 선택</option>");
+  	  });
+	}
+
+	
+	// 관심지역 시/도 선택시 구/군 설정
+	function fnInterestAddress(){
+	  $("#interestSido").change(function() {
+		var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 시군구 Array
+		var $interestsigungu = $(this).next(); // 선택영역 시군구 객체
+		$("option",$interestsigungu).remove(); // 시군구 초기화
+		if(area == "area0")
+		  $interestsigungu.append("<option value=''>시/군/구 선택</option>");
+		else {
+		  $.each(eval(area), function() {
+		  $interestsigungu.append("<option value='"+this+"'>"+this+"</option>");
 		  });
 		}
 	  });
@@ -316,7 +346,7 @@ $(() => {
 	      alert('이름을 확인하세요.');
 	      ev.preventDefault();
 	      return;
-	    } else if(!mobilePassed){
+	    } else if(!phonePassed){
 	      alert('휴대전화번호를 확인하세요.');
 	      ev.preventDefault();
 	      return;
