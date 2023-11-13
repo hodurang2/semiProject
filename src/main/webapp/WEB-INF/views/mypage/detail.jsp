@@ -14,28 +14,27 @@
 
   <form id="frm_mypage" method="post">
     
-    <h1>마이페이지</h1>
+    <h1 class="text-center mb-4">마이페이지</h1>
     
-    <table>
-      <tr>
-        <td>이메일</td>
-        <td>${sessionScope.user.email}</td>
-      </tr>
-      <tr>
-        <td>이름</td>
-        <td>${sessionScope.user.name}</td>
-      </tr>
-    </table>
-    <div>
-      <button type="button" id="btn_modify">개인정보수정</button>
-      <button type="button" id="btn_leave">회원탈퇴</button>
+    <div class="row mb-4">
+      <div class="col-sm-3">이메일</div>
+      <div class="col-sm-9">${sessionScope.user.email}</div>
     </div>
+    <div class="row mb-4">
+      <div class="col-sm-3">이름</div>
+      <div class="col-sm-9">${sessionScope.user.name}</div>
+    </div>
+    
     <div class="list_wrap">
       <ul class="mypage_list">
         <li><a href="${contextPath}/mypage/trade.do">거래내역</a></li>
         <li><a href="${contextPath}/mypage/wishlist.do">찜목록보기</a></li>
         <li><a href="${contextPath}/mypage/review.do">리뷰보기</a></li>
       </ul>
+      <div>
+        <button type="button" id="btn_modify">개인정보수정</button>
+        <button type="button" id="btn_leave">회원탈퇴</button>
+      </div>
     </div>
   </form>
 
