@@ -15,4 +15,48 @@
     SELECT COUNT(*)
       FROM NOTICE
   </select>
+  
+  <select id="getNotice" parameterType="int" resultType="NoticeDto">
+    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+      FROM NOTICE
+     WHERE NOTICE_NO = #{noticeNo}
+  </select>
+  
+  <insert id="insertNotice" parameterType="NoticeDto">
+    <selectKey order="BEFORE" keyProperty="noticeNo" resultType="int">
+      SELECT NOTICE_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    INSERT INTO NOTICE (
+      NOTICE_NO, 
+      TITLE, 
+      CONTENTS, 
+      CREATED_AT
+    ) VALUES (
+      #{noticeNo},
+      #{title},
+      #{contents},
+      SYSTIMESTAMP
+    )
+  </insert>
+  
+  <insert id="insertNoticeAttach" parameterType="NoticeAttachDto">
+    <selectKey order="BEFORE" keyProperty="attachNo" resultType="int">
+        SELECT NOTICE_ATTACH_SEQ.NEXTVAL
+          FROM DUAL
+      </selectKey>
+    INSERT INTO NOTICE_ATTACH (
+      ATTACH_NO,
+      NOTICE_NO,
+      PATH,
+      ORIGINAL_FILENAME,
+      FILESYSTEM_NAME
+    ) VALUES (
+      #{attachNo},
+      #{noticeNo},
+      #{path},
+      #{originalFilename},
+      #{filesystemName}
+    )
+  </insert>
 </mapper>

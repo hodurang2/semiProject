@@ -40,7 +40,7 @@
       </div>
     </form>
     <ul class="ul_menu center_wrap">
-      <li><a href="${contextPath}">자동로그인</a>
+      <li><a href="${contextPath}/agree.form">회원가입</a>
       <li><a href="${contextPath}">아이디/비밀번호 찾기</a>
     </ul>
     <hr>

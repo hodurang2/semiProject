@@ -26,15 +26,17 @@
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
-          <li><a href="${contextPath}/user/login.form">로그인</a></li>
-          <li><a href="${contextPath}/user/agree.form">회원가입</a></li>
+          <li><a href="${contextPath}/produrct/write.jsp" id="joongo_btn">중고판매하기</a></li>
+          <li><a href="${contextPath}/user/login.form"  id="login_btn">로그인</a></li>
+          <li>고객센터</li>
         </ul>
       </c:if>
       <c:if test="${sessionScope.user != null}">
-        <div>${sessionScope.user.name}님 환영합니다 ♥</div>
+        <div>${sessionScope.user.name}님 환영합니다</div>
         <div><a href="${contextPath}/user/logout.do">로그아웃</a></div>
       </c:if>
     </div>
+<<<<<<< HEAD
     <div class="gnb_wrap">
       <ul class="gnb">
         <li><a href="${contextPath}/notice/notice.do">문의게시판</a></li>
@@ -44,5 +46,29 @@
       </ul>
     </div>
   </div>
+=======
+    
+    <hr>  <!-- 중앙선 -->
+>>>>>>> main
   
+    <div class="btn_menu_var">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+      <div class="css-1vh2lxo">카테고리</div>
+      <div class="css_1vh2lxo">전체매물</div>
+      <div class="hot_list"><a href="${contextPath}/product/hot_list.jsp">인기상품</a></div>
+    </div>
+    
   <div class="main_wrap">
+
+<script>
+
+    const fnMain = () => {
+    	$('.logo').click(() => {
+    		location.href = '${contextPath}/main.do';
+    	})
+    }
+    fnMain();
+
+
+</script>

@@ -5,4 +5,69 @@
 
 <mapper namespace="com.gdu.joongoing.dao.UserMapper">
 
+  <select id="getUser" parameterType="Map" resultType="UserDto">
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+      FROM USER_T
+    <where>
+      <if test="email != null">EMAIL = #{email}</if>
+      <if test="pw != null">AND PW = #{pw}</if>
+      <if test="userNo != null">AND USER_NO = #{userNo}</if>
+    </where>
+  </select>
+  
+  <select id="getLeaveUser" parameterType="Map" resultType="LeaveUserDto">
+    SELECT EMAIL, JOINED_AT, LEAVED_AT
+      FROM LEAVE_USER_T
+     WHERE EMAIL = #{email}
+  </select>
+
+  <select id="getInactiveUser" parameterType="Map" resultType="InactiveUserDto">
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, INACTIVED_AT, SIDO, SIGUNGU, INTEREST_CITY
+      FROM INACTIVE_USER_T
+    <where>
+      <if test="email != null">EMAIL = #{email}</if>
+      <if test="pw != null">AND PW = #{pw}</if>
+    </where>
+  </select>
+  
+  <insert id="insertUser" parameterType="UserDto">
+    INSERT INTO USER_T (
+        USER_NO
+      , EMAIL
+      , NAME
+      , PW
+      , GENDER
+      , PHONE
+      , AGREE
+      , STATE
+      , JOINED_AT
+      , SIDO
+      , SIGUNGU
+      , INTEREST_CITY
+    ) VALUES (
+        USER_SEQ.NEXTVAL
+      , #{email}
+      , #{name}
+      , #{pw}
+      , #{gender}
+      , #{phone}
+      , #{agree}
+      , 0
+      , SYSTIMESTAMP
+      , #{sido}
+      , #{sigungu}
+      , #{interestCity}
+    )
+  </insert>
+  
+  <insert id="insertAccess" parameterType="String">
+    INSERT INTO ACCESS_T (
+        EMAIL
+      , LOGIN_AT
+    ) VALUES (
+        #{email}
+      , SYSTIMESTAMP
+    )
+  </insert>
+  
 </mapper>

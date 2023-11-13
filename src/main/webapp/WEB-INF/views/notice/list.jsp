@@ -38,8 +38,6 @@
             <td>관리자</td>
             <td>
               <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
-              ${today}
-              <c:if test=""></c:if>
             </td>
           </tr>
         </c:forEach>
