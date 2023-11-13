@@ -5,8 +5,6 @@
 
   <div class="footer_wrap">
     <div>
-     <div><a href="${contextPath}/user/login.form">로그인</a></div>
-     <div> │ </div>
      <div>고객센터</div>
     </div>
     <div class="footer_wrap2">

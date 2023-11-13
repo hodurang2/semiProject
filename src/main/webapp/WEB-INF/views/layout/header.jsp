@@ -34,6 +34,7 @@
       <c:if test="${sessionScope.user != null}">
         <div>${sessionScope.user.name}님 환영합니다</div>
         <div>
+          <a href="${contextPath}/produrct/write.jsp" id="joongo_btn">중고판매하기</a>
           <a href="${contextPath}/mypage/detail.do">마이페이지</a>
           <a href="${contextPath}/user/logout.do">로그아웃</a>
         </div>
