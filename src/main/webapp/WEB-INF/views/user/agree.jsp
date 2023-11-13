@@ -10,8 +10,6 @@
   <jsp:param value="약관동의" name="title"/>
 </jsp:include>
 
-<script src="${contextPath}/resources/js/user_agree.js"></script>
-
 <div>
 
   <form id="frm_agree" action="${contextPath}/user/join.form">
@@ -81,5 +79,41 @@
   </form>
 
 </div>
+<script>
+
+$(() => {
+	fnChkAll();
+	fnChkEach();
+	fnJoinForm();
+  })
+
+
+  const fnChkAll = () => {
+    $('#chk_all').click((ev) => {
+       $('.chk_each').prop('checked', $(ev.target).prop('checked'));
+    })
+  }
+  
+  const fnChkEach = () => {
+  	$(document).on('click', '.chk_each', () => {
+      var total = 0;
+      $.each($('.chk_each'), (i, elem) => {
+    	total += $(elem).prop('checked');
+      })
+      $('#chk_all').prop('checked', total === $('.chk_each').length);
+  	})
+  }
+  
+  const fnJoinForm = () => {
+	$('#frm_agree').submit((ev) => {
+	  if(!$('#service').is(':checked') || !$('#privacy').is(':checked')) {
+		alert('필수 약관에 동의하세요.');
+		ev.preventDefault();
+		return;
+	  }
+	})
+  }
+
+</script>
 
 <%@ include file="../layout/footer.jsp" %>
