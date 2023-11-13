@@ -13,7 +13,7 @@
   <typeAliases>
     <typeAlias alias="NoticeDto"         type="com.gdu.joongoing.dto.NoticeDto"/>
     <typeAlias alias="UserDto"           type="com.gdu.joongoing.dto.UserDto"/>
-  
+    <typeAlias alias="ProductDto"       type="com.gdu.second.dto.ProductDto"/>
   </typeAliases>
 
 </configuration>
