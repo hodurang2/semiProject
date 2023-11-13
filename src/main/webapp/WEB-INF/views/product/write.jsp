@@ -21,11 +21,7 @@
       <label for="title" class="form-label">상품이미지</label>
       <input type="text" name="title" id="title" class="form-control">
       <span>*</span>
-      <small>
-      "("
-      "0"
-      "/10)"
-      </small>
+      <small>(0/10)</small>
     </div>
     <div class ="ProductNewstyle__Content-sc-7fge4a-7 nqDMw">
       <li>

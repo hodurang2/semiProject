@@ -29,7 +29,7 @@ public class ProductController {
     return "layout/header";
   }
   
-  @GetMapping("/write.form")
+  @GetMapping("/product/write.form")
   public String write() {
     return "product/write";
   }
@@ -93,6 +93,5 @@ public class ProductController {
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/header.do";
   }
-  
-  
+    
 }
