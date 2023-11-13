@@ -12,6 +12,22 @@
 
 <div>
 
+  <form id="frm_mypage" method="post">
+    
+    <h1>마이페이지</h1>
+    
+    <div>
+      <label for="name">이름</label>
+      <input type="text" name="name" id="name" value="${sessionScope.user.name}" readonly>
+    </div>
+    
+    <div>
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+      <button type="button" id="btn_modify">개인정보수정</button>
+    </div>
+    
+    
+  </form>
 
 </div>
 
