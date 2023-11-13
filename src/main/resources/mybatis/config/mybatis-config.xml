@@ -11,6 +11,9 @@
   </settings>
   
   <typeAliases>
+    <typeAlias alias="NoticeDto"         type="com.gdu.joongoing.dto.NoticeDto"/>
+    <typeAlias alias="UserDto"           type="com.gdu.joongoing.dto.UserDto"/>
+  
   </typeAliases>
 
 </configuration>
