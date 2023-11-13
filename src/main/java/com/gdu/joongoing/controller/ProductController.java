@@ -1,5 +1,5 @@
 package com.gdu.joongoing.controller;
 
-public class ProductDetailController {
+public class ProductController {
 
 }

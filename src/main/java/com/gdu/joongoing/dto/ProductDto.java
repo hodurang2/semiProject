@@ -1,5 +1,5 @@
 package com.gdu.joongoing.dto;
 
-public class ProductDetailDto {
+public class ProductDto {
 
 }
