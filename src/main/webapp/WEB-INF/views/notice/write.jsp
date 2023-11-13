@@ -10,7 +10,14 @@
   <jsp:param value="공지 작성" name="title"/>
 </jsp:include>
 <script src="${contextPath}/resources/js/.js?dt=${dt}"></script>
+  <div>
+    <h1>글쓰기</h1>
+  </div>
+
+<div>
+  
 
 
+</div>
 
 <%@ include file="../layout/footer.jsp"%>

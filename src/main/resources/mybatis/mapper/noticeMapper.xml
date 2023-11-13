@@ -4,5 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gdu.joongoing.dao.NoticeMapper">
+  <select id="getNoticeList" parameterType="Map" resultType="NoticeDto">
+    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+      FROM  (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RN,NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+               FROM NOTICE)
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
   
+  <select id="getNoticeCount" resultType="int">
+    SELECT COUNT(*)
+      FROM NOTICE
+  </select>
 </mapper>

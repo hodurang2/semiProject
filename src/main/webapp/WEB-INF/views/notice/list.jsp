@@ -9,11 +9,11 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="공지 사항" name="title"/>
 </jsp:include>
-<script src="${contextPath}/resources/js/.js?dt=${dt}"></script>
 
-<div>
+
+<div class="admin">
   <div>
-    <a href="${contextPath}/blog/write.form">
+    <a href="${contextPath}/notice/write.form">
       <button type="button" class="btn btn-primary">새글작성</button>
     </a>
   </div>
@@ -24,28 +24,23 @@
     <table border="1" class="table">
       <thead>
         <tr>
-          <td>순번</td>
+          <td>글번호</td>
           <td>제목</td>
-          <td>조회수</td>
           <td>작성자</td>
           <td>작성일자</td>
         </tr>
       </thead>
-      <tbody class="table-group-divider">
-        <c:forEach items="${blogList}" var="b" varStatus="vx">
+      <tbody>
+        <c:forEach items="${noticeList}" var="n" varStatus="vx">
           <tr>
-            <td>${beginNo - vx.index}</td>
+            <td>${n.noticeNo}</td>
+            <td><a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a></td>
+            <td>관리자</td>
             <td>
-              <c:if test="${sessionScope.user.userNo == b.userDto.userNo}">
-                <a href="${contextPath}/blog/detail.do?blogNo=${b.blogNo}"  class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">${b.title}</a> 
-              </c:if>
-              <c:if test="${sessionScope.user.userNo != b.userDto.userNo}">
-                <a href="${contextPath}/blog/increaseHit.do?blogNo=${b.blogNo}"  class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">${b.title}</a>
-              </c:if>
+              <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
+              ${today}
+              <c:if test=""></c:if>
             </td>
-            <td>${b.hit}</td>
-            <td>${b.userDto.email}</td>
-            <td>${b.createdAt}</td>
           </tr>
         </c:forEach>
       </tbody>
@@ -58,5 +53,8 @@
   </div>
 </div>
 
+<script>
+	
+</script>
 
 <%@ include file="../layout/footer.jsp"%>

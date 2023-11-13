@@ -16,8 +16,8 @@
 </head>
 <body>
 
-<div>안녕하세요</div>
-
+<div><a href="${contextPath}/notice/list.do">리스트</a></div>
+<div><a href="${contextPath}/notice/write.do">글쓰기</a></div>
 
 </body>
 </html>
