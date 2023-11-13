@@ -1,7 +1,14 @@
 package com.gdu.joongoing.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gdu.joongoing.service.MypageService;
@@ -20,9 +27,19 @@ public class MypageController {
     return "mypage/detail";
   }
   
-  @GetMapping("/modify.do")
+  @GetMapping("/modify.form")
   public String modifyUser() {
     return "mypage/modify";
+  }
+  
+  @GetMapping("/modifyPw.form")
+  public String modifyPwForm() {
+    return "mypage/pw";
+  }
+  
+  @PostMapping(value="/modify.do", produces=MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request) {
+    return mypageService.modify(request);
   }
   
 }

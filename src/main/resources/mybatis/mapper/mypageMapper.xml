@@ -15,4 +15,19 @@
     </where>
   </select>
   
+  <update id="updateUserPw" parameterType="UserDto">
+    UPDATE USER_T
+       SET PW = #{pw}
+     WHERE USER_NO = #{userNo}
+  </update>
+  
+  <update id="updateUser" parameterType="UserDto">
+    UPDATE USER_T
+       SET NAME = #{name}
+         , GENDER = #{gender}
+         , PHONE = #{phone}
+         , AGREE = #{agree}
+     WHERE USER_NO = #{userNo}
+  </update>
+  
 </mapper>

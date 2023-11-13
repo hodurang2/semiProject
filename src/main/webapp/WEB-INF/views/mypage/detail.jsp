@@ -16,14 +16,27 @@
     
     <h1>마이페이지</h1>
     
-    <div>이메일 : ${sessionScope.user.email}</div>
-    <div>이름 : ${sessionScope.user.name}</div>
-    
+    <table>
+      <tr>
+        <td>이메일</td>
+        <td>${sessionScope.user.email}</td>
+      </tr>
+      <tr>
+        <td>이름</td>
+        <td>${sessionScope.user.name}</td>
+      </tr>
+    </table>
     <div>
       <button type="button" id="btn_modify">개인정보수정</button>
       <button type="button" id="btn_leave">회원탈퇴</button>
     </div>
-    
+    <div class="list_wrap">
+      <ul class="mypage_list">
+        <li><a href="${contextPath}/mypage/list.do">거래내역</a></li>
+        <li><a href="${contextPath}/mypage/wishlist.do">찜목록보기</a></li>
+        <li><a href="${contextPath}/mypage/review.do">리뷰보기</a></li>
+      </ul>
+    </div>
   </form>
 
 </div>
@@ -33,9 +46,9 @@
 	  fnModifyUser();
   })
 
-  const fnModifyUser(() => {
+  const fnModifyUser = () => {
 	  $('#btn_modify').click(() => {
-		  location.href = '${contextPath}/mypage/modify.do';
+		  location.href = '${contextPath}/mypage/modify.form';
 	  })
-  })
+  }
 </script>
