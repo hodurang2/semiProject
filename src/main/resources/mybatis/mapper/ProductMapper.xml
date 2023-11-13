@@ -5,6 +5,137 @@
 
 <mapper namespace="com.gdu.joongoing.dao.ProductMapper">
 
+<!-- UserDto, CategoryDto  resultMap-->
+<resultMap type="ProductDto" id="ProductMap">
+  <id     column="PRODUCT_NO"             id="ProductMap"/>
+  <result column="PRODUCT_NAME"           property="productName"/>
+  <result column="PRODUCT_PRICE"          property="productPrice"/>
+  <result column="PRODUCT_INFO"           property="productInfo"/>
+  <result column="PRODUCT_CREATED_AT"     property="productCreatedAt"/>
+  <result column="PRODUCT_MODIFIED_AT"    property="productModifiedAt"/>
+  <result column="PRODUCT_HIT"            property="hit"/>
+  <result column="PRODUCT_STATE"          property="state"/>
+  <result column="PRODUCT_TRADE_ADDRESS"  property="tradeAddress" />
+  <result column="REVIEW_CONTENTS"        property="reviewContents"/>
+  <result column="REVIEW_SCORE"           property="reviewScore"/>
+  <result column="CREATED_AT"             property="createdAt"/>
+  <result column="TRADE_AT"               property="tradeAt"/>
+  <association javaType="UserDto"   property="sellerNo">
+    <id     column="USER_NO"        property="userNo"/>
+    <result column="EMAIL"          property="email"/> 
+    <result column="NAME"           property="name"/> 
+    <result column="PW"             property="pw"/> 
+    <result column="GENDER"         property="gender"/> 
+    <result column="PHONE"          property="phone"/> 
+    <result column="AGREE"          property="agree"/> 
+    <result column="STATE"          property="state"/> 
+    <result column="JOINED_AT"      property="joinedAt"/>  
+    <result column="SIDO"           property="sido"/>  
+    <result column="SIGUNGU"        property="sigungu"/>  
+    <result column="INTEREST_CITY"  property="interestCity"/>     
+  </association>  
+  <association javaType="UserDto"   property="buyerNo">
+    <id     column="USER_NO"        property="userNo"/>
+    <result column="EMAIL"          property="email"/> 
+    <result column="NAME"           property="name"/> 
+    <result column="PW"             property="pw"/> 
+    <result column="GENDER"         property="gender"/> 
+    <result column="PHONE"          property="phone"/> 
+    <result column="AGREE"          property="agree"/> 
+    <result column="STATE"          property="state"/> 
+    <result column="JOINED_AT"      property="joinedAt"/>  
+    <result column="SIDO"           property="sido"/>  
+    <result column="SIGUNGU"        property="sigungu"/>  
+    <result column="INTEREST_CITY"  property="interestCity"/>     
+  </association> 
+  <association javaType="CategoryDto"     property="categoryId">
+    <id column="CATEGORY_ID"        property="categoryId"/>
+    <id column="NAME"               property="NAME" />
+  </association>
+</resultMap>
+
+<select id="getProductCount" resultType="int">
+  SELECT COUNT(*)
+    FROM PRODUCT
+</select>
+
+<!-- 상품 넣기  -->
+<insert id="insertProduct" parameterType="ProductDto">
+  <selectKey order="BEFORE" resultType="int"  keyProperty="userNo">
+    SELECT USER_SEQ.NEXTVAL
+      FROM DUAL
+  </selectKey>
+  <selectKey order="BEFORE" resultType="int" keyProperty="categoryId">
+    SELECT CATEGORY_SEQ.NEXTVAL
+      FROM DUAL
+  </selectKey>
+  INSERT INTO PRODUCT(
+     PRODUCT_NO
+    ,SELLER_NO
+    ,BUYER_NO
+    ,CATEGORY_ID
+    ,PRODUCT_NAME
+    ,PRODUCT_PRICE
+    ,PRODUCT_INFO
+    ,PRODUCT_CREATED_AT
+    ,PRODUCT_MODIFIED_AT
+    ,PRODUCT_HIT
+    ,PRODUCT_STATE
+    ,PRODUCT_TRADE_ADDRESS
+    ,REVIEW_CONTENTS
+    ,REVIEW_SCORE
+    ,CREATED_AT
+    ,TRADE_AT
+  ) VALUES (
+    #{productNo}
+  , #{userNo}
+  , #{userNo}
+  , #{categoryId}
+  , #{productName}
+  , #{productPrice}
+  , #{productInfo}
+  , TO_TIMESTAMP(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS')
+  , TO_TIMESTAMP(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS')
+  , #{hit}
+  , #{state}
+  , #{tradeAddress}
+  , #{reviewContents}
+  , #{reviewScore}
+  , TO_TIMESTAMP(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS')
+  , TO_TIMESTAMP(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS')
+)
+</insert>
+
+
+
+
+
+
+
+
+<!-- 수정하기  -->
+<update id="updateProduct" parameterType="ProductDto">
+  UPDATE PRODUCT
+     SET PRODUCT_NAME = #{productName}
+       , PRODUCT_INFO = #{productInfo}
+       , PRODUCT_MODIFIED_AT = TO_TIMESTAMP(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS')
+   WHERE PRODUCT_NO = #{productNO}
+</update>
+
+<!-- 이미지 삭제하기 -->
+<delete id="deleteProductImage">
+  DELETE 
+    FROM PRODUCT_IMAGE
+   WHERE IMAGE_NO = #{imageNo}
+</delete>
+
+<!-- 삭제하기-->
+<delete id="deleteProduct" parameterType="int">
+  DELETE 
+    FROM PRODUCT
+   WHERE PRODUCT_NO = #{productNo}
+</delete>
+
 
 
 
