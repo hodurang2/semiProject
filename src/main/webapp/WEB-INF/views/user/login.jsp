@@ -23,7 +23,7 @@
           <label for="email" class="col-form-label">아이디</label>
         </div>
         <div class="col-6">
-          <input type="text" name="email" id="email" placeholder="admin@gmail.com" class="form-control col-4">
+          <input type="text" name="email" id="email" placeholder="이메일" class="form-control col-4">
         </div>
       </div>
       <div class="row align-items-center">      
@@ -40,7 +40,7 @@
       </div>
     </form>
     <ul class="ul_menu center_wrap">
-      <li><a href="${contextPath}/agree.form">회원가입</a>
+      <li><a href="${contextPath}/user/agree.form">회원가입</a>
       <li><a href="${contextPath}">아이디/비밀번호 찾기</a>
     </ul>
     <hr>

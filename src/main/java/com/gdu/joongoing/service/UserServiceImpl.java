@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.joongoing.dao.UserMapper;
+import com.gdu.joongoing.dto.InactiveUserDto;
 import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyJavaMailUtils;
 import com.gdu.joongoing.util.MySecurityUtils;
@@ -30,6 +32,58 @@ public class UserServiceImpl implements UserService {
   @Override
   public UserDto getUser(String email) {
     return userMapper.getUser(Map.of("email", email));
+  }
+  
+  @Override
+  public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    String email = request.getParameter("email");
+    String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
+    
+    Map<String, Object> map = Map.of("email", email
+                                   , "pw", pw);
+
+    HttpSession session = request.getSession();
+    
+    // 휴면 계정인지 확인하기
+    InactiveUserDto inactiveUser = userMapper.getInactiveUser(map);
+    if(inactiveUser != null) {
+      session.setAttribute("inactiveUser", inactiveUser);
+      response.sendRedirect(request.getContextPath() + "/user/active.form");
+    }
+    
+    // 정상적인 로그인 처리하기
+    UserDto user = userMapper.getUser(map);
+    
+    if(user != null) {
+      request.getSession().setAttribute("user", user);
+      userMapper.insertAccess(email);
+      response.sendRedirect(request.getParameter("referer"));
+    } else {
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      out.println("alert('일치하는 회원 정보가 없습니다.')");
+      out.println("location.href='" + request.getContextPath() + "/main.do'");
+      out.println("</script>");
+      out.flush();
+      out.close();
+    }
+    
+  }
+  
+  @Override
+  public void logout(HttpServletRequest request, HttpServletResponse response) {
+    
+    HttpSession session = request.getSession();
+    
+    session.invalidate();
+    
+    try {
+      response.sendRedirect(request.getContextPath() + "/main.do");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
   
   @Override
@@ -67,9 +121,9 @@ public class UserServiceImpl implements UserService {
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     String gender = request.getParameter("gender");
     String phone = request.getParameter("phone");
-    String sido = request.getParameter("email");
-    String sigungu = request.getParameter("email");
-    String interestCity = request.getParameter("email");
+    String sido = request.getParameter("sido");
+    String sigungu = request.getParameter("sigungu");
+    String interestCity = request.getParameter("interestCity1") + " " + request.getParameter("interestCity2");
     String event = request.getParameter("event");
     
     UserDto user = UserDto.builder()
@@ -78,10 +132,10 @@ public class UserServiceImpl implements UserService {
                     .pw(pw)
                     .gender(gender)
                     .phone(phone)
+                    .agree(event.equals("on") ? 1 : 0)
                     .sido(sido)
                     .sigungu(sigungu)
                     .interestCity(interestCity)
-                    .agree(event.equals("on") ? 1 : 0)
                     .build();
     
     int joinResult = userMapper.insertUser(user);

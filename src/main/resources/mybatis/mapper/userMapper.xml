@@ -17,13 +17,13 @@
   
   <select id="getLeaveUser" parameterType="Map" resultType="LeaveUserDto">
     SELECT EMAIL, JOINED_AT, LEAVED_AT
-      FROM LEAVE_USER_T
+      FROM LEAVE_USER
      WHERE EMAIL = #{email}
   </select>
 
   <select id="getInactiveUser" parameterType="Map" resultType="InactiveUserDto">
     SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, INACTIVED_AT, SIDO, SIGUNGU, INTEREST_CITY
-      FROM INACTIVE_USER_T
+      FROM INACTIVE_USER
     <where>
       <if test="email != null">EMAIL = #{email}</if>
       <if test="pw != null">AND PW = #{pw}</if>
