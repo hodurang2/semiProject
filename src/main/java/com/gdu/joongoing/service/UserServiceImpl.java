@@ -121,9 +121,9 @@ public class UserServiceImpl implements UserService {
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     String gender = request.getParameter("gender");
     String phone = request.getParameter("phone");
-    String sido = request.getParameter("email");
-    String sigungu = request.getParameter("email");
-    String interestCity = request.getParameter("email");
+    String sido = request.getParameter("sido");
+    String sigungu = request.getParameter("sigungu");
+    String interestCity = request.getParameter("interestCity1") + " " + request.getParameter("interestCity2");
     String event = request.getParameter("event");
     
     UserDto user = UserDto.builder()
