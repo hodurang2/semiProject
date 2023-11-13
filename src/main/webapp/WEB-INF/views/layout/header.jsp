@@ -21,14 +21,13 @@
 </head>
 <body>
 
-  <
   <div class="header_wrap">
     <div class="logo"></div>
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
-          <li><a href="${contextPath}/user/login.form">로그인</a></li>
-          <li> │ </li>
+          <li><a href="${contextPath}/produrct/write.jsp" id="joongo_btn">중고판매하기</a></li>
+          <li><a href="${contextPath}/user/login.form"  id="login_btn">로그인</a></li>
           <li>고객센터</li>
         </ul>
       </c:if>
@@ -49,3 +48,15 @@
     </div>
     
   <div class="main_wrap">
+
+<script>
+
+    const fnMain = () => {
+    	$('.logo').click(() => {
+    		location.href = '${contextPath}/main.do';
+    	})
+    }
+    fnMain();
+
+
+</script>
