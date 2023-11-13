@@ -7,7 +7,7 @@
 
 <!-- UserDto, CategoryDto  resultMap-->
 <resultMap type="ProductDto" id="ProductMap">
-  <id     column="PRODUCT_NO"             id="ProductMap"/>
+  <id     column="PRODUCT_NO"             property="ProductMap"/>
   <result column="PRODUCT_NAME"           property="productName"/>
   <result column="PRODUCT_PRICE"          property="productPrice"/>
   <result column="PRODUCT_INFO"           property="productInfo"/>
@@ -54,10 +54,7 @@
   </association>
 </resultMap>
 
-<select id="getProductCount" resultType="int">
-  SELECT COUNT(*)
-    FROM PRODUCT
-</select>
+
 
 <!-- 상품 넣기  -->
 <insert id="insertProduct" parameterType="ProductDto">
@@ -106,12 +103,63 @@
 )
 </insert>
 
+<insert id="insertProductImage" parameterType="ProductImageDto">
+  <selectKey order="BEFORE" resultType="int"  keyProperty="productNo">
+    SELECT PRODUCT_SEQ.NEXTVAL
+      FROM DUAL
+  </selectKey>
+  INSERT INTO PRODUCT_IMAGE (
+    IMAGE_NO
+   ,PRODUCT_NO
+   ,  PATH
+   , FILESYSTEM_NAME
+   , IMAGE_ORIGINAL_NAME
+   , HAS_THUMBNAIL
+  ) VALUES (
+    #{imageNo}
+    #{productNo}
+    #{path}
+    #{filesystemName}  
+    #{imageOriginalName}
+    #{hasThumbnail}
+  ); 
 
+</insert>
 
+<select id="getProductCount" resultType="int">
+  SELECT COUNT(*)
+    FROM PRODUCT
+</select>
 
+<select id="getProductList" parameterType="Map" resultType="ProductMap">
+  SELECT A.PRODUCT_NO, A.SELLER_NO, A.BUYER_NO, A.CATEGORY_ID, A.PRODUCT_NAME, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_CREATED_AT, 
+         A.PRODUCT_MODIFIED_AT, A.PRODUCT_HIT, A.PRODUCT_STATE, A.PRODUCT_TRADE_ADDRESS, A.REVIEW_CONTENTS, 
+         A.REVIEW_SCORE, A.CREATED_AT, A.TRADE_AT
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN,
+         P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+         P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+         P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+         USR.USER_NO, USR.EMAIL, USR.NAME
+         FROM PRODUCT P LEFT OUTER JOIN USER_T USR
+           ON P.SELLER_NO = USR.USER_NO) A
+   WHERE A.RN BETWEEN 1 AND 6;
+</select>
 
+<select id="getProduct" parameterType="int" resultType="ProductMap">
+  SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+         P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+         P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+         USR.USER_NO, USR.EMAIL, USR.NAME
+    FROM USER_T USR RIGHT OUTER JOIN PRODUCT P
+      ON USR.USER_NO = P.USER_NO
+   WHERE P.PRODUCT_NO = #{productNo}
+</select>
 
-
+<select id="getProductImageList" parameterType="int" resultType="ProductMap">
+  SELECT IMAGE_NO,PRODUCT_NO, PATH, FILESYSTEM_NAME, IMAGE_ORIGINAL_NAME, HAS_THUMBNAIL
+    FROM PRODUCT_IMAGE
+   WHERE FILESYSTEM_NAME = #{filesystemName}
+</select>
 
 <!-- 수정하기  -->
 <update id="updateProduct" parameterType="ProductDto">
@@ -123,7 +171,7 @@
 </update>
 
 <!-- 이미지 삭제하기 -->
-<delete id="deleteProductImage">
+<delete id="deleteProductImage" parameterType="int">
   DELETE 
     FROM PRODUCT_IMAGE
    WHERE IMAGE_NO = #{imageNo}
