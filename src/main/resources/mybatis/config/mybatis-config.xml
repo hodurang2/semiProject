@@ -16,8 +16,8 @@
     <typeAlias alias="InactiveUserDto"   type="com.gdu.joongoing.dto.InactiveUserDto"/>
     <typeAlias alias="UserDto"           type="com.gdu.joongoing.dto.UserDto"/>
     <typeAlias alias="ProductDto"        type="com.gdu.joongoing.dto.ProductDto"/>
+    <typeAlias alias="ProductImage"      type="com.gdu.joongoing.dto.ProductImage"/>
     <typeAlias alias="InquiryDto"        type="com.gdu.joongoing.dto.InquiryDto"/>
-    <typeAlias alias="ProductImage"       type="com.gdu.joongoing.dto.ProductImage"/>
   </typeAliases>
 
 </configuration>

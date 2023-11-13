@@ -6,6 +6,6 @@ import org.springframework.ui.Model;
 
 public interface InquiryService {
 
-  void loadInquiryList(HttpServletRequest request, Model model);
+  public void loadInquiryList(HttpServletRequest request, Model model);
 
 }

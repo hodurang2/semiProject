@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class InquiryServiceImpl implements InquiryService{
   
   private final InquiryMapper inquiryMapper;
-  private final MyFileUtils myFileUtils;
   private final MyPageUtils myPageUtils;
 
   @Transactional(readOnly=true)
@@ -40,10 +39,10 @@ public class InquiryServiceImpl implements InquiryService{
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
                                    , "end", myPageUtils.getEnd());
     
-    List<InquiryDto> blogList = inquiryMapper.getInquiryList(map);
+    List<InquiryDto> inquiryList = inquiryMapper.getInquiryList(map);
     
-    model.addAttribute("blogList", blogList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/blog/list.do"));
+    model.addAttribute("inquiryList", inquiryList);
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/inquiry/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);
     
     
