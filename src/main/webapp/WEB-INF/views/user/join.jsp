@@ -10,7 +10,6 @@
   <jsp:param value="회원가입" name="title"/>
 </jsp:include>
 
-<script src="${contextPath}/resources/js/user_join.js?dt=${dt}"></script>
 
 <div>
 
