@@ -11,66 +11,89 @@
 </jsp:include>
 
 
-<div>
+<div class="wrap wrap_7">
+
+  <h1 class="title">회원가입</h1>
 
   <form id="frm_join" method="post" action="${contextPath}/user/join.do">
     
-    <h1>회원가입</h1>
+    <div class="row mb-2">
+      <label for="email" class="col-sm-3 col-form-label">이메일</label>
+      <div class="col-sm-6"><input type="text" name="email" id="email" placeholder="이메일" class="form-control"></div>
+      <div class="col-sm-3 d-grid gap-2"><button type="button" id="btn_get_code" class="btn btn-outline-success">인증코드받기</button></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9" id="msg_email"></div>
+    </div>
     
-    <div>
-      <div>
-        <label for="email">이메일</label>
-        <input type="text" name="email" id="email">
-        <button type="button" id="btn_get_code">인증코드받기</button>
-        <span id="msg_email"></span>
+    <div class="row mb-2">
+      <div class="col-sm-8"><input type="text" id="code" class="form-control" placeholder="인증코드입력" disabled></div>
+      <div class="col-sm-4 d-grid gap-2"><button type="button" class="btn btn-outline-secondary" id="btn_verify_code" disabled>인증하기</button></div>
+    </div>
+    
+    <hr class="my-3">
+    
+    <div class="row mb-2">
+      <label for="pw" class="col-sm-3 col-form-label">비밀번호</label>
+      <div class="col-sm-9"><input type="password" name="pw" id="pw" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_pw"></div>
+    </div>
+    
+    <div class="row mb-2">
+      <label for="pw2" class="col-sm-3 col-form-label">비밀번호 확인</label>
+      <div class="col-sm-9"><input type="password" id="pw2" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_pw2"></div>
+    </div>
+    
+    <hr class="my-3">
+    
+    <div class="row mb-2">
+      <label for="name" class="col-sm-3 col-form-label">이름</label>
+      <div class="col-sm-9"><input type="text" name="name" id="name" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_name"></div>
+    </div>
+
+    <div class="row mb-2">
+      <label for="mobile" class="col-sm-3 col-form-label">휴대전화번호</label>
+      <div class="col-sm-9"><input type="text" name="mobile" id="mobile" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_mobile"></div>
+    </div>
+
+    <div class="row mb-2">
+      <label class="col-sm-3 form-label">성별</label>
+      <div class="col-sm-3">
+        <input type="radio" name="gender" value="NO" id="none" class="form-check-input" checked>
+        <label class="form-check-label" for="none">선택안함</label>
       </div>
-      <div>
-        <input type="text" id="code" placeholder="인증코드입력" disabled>
-        <button type="button" id="btn_verify_code" disabled>인증하기</button>
+      <div class="col-sm-3">
+        <input type="radio" name="gender" value="M" id="man" class="form-check-input">
+        <label class="form-check-label" for="man">남자</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="radio" name="gender" value="F" id="woman" class="form-check-input">
+        <label class="form-check-label" for="woman">여자</label>
       </div>
     </div>
     
-    <div>
-      <label for="pw">비밀번호</label>
-      <input type="password" name="pw" id="pw">
-      <span id="msg_pw"></span>
+    <hr class="my-3">
+    
+    <div class="row mb-2">
+      <label for="postcode" class="col-sm-3 col-form-label">주소</label>
+      <div class="col-sm-4"><input type="text" name="postcode" id="postcode" class="form-control" onclick="execDaumPostcode()" placeholder="우편번호" readonly></div>
+      <div class="col-sm-5"><input type="button" class="btn btn-outline-success" onclick="execDaumPostcode()" value="우편번호 찾기"></div>
     </div>
     
-    <div>
-      <label for="pw2">비밀번호 확인</label>
-      <input type="password" id="pw2">
-      <span id="msg_pw2"></span>
+    <div class="row mb-2">
+      <div class="col-sm-6"><input type="text" name="roadAddress" id="roadAddress" class="form-control" placeholder="도로명주소" readonly></div>
+      <div class="col-sm-6"><input type="text" name="jibunAddress" id="jibunAddress" class="form-control" placeholder="지번주소" readonly></div>
     </div>
-    
-    <div>
-      <label for="name">이름</label>
-      <input type="text" name="name" id="name">
-      <span id="msg_name"></span>
-    </div>
-    
-    <div>
-      <input type="radio" name="gender" value="NO" id="none" checked>
-      <label for="none">선택안함</label>
-      <input type="radio" name="gender" value="M" id="man">
-      <label for="man">남자</label>
-      <input type="radio" name="gender" value="F" id="woman">
-      <label for="woman">여자</label>
-    </div>
-    
-    <div>
-      <label for="mobile">휴대전화번호</label>
-      <input type="text" name="mobile" id="mobile">
-      <span id="msg_mobile"></span>
-    </div>
-    
-    <div>    
-      <input type="text" name="postcode" id="postcode" onclick="execDaumPostcode()" placeholder="우편번호" readonly>
-      <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-      <input type="text" name="roadAddress" id="roadAddress" placeholder="도로명주소" readonly>
-      <input type="text" name="jibunAddress" id="jibunAddress" placeholder="지번주소" readonly>
-      <span id="guide" style="color:#999;display:none"></span>
-      <input type="text" name="detailAddress" id="detailAddress" placeholder="상세주소">
-      <input type="text" id="extraAddress" placeholder="참고항목">
+    <div class="col-sm-12"><span id="guide" style="color:#999;display:none"></span></div>
+    <div class="row mb-2">
+      <div class="col-sm-6"><input type="text" name="detailAddress" id="detailAddress" class="form-control" placeholder="상세주소"></div>
+      <div class="col-sm-6"><input type="text" id="extraAddress" class="form-control" placeholder="참고항목"></div>
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
@@ -130,13 +153,14 @@
       }
     </script>
     
-    <div>
+    <div class="mt-3 text-center">
       <input type="hidden" name="event" value="${event}">
-      <button type="submit">회원가입하기</button>
+      <button type="submit" class="btn btn-primary">회원가입하기</button>
     </div>
     
   </form>
 
 </div>
 
+<%@ include file="../layout/footer.jsp" %>
 <%@ include file="../layout/footer.jsp" %>
