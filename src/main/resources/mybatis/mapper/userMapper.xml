@@ -70,4 +70,11 @@
     )
   </insert>
   
+  <select id="getFindId" parameterType="Map" resultType="UserDto">
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+      FROM USER_T
+     WHERE NAME = #{name}
+       AND PHONE = #{phone}
+  </select>
+  
 </mapper>
