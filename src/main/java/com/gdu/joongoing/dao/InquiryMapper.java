@@ -10,7 +10,7 @@ import com.gdu.joongoing.dto.InquiryDto;
 @Mapper
 public interface InquiryMapper {
 
-  public int getBlogCount();
+  public int getInquiryCount();
 
   public List<InquiryDto> getInquiryList(Map<String, Object> map);
 

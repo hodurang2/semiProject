@@ -32,13 +32,13 @@
         </tr>
       </thead>
       <tbody>
-        <c:forEach items="${blogList}" var="b" varStatus="vs">
+        <c:forEach items="${inquiryList}" var="b" varStatus="vs">
           <tr>
             <td>${beginNo - vs.index}</td>
             <td>
               <!-- 내가 작성한 블로그의 조회수는 증가하지 않는다. -->
               <c:if test="${sessionScope.user.userNo == b.userDto.userNo}">
-                <a href="${contextPath}/blog/detail.do?blogNo=${b.blogNo}">${b.title}</a>
+                <a href="${contextPath}/inquiry/detail.do?blogNo=${b.inquiryNo}">${b.inquiryNo}</a>
               </c:if>
               <!-- 내가 작성하지 않았다면 조회수를 증가시킨 뒤 상세보기 요청을 한다. -->
               <c:if test="${sessionScope.user.userNo != b.userDto.userNo}">

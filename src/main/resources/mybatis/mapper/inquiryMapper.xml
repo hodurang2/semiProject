@@ -5,7 +5,17 @@
 
 <mapper namespace="com.gdu.joongoing.dao.InquiryMapper">
 
+  <select id="getInquiryCount" resultType="int">
+    SELECT COUNT(*)
+      FROM INQUIRY
+  </select>
 
+  <select id="getInquiryList" parameterType="Map" resultType="InquiryDto">
+    SELECT INQUIRY_NO, USER_NO, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_CREATED_AT
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY INQUIRY_NO DESC) AS RN, INQUIRY_NO, USER_NO, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_CREATED_AT
+              FROM INQUIRY) 
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
 
 
 

@@ -27,7 +27,7 @@ public class InquiryServiceImpl implements InquiryService{
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
-    int total = inquiryMapper.getBlogCount();
+    int total = inquiryMapper.getInquiryCount();
     int display = 10;
     
     myPageUtils.setPaging(page, total, display);
