@@ -10,11 +10,11 @@
   <jsp:param value="약관동의" name="title"/>
 </jsp:include>
 
-<div>
+<div class="grid text-center">
 
   <form id="frm_agree" action="${contextPath}/user/join.form">
     
-    <h1>약관 동의하기</h1>
+    <h1 class="grid text-center">약관 동의하기</h1>
     
     <div>
       <input type="checkbox" id="chk_all">
@@ -28,7 +28,7 @@
       <label for="service">서비스 이용약관 동의(필수)</label>
     </div>
     <div>
-      <textarea>
+      <textarea rows="5" cols="50">
         제1조(목적) 이 약관은 업체 회사(전자상거래 사업자)가 운영하는 업체 중고잉에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 중고잉과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
         ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
        </textarea>
@@ -39,7 +39,7 @@
       <label for="privacy">개인정보 수집 및 이용 동의(필수)</label>
     </div>
     <div>
-      <textarea>개인정보처리방침
+      <textarea rows="5" cols="50">개인정보처리방침
         [차례]
         1. 총칙
         2. 개인정보 수집에 대한 동의
@@ -64,7 +64,7 @@
       <label for="event">이벤트 알림 동의(선택)</label>
     </div>
     <div>
-      <textarea>
+      <textarea rows="5" cols="50">
         본 이벤트 약관("약관")은 중고잉과 귀하 또는 귀하가 대표하는 단체("귀하") 사이의 계약입니다. 
         이 이벤트("이벤트")에 등록하거나 참여함으로써, 귀하는 본 약관과 중고잉의 이용 약관 및 개인정보 보호정책("개인정보 보호정책")을 읽고 이해했음을 확인합니다. 
         본 약관은 중고잉 웹사이트에 개정판을 게시하거나 귀하에게 기타 통지함으로써 언제든 수정될 수 있습니다. 
