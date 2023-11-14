@@ -44,20 +44,32 @@ public class NoticeServiceImpl implements NoticeService{
     int total = noticeMapper.getNoticeCount();
     int display = 10;
     
+    int begin = myPageUtils.getBegin();
+    int end = myPageUtils.getEnd();
     
     myPageUtils.setPaging(page, total, display);
     
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd());
+    Map<String, Object> map = Map.of("begin", begin
+                                   , "end", end);
     
     List<NoticeDto> noticeList = noticeMapper.getNoticeList(map);
     
     List<Integer> hour = new ArrayList<>();
+    List<Integer> minute = new ArrayList<>();
+    List<Integer> num = new ArrayList<>();
+    
     for(NoticeDto notice : noticeList){
       hour.add(noticeMapper.getHour(notice.getNoticeNo()));
+      minute.add(noticeMapper.getMinute(notice.getNoticeNo()));
     }
     
     
+    for(int i = end; i >= begin; i--) {
+      num.add(i);  
+    }
+    
+    model.addAttribute("num", num);
+    model.addAttribute("noticeMinute", minute);
     model.addAttribute("noticeHour", hour);
     model.addAttribute("noticeList", noticeList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
