@@ -49,7 +49,7 @@
   var page = 1;
   var totalPage = 0;
 
-	const fnGetproductList = () =>{
+	const fnGetProductList = () =>{
 		$.ajax({
 			type:'get',
 			url : '${contextPath}/product/getList.do',
@@ -60,7 +60,7 @@
 				totalPage = resData.totalPage;
 				
 				$.each(resData.productList, (i, product) => {
-					let srt = '<div class="upload" data-upload_no="' + product.productNo + '">';
+					let srt = '<div class="product" data-productNo="' + product.productNo + '">';
 					str += '<div id="image_box">' + ProductImageDto.hasThumnail + '</div>';
 					str += '<div>' + product.productName + '</div>';		
 					if(product.UserDto == null){
@@ -119,7 +119,6 @@
     if(addResult !== ''){
       if(addResult === 'true'){
         alert('성공적으로 업로드 되었습니다.');
-        $('#product_list').empty();
       } else {
         alert('업로드가 실패하였습니다.');
       }
