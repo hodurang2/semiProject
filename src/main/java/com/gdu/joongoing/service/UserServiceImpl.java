@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
     }
   }
   
+  @Transactional(readOnly=true)
   @Override
   public ResponseEntity<Map<String, Object>> checkEmail(String email) {
     
