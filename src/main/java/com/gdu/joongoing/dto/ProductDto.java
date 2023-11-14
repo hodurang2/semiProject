@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductDto {
   private int productNo;
-  private UserDto sellerNo;
-  private UserDto buyerNo;
-  private int categoryId;
+  private UserDto sellerDto;
+  private UserDto buyerDto;
+  private CategoryDto categoryDto;
   private String productName;
   private int productPrice;
   private String productInfo;

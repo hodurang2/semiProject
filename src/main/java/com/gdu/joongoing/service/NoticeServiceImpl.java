@@ -78,50 +78,79 @@ public class NoticeServiceImpl implements NoticeService{
                           .build();
     int addResult = noticeMapper.insertNotice(notice);
     
+
     Document document = Jsoup.parse(contents);
-    Elements elements =  document.getElementsByTag("img");
-    
-    int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-    if(elements != null) {
-      for(Element element : elements) {
-        String src = element.attr("src");
-        String filesystemName = src.substring(src.lastIndexOf("/") + 1);
-        NoticeAttachDto noticeAttach = NoticeAttachDto.builder()
-                                    .noticeNo(noticeNo)
-                                    .path(contents)
-                                    .filesystemName(filesystemName)
-                                    .build();
-        
-        noticeMapper.insertNoticeAttach(noticeAttach);
-      }
+    Elements elements = document.getElementsByTag("img");
+
+    if (elements != null) {
+        for (Element element : elements) {
+            String src = element.attr("src");
+            String filesystemName = src.substring(src.lastIndexOf("/") + 1);
+            NoticeAttachDto noticeAttach = NoticeAttachDto.builder()
+                    .noticeNo(notice.getNoticeNo())
+                    .path(myFileUtils.getBlogImagePath())
+                    .filesystemName(filesystemName)
+                    .build();
+
+            noticeMapper.insertNoticeAttach(noticeAttach);
+        }
     }
     
     return addResult;
   }
+
+  
   @Override
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
     
+    // 이미지가 저장될 경로
     String imagePath = myFileUtils.getBlogImagePath();
     File dir = new File(imagePath);
     if(!dir.exists()) {
       dir.mkdirs();
     }
-
+    
+    // 이미지 파일 (CKEditor는 이미지를 upload라는 이름으로 보냄)
     MultipartFile upload = multipartRequest.getFile("upload");
     
+    // 이미지가 저장될 이름
     String originalFilename = upload.getOriginalFilename();
     String filesystemName = myFileUtils.getFilesystemName(originalFilename);
     
-
+    // 이미지 File 객체
     File file = new File(dir, filesystemName);
     
+    // 저장
     try {
       upload.transferTo(file);
     } catch (Exception e) {
       e.printStackTrace();
     }
-
+    
+    // CKEditor로 저장된 이미지의 경로를 JSON 형식으로 반환해야 함
     return Map.of("uploaded", true
                 , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
+  }
+  
+  @Override
+  public int ModifyNotice(HttpServletRequest request) {
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+    
+    NoticeDto notice = NoticeDto.builder()
+                        .title(title)
+                        .contents(contents)
+                        .noticeNo(noticeNo)
+                        .build();
+    
+    int modifyResult = noticeMapper.updateNotice(notice);
+    
+    return modifyResult;
+  }
+  
+  @Override
+  public int removeNotice(int noticeNo) {
+    return noticeMapper.deleteNotice(noticeNo);
   }
 }
