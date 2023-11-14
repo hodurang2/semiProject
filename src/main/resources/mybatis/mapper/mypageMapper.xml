@@ -6,7 +6,7 @@
 <mapper namespace="com.gdu.joongoing.dao.MypageMapper">
   
   <select id="getUser2" parameterType="Map" resultType="UserDto">
-    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
       FROM USER_T
     <where>
       <if test="email != null">EMAIL = #{email}</if>

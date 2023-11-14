@@ -7,11 +7,17 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="약관동의" name="title"/>
+  <jsp:param value="관심지역변경" name="title"/>
 </jsp:include>
 
 <div>
-
+  <form id="frm_modify_interest" method="get">
+    
+    <h1 class="text-center mb-4">관심지역변경</h1>
+    
+    
+      
+  </form>
 
 </div>
 

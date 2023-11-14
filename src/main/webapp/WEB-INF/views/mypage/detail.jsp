@@ -30,7 +30,7 @@
     </div>
     
     <div>
-      <button type="button" id="btn_modify_interestCity">관심지역변경</button>
+      <button type="button" id="btn_modify_interest">관심지역변경</button>
     </div>
     
     <div class="list_wrap">
@@ -56,6 +56,12 @@
   const fnModifyUser = () => {
 	  $('#btn_modify').click(() => {
 		  location.href = '${contextPath}/mypage/modify.form';
+	  })
+  }
+  
+  const fnModifyInterest = () => {
+	  $('#btn_modify_interest').click((() => {
+		  location.href = '${contextPath}/mypage/interest.do';
 	  })
   }
 </script>
