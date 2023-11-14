@@ -4,5 +4,70 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.gdu.joongoing.dao.NoticeMapper">
+  <select id="getNoticeList" parameterType="Map" resultType="NoticeDto">
+    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+      FROM  (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RN,NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+               FROM NOTICE)
+     WHERE RN BETWEEN #{begin} AND #{end}
+  </select>
   
+  <select id="getNoticeCount" resultType="int">
+    SELECT COUNT(*)
+      FROM NOTICE
+  </select>
+  
+  <select id="getNotice" parameterType="int" resultType="NoticeDto">
+    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+      FROM NOTICE
+     WHERE NOTICE_NO = #{noticeNo}
+  </select>
+  
+  <insert id="insertNotice" parameterType="NoticeDto">
+    <selectKey order="BEFORE" keyProperty="noticeNo" resultType="int">
+      SELECT NOTICE_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    INSERT INTO NOTICE (
+      NOTICE_NO, 
+      TITLE, 
+      CONTENTS, 
+      CREATED_AT
+    ) VALUES (
+      #{noticeNo},
+      #{title},
+      #{contents},
+      SYSTIMESTAMP
+    )
+  </insert>
+  
+  <insert id="insertNoticeAttach" parameterType="NoticeAttachDto">
+    <selectKey order="BEFORE" keyProperty="attachNo" resultType="int">
+        SELECT NOTICE_ATTACH_SEQ.NEXTVAL
+          FROM DUAL
+      </selectKey>
+    INSERT INTO NOTICE_ATTACH (
+      ATTACH_NO,
+      NOTICE_NO,
+      PATH,
+      FILESYSTEM_NAME
+    ) VALUES (
+      #{attachNo},
+      #{noticeNo},
+      #{path},
+      #{filesystemName}
+    )
+  </insert>
+  
+  <update id="updateNotice" parameterType="NoticeDto">
+    UPDATE NOTICE
+       SET TITLE = #{title},
+           CONTENTS = #{createdAt}
+     WHERE NOTICE_NO = #{noticeNo}
+  </update>
+  
+  <delete id="deleteNotice" parameterType="int">
+    DELETE 
+      FROM NOTICE
+     WHERE NOTICE_NO = #{noticeNo}  
+  </delete>
 </mapper>

@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
     }
   }
   
+  @Transactional(readOnly=true)
   @Override
   public ResponseEntity<Map<String, Object>> checkEmail(String email) {
     
@@ -123,7 +124,8 @@ public class UserServiceImpl implements UserService {
     String phone = request.getParameter("phone");
     String sido = request.getParameter("sido");
     String sigungu = request.getParameter("sigungu");
-    String interestCity = request.getParameter("interestCity1") + " " + request.getParameter("interestCity2");
+    String interestSido = request.getParameter("interestSido");
+    String interestSigungu = request.getParameter("interestSigungu");
     String event = request.getParameter("event");
     
     UserDto user = UserDto.builder()
@@ -135,7 +137,8 @@ public class UserServiceImpl implements UserService {
                     .agree(event.equals("on") ? 1 : 0)
                     .sido(sido)
                     .sigungu(sigungu)
-                    .interestCity(interestCity)
+                    .interestSido(interestSido)
+                    .interestSigungu(interestSigungu)
                     .build();
     
     int joinResult = userMapper.insertUser(user);

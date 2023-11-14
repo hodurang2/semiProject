@@ -6,5 +6,8 @@
 <mapper namespace="com.gdu.joongoing.dao.InquiryMapper">
 
 
+
+
+
   
 </mapper>

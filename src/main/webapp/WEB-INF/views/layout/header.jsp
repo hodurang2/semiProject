@@ -38,10 +38,8 @@
           <a href="${contextPath}/user/logout.do">로그아웃</a>
         </div>
       </c:if>
-    </div>
-    
+    </div>    
     <hr>  <!-- 중앙선 -->
-  
     <div class="btn_menu_var">
         <i class="fa-solid fa-bars"></i>
       </div>
