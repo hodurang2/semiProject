@@ -80,7 +80,7 @@
     
     <hr class="my-3">
     
-    <div class="row mb-2">
+    <div>
       <label for="address" class="col-sm-3 col-form-label">주소</label>
       <select name="sido" id="sido"></select>
       <select name="sigungu" id="sigungu"></select>
