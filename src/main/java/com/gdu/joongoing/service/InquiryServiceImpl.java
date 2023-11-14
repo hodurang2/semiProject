@@ -7,17 +7,14 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.gdu.joongoing.dao.InquiryMapper;
 import com.gdu.joongoing.dto.InquiryDto;
-import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class InquiryServiceImpl implements InquiryService{
@@ -25,7 +22,6 @@ public class InquiryServiceImpl implements InquiryService{
   private final InquiryMapper inquiryMapper;
   private final MyPageUtils myPageUtils;
 
-  @Transactional(readOnly=true)
   @Override
   public void loadInquiryList(HttpServletRequest request, Model model) {
     
