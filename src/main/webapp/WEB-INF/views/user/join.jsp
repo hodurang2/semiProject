@@ -87,8 +87,8 @@
     </div>
     <div>
       <label for="address" class="col-sm-3 col-form-label">관심지역</label>
-      <select name="interestCity1" id="interestSido"></select>
-      <select name="interestCity2" id="interestsigungu"></select>
+      <select name="interestSido" id="interestSido"></select>
+      <select name="interestSigungu" id="interestSigungu"></select>
     </div>
     
     <script>
