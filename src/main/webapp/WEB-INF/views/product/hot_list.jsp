@@ -40,38 +40,31 @@
 </style>
 
 
-<script>
-//게시판 목록 페이지로 이동하게 하는 함수
-function list(page){
-    console.log("페이지를 이동합니다.");
-    location.href="list.do?curPage="+page;
-};
- 
-</script>
+<div class="hot_list">
 
-<div class="product_list" id="product_list">
-  <div class="data-upload">
-    <!-- 갤러리형 핫 갤러리~ --> 
- <c:forEach var = "row" items = "${map.list}"> <!-- 컨트롤러에서 map안에 list를 넣었기 때문에 이렇게 받는다. -->
-    <tr>
-        <td>${row.rk}</td>                <!-- 게시글 순위 -->
-        <td>${row.member_bno}</td>        <!-- 글번호 -->
-        <!-- 클릭하면 컨트롤러의 view.do로 이동하고, 게시물번호, 페이지 번호, 검색옵션, 키워드를 같이 넘긴다 -->
-        <td>
-        <a href="best_board_view.do?member_bno=${row.member_bno}">${row.title}</a>
-<c:if test="${row.rcnt > 0}"> 
-   <span style="color:red;">( ${row.rcnt} )</span> 
-</c:if>  
-</td>
-        <td>${row.user_id}</td>    <!-- 작성자의 이름 -->
-        <td>${row.content}</td>    <!-- 글의내용 -->
-        <td>${row.reg_date}</td>    <!-- 날짜의 출력형식을 변경함 -->
-        <td>${row.viewcnt}</td>    <!-- 조회수 -->
-        <td>${row.recommend}</td>    <!-- 추천수 -->
-    </tr>
-    </c:forEach>
+  <div class="list">
+    <ul>
+      <div class="img_hot"><img src="../resources/image/banner_dum.png"></div>
+      <li>#{product.productNo}</li>
+      <li>#{product.productName}</li>
+      <li>#{product.productPrice}</li>
+      <li>#{product.productAt}</li>
+      <li>#{product.productHit}</li>
+    </ul>
   </div>
+  
+  <c:foreach var="hot" items="${map.hotList}">
+    <tr>
+      <td><img src="${contextPath}/resources/logo.png" /><a href="hotList.do?productNo=${hot.productNo}"></a></td>
+      <td>${hot.productHit}</td>   
+      <td>${hot.productNo}</td>
+      <td>${hot.productName}</td>
+    </tr>
+  </c:foreach>
+
 </div>
+
+
 
 
 

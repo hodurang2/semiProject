@@ -5,7 +5,7 @@
   <jsp:param value="마이홈" name="title"/>
 </jsp:include>
 
-<div class="banner"><img src="${contextPath}/image/banner_dum.png"></div>
+<div class="banner"><img src="${contextPath}/resources/image/banner_dum.png"></div>
 
 <div class="btn_five">
   <button id="new"><a href="${contextPath}/product/new_list.jsp">최신</a></button>

@@ -146,6 +146,15 @@
    WHERE FILESYSTEM_NAME = #{filesystemName}
 </select>
 
+<!-- 핫 리스트 -->
+<select id="hotProductList" resultType="ProductDto">
+  SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS
+    FROM PRODUCT
+   ORDER BY PRODUCT_HIT DESC;
+</select>
+
+
+
 <!-- 상품 수정하기(완)-->
 <update id="updateProduct" parameterType="ProductDto">
   UPDATE PRODUCT
@@ -154,7 +163,6 @@
          , PRODUCT_MODIFIED_AT = SYSTIMESTAMP
    WHERE PRODUCT_NO = #{productNo}
 </update>
-
 
 
 <!-- 이미지 삭제하기(완)-->
@@ -170,25 +178,5 @@
     FROM PRODUCT
    WHERE PRODUCT_NO = #{productNo}
 </delete>
-
-
-<!-- 핫 리스트 -->
-<select id="hotProductList" resultType="ProductDto">
-  SELECT PRODUCT_NO
-       , SELLER_NO
-       , PRODUCT_NAME
-       , PRODUCT_PRICE
-       , PRODUCT_INFO
-       , PRODUCT_CREATED_AT
-       , PRODUCT_MODIFIED_AT
-       , PRODUCT_HIT, 
-       , PRODUCT_STATE
-    ROW_NUMBER() OVER (ORDER BY PRODUCT_NO DESC, PRODUCT_HIT DESC) AS RK
-    FROM (SELECT PRODUCT_NO, SELLER_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE)
-            FROM PRODUCT
-           ORDER BY PRODUCT_NO DESC)
-<![CDATA[where ROW_NUMBER <= 10]]>   
-</select>
-
 
 </mapper>

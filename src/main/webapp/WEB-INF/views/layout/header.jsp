@@ -22,8 +22,8 @@
 <body>
 
   <div class="header_wrap">
-    <div class="logo"></div>
     <div class="login_wrap">
+      <div class="logo"></div>
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
           <li><a href="${contextPath}/user/login.form"  id="login_btn">로그인</a></li>
@@ -42,11 +42,10 @@
     <hr>  <!-- 중앙선 -->
     <div class="btn_menu_var">
         <i class="fa-solid fa-bars"></i>
-      </div>
-      <div class="css-1vh2lxo">카테고리</div>
-      <div class="css_1vh2lxo">전체매물</div>
+        <div class="css-1vh2lxo">카테고리</div>
+        <div class="css_1vh2lxo">전체매물</div>
       <div class="hot_list"><a href="${contextPath}/product/hot_list.jsp">인기상품</a></div>
-    </div>
+      </div>
     
   <div class="main_wrap">
 
