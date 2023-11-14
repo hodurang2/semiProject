@@ -2,6 +2,8 @@ package com.gdu.joongoing.service;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -42,17 +44,33 @@ public class NoticeServiceImpl implements NoticeService{
     int total = noticeMapper.getNoticeCount();
     int display = 10;
     
+    int begin = myPageUtils.getBegin();
+    int end = myPageUtils.getEnd();
     
     myPageUtils.setPaging(page, total, display);
     
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd());
+    Map<String, Object> map = Map.of("begin", begin
+                                   , "end", end);
     
     List<NoticeDto> noticeList = noticeMapper.getNoticeList(map);
     
-    Timestamp today = new Timestamp(System.currentTimeMillis());
+    List<Integer> hour = new ArrayList<>();
+    List<Integer> minute = new ArrayList<>();
+    List<Integer> num = new ArrayList<>();
     
-    model.addAttribute("today", today);
+    for(NoticeDto notice : noticeList){
+      hour.add(noticeMapper.getHour(notice.getNoticeNo()));
+      minute.add(noticeMapper.getMinute(notice.getNoticeNo()));
+    }
+    
+    
+    for(int i = end; i >= begin; i--) {
+      num.add(i);  
+    }
+    
+    model.addAttribute("num", num);
+    model.addAttribute("noticeMinute", minute);
+    model.addAttribute("noticeHour", hour);
     model.addAttribute("noticeList", noticeList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);
@@ -61,7 +79,7 @@ public class NoticeServiceImpl implements NoticeService{
   @Override
   public NoticeDto getNotice(int noticeNo, Model model) {
     NoticeDto notice = noticeMapper.getNotice(noticeNo);
-    Timestamp today = new Timestamp(System.currentTimeMillis());
+    
     
     model.addAttribute("diffHour", null);
     return notice;

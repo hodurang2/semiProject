@@ -41,6 +41,7 @@
     const fnRemoveNotice = () => {
   		$('#btn_rmv').click(() => {
   			if(confirm('삭제할까요?')){
+  				alert('삭제되었습니다.');
     			frmBtn.attr('action', '${contextPath}/notice/remove.do');
     			frmBtn.submit();
   			}

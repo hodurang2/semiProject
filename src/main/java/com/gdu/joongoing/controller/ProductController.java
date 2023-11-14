@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -18,6 +19,7 @@ import com.gdu.joongoing.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
+@RequestMapping("/product")
 @RequiredArgsConstructor
 @Controller
 public class ProductController {
@@ -29,27 +31,27 @@ public class ProductController {
     return "layout/header";
   }
   
-  @GetMapping("/product/list.do")
+  @GetMapping("/list.do")
   public String list() {
     return "product/list";
   }
   
-  @GetMapping("/product/write.form")
+  @GetMapping("/write.form")
   public String write() {
     return "product/write";
   }
   
-  @PostMapping("/product/add.do")
+  @PostMapping("/add.do")
   public String add(MultipartHttpServletRequest multipartRequest
                   , RedirectAttributes redirectAttributes) throws Exception {
-    boolean addResult = productService.addProduct(multipartRequest);
+    int addResult = productService.addProduct(multipartRequest);
     redirectAttributes.addFlashAttribute("addResult", addResult);
     return "redirect:/product/list.do";
   }
- 
+  
   @ResponseBody
-  @GetMapping(value="/getList.do", produces="application/json")
-  public Map<String, Object> getList(HttpServletRequest request){
+  @GetMapping(value="/getProductList.do", produces="application/json")
+  public Map<String, Object> getProductList(HttpServletRequest request){
     return productService.getProductList(request);
   }
   
