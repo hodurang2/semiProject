@@ -26,7 +26,7 @@
 
 <div>
 
-  <form id="frm_notice_add" method="post" action="${contextPath}/notice/modifyNotice.do">
+  <form id="frm_notice_modify" method="post" action="${contextPath}/notice/modifyNotice.do">
     
      <h1 style="text-align: center;">${notice.noticeNo}번 공지 편집</h1>
     
@@ -43,7 +43,7 @@
     </div>
     
     <div>
-      <input type="hidden" name="blogNo" value="${notice.noticeNo}">
+      <input type="hidden" name="noticeNo" value="${notice.noticeNo}">
       <button class="btn btn-primary col-12" type="submit">수정완료</button>
     </div>
     

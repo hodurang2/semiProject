@@ -7,16 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gdu.joongoing.dto.NoticeDto;
 import com.gdu.joongoing.service.NoticeService;
 
 import lombok.RequiredArgsConstructor;
-import oracle.jdbc.proxy.annotation.Post;
 
 @RequestMapping("/notice")
 @RequiredArgsConstructor
@@ -50,7 +52,26 @@ public class NoticeController {
   @PostMapping(value = "/imageUpload.do", produces = "application/json")
   @ResponseBody
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
-    return imageUpload(multipartRequest);
+    return noticeService.imageUpload(multipartRequest);
+  }
+  
+  @PostMapping("/edit.form")
+  public String edit(@ModelAttribute("notice") NoticeDto notice) {
+    return "notice/edit";
+  }
+  
+  @PostMapping("/modifyNotice.do")
+  public String modifyNotice(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    int modifyResult = noticeService.ModifyNotice(request);
+    redirectAttributes.addFlashAttribute("modifyResult", modifyResult);
+    return "redirect:/notice/detail.do?noticeNo=" + request.getParameter("noticeNo");
+  }
+  
+  @PostMapping("/remove.do")
+  public String remove(@RequestParam(value = "noticeNo", required = false, defaultValue = "0") int noticeNo, RedirectAttributes redirectAttributes) {
+    int removeResult = noticeService.removeNotice(noticeNo);
+    redirectAttributes.addFlashAttribute("removeResult", removeResult);
+    return "redirect:/notice/list.do";
   }
   
  }

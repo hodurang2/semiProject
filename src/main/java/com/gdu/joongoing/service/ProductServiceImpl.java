@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.ProductMapper;
+import com.gdu.joongoing.dto.CategoryDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
 import com.gdu.joongoing.dto.UserDto;
@@ -31,9 +32,10 @@ public class ProductServiceImpl implements ProductService {
   private final MyFileUtils myFileUtils;      // 파일첨부할 용도
   private final MyPageUtils myPageUtils;      // 목록 다룰 용도
   
+  
   @Override
   public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
-    
+
     int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
     String productName = multipartRequest.getParameter("productName");
     int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
@@ -41,15 +43,17 @@ public class ProductServiceImpl implements ProductService {
     int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
     
     ProductDto product = ProductDto.builder()
-                        .categoryId(categoryId)
-                        .productName(productName)
-                        .productPrice(productPrice)
-                        .productInfo(productInfo)
-                        .sellerNo(UserDto.builder()
-                                  .userNo(sellerNo)
-                                  .build())
-                        .build();
-                        
+        .categoryDto(CategoryDto.builder()
+                     .categoryId(categoryId)
+                     .build())
+        .productName(productName)
+        .productPrice(productPrice)
+        .productInfo(productInfo)
+        .sellerDto(UserDto.builder()
+            .userNo(sellerNo)
+            .build())
+        .build();
+    
     int productCount = productMapper.insertProduct(product);
     
     List<MultipartFile> files = multipartRequest.getFiles("files");
@@ -106,7 +110,8 @@ public class ProductServiceImpl implements ProductService {
     return (productCount == 1) && (files.size() == productImageCount);   // 1이면 성공. productImageCount와 파일사이즈가 같으면 성공. 
     
   }
-
+  
+  
   @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getProductList(HttpServletRequest request) {

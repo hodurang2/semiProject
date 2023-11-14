@@ -17,9 +17,14 @@
     <typeAlias alias="LeaveUserDto"      type="com.gdu.joongoing.dto.LeaveUserDto"/>
     
     <typeAlias alias="ProductDto"        type="com.gdu.joongoing.dto.ProductDto"/>
+<<<<<<< HEAD
     <typeAlias alias="ProductImageDto"   type="com.gdu.joongoing.dto.ProductImageDto"/>
     <typeAlias alias="CategoryDto"       type="com.gdu.joongoing.dto.CategoryDto"/>
     
+=======
+    <typeAlias alias="ProductImage"      type="com.gdu.joongoing.dto.ProductImageDto"/>
+    <typeAlias alias="CategoryDto"       type="com.gdu.joongoing.dto.CategoryDto"/>
+>>>>>>> main
     <typeAlias alias="InquiryDto"        type="com.gdu.joongoing.dto.InquiryDto"/>
     <typeAlias alias="AnswerDto"         type="com.gdu.joongoing.dto.AnswerDto"/>
 
