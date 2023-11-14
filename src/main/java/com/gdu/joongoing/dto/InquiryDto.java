@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class InquiryDto {
-  int answerNo;
-  int inquiryNo;
-  String contents;
-  Timestamp createdAt;
-  int depth;
-  int status;
-  int groupNo;
+  private int answerNo;
+  private int inquiryNo;
+  private String contents;
+  private Timestamp createdAt;
+  private int depth;
+  private int status;
+  private int groupNo;
   
 }
