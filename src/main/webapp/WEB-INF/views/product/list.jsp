@@ -20,15 +20,23 @@
     width: 150px;
     height:  180px;
     border: 1px solid gray;
-    border-radius: 5px;
-    text-align: center;
     padding-top: 80px;
     margin: 10px 10px;
+    text-align:left;
   }
   .product:hover {
     background-color: silver;
     cursor: pointer;
   }
+  
+  #image_box{
+    width : 70px;
+    height : 70px;
+    border: 1px solid gray;
+    padding-bottom : 10px;
+    margin : 10px 10px;
+  }
+  
 </style>
 
 <div class="wrap wrap_9">
@@ -41,32 +49,34 @@
   var page = 1;
   var totalPage = 0;
 
-  const fnGetproductList = () => {
-    $.ajax({
-      // 요청
-      type: 'get',
-      url: '${contextPath}/product/getList.do',
-      data: 'page=' + page,
-      // 응답
-      dataType: 'json',
-      success: (resData) => {  // resData = {"productList": [], "totalPage": 10}
-        totalPage = resData.totalPage;
-          let str = '<div class="product" data-product_no="' + product.productNo + '">';
-          str += '<div>제목: ' + product.title + '</div>';
-          if(product.userDto === null){
-        	str += '<div>이미지 : 썸네일 없음</div>'
-            str += '<div>작성: 정보없음</div>';
-          } else {            
-        	str += '<div>' + product.ProductImageDto.hasThumbnail + '</div>';
-            str += '<div>작성: ' + product.userDto.name + '</div>';
-          }
-          str += '<div>생성: ' + product.createdAt + '</div>';
-          str += '</div>';
-          $('#product_list').append(str);
-        )
-      }
-    })
-  }
+	const fnGetproductList = () =>{
+		$.ajax({
+			type:'get',
+			url : '${contextPath}/product/getList.do',
+			data: 'page=' + page,
+			// 응답
+			dataType: 'json',
+			success : (resData)  => {
+				totalPage = resData.totalPage;
+				
+				$.each(resData.productList, (i, product) => {
+					let srt = '<div class="upload" data-upload_no="' + product.productNo + '">';
+					str += '<div id="image_box">' + ProductImageDto.hasThumnail + '</div>';
+					str += '<div>' + product.productName + '</div>';		
+					if(product.UserDto == null){
+						str += '<div>탈퇴한작성자</div>';
+					} else {
+						str += '<div>' + product.UserDto.name + '</div>';
+					} 
+					str += '<div>' + product.productCreatedAt + '</div>';
+					str += '</div>';
+					$('#product_list').append(str);
+				})
+			}
+		})	
+	
+	}
+  
   
   const fnproductDetail = () => {
     $(document).on('click', '.product', function(){

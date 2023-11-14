@@ -10,10 +10,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.gdu.joongoing.dto.ProductDto;
 
 public interface ProductService {
-<<<<<<< HEAD
-  /*
-=======
->>>>>>> main
   public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception; 
   public Map<String, Object> getProductList(HttpServletRequest request);
   public void loadProduct(HttpServletRequest request, Model model);
