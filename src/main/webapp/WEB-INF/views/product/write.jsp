@@ -18,20 +18,14 @@
   
   <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     <div>
-      <label for="title" class="form-label">상품이미지</label>
-      <input type="text" name="title" id="title" class="form-control">
-      <span>*</span>
+      상품이미지<span>*</span>
       <small>(0/10)</small>
-    </div>
-    <div class ="ProductNewstyle__Content-sc-7fge4a-7 nqDMw">
-      <li>
-      <label for="files" class="form-label">이미지 등록</label>
       <input type="file" name="files" id="files" class="form-control" multiple>
-      </li>
     </div>
+    <br>
     <div>
-      <label for="name" class="form-label">작성자</label>
-      <input type="text" id="name" class="form-control-plaintext" value="${sessionScope.user.name}" readonly>
+      <label for="name" class="form-label">상품명<span>*</span></label>
+      <input type="text" id="name" class="form-control-plaintext" value="${sessionScope.ProductDto.productName}">
     </div>
     <div>
       <label for="contents" class="form-label">내용</label>
