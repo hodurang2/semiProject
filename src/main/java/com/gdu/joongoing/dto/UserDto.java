@@ -23,5 +23,6 @@ public class UserDto {
   private Timestamp joinedAt;
   private String sido;
   private String sigungu;
-  private String interestCity;
+  private String interestSido;
+  private String interestSigungu;
 }
