@@ -13,4 +13,5 @@ public interface MypageService {
   public UserDto getUser2(String email);
   public void modifyPw(HttpServletRequest request, HttpServletResponse response);
   public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
+  public ResponseEntity<Map<String, Object>> modifyInterest(HttpServletRequest request);
 }

@@ -32,4 +32,11 @@
      WHERE USER_NO = #{userNo}
   </update>
   
+  <update id="updateUserInterest" parameterType="UserDto">
+    UPDATE USER_T
+       SET INTEREST_SIDO = #{interestSido}
+         , INTEREST_SIGUNGU = #{interestSigungu}
+     WHERE USER_NO = #{userNo}
+  </update>
+  
 </mapper>

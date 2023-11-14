@@ -12,27 +12,30 @@
 
 
 <div>
+ 
+  <h1 class="title">비밀번호 변경하기</h1>
 
-  <form id="frm_modify_pw" method="post" action="${contextPath}/mypage/modifyPw.do">
-    
-    <h1>비밀번호 변경하기</h1>
-    <table>
-      <tr>
-        <td><label for="pw">비밀번호</label></td>
-        <td><input type="password" name="pw" id="pw"></td>
-        <td><span id="msg_pw"></span></td>
-      </tr>
-      <tr>
-        <td><label for="pw2">비밀번호 확인</label></td>
-        <td><input type="password" id="pw2"></td>
-        <td><span id="msg_pw2"></span></td>
-      </tr>
-    </table>
-    
-    <div>
-      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <button type="submit">비밀번호변경하기</button>
+  <form id="frm_modify_pw" class="mt-5" method="post" action="${contextPath}/mypage/modifyPw.do">
+      
+    <div class="row mb-2">
+      <label for="pw" class="col-sm-3 col-form-label">비밀번호</label>
+      <div class="col-sm-9"><input type="password" name="pw" id="pw" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_pw"></div>
     </div>
+    
+    <div class="row mb-2">
+      <label for="pw2" class="col-sm-3 col-form-label">비밀번호 확인</label>
+      <div class="col-sm-9"><input type="password" id="pw2" class="form-control"></div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9 mb-3" id="msg_pw2"></div>
+    </div>
+    
+    <div class="text-center mt-3">
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+      <button type="submit" class="btn btn-primary">비밀번호변경하기</button>
+    </div>
+    
     
   </form>
 

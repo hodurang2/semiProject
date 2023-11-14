@@ -42,7 +42,7 @@ public class MypageController {
     return mypageService.modify(request);
   }
   
-  @GetMapping("/modifyInterest.do")
+  @GetMapping("/modifyInterest.form")
   public String modifyInterest() {
     return "mypage/interest";
   }

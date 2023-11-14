@@ -61,7 +61,7 @@
   
   const fnModifyInterest = () => {
 	  $('#btn_modify_interest').click((() => {
-		  location.href = '${contextPath}/mypage/interest.do';
+		  location.href = '${contextPath}/mypage/modifyInterest.form';
 	  })
   }
 </script>
