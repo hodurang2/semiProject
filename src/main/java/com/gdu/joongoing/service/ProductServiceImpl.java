@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
   
   
   @Override
-  public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
+  public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
 
     String productName = multipartRequest.getParameter("productName");
     int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
@@ -57,62 +57,54 @@ public class ProductServiceImpl implements ProductService {
         .build();
     
     int productCount = productMapper.insertProduct(product);
-    
-    List<MultipartFile> files = multipartRequest.getFiles("files");
-    
-   
-    
-    int productImageCount;
-    if(files.get(0).getSize() == 0) {   // 첨부가 없었으면,
-      productImageCount = 1;
-    } else {
-      productImageCount = 0;
-    }
-    
-    for(MultipartFile multipartFile : files) {
-      
-      if(multipartFile != null && !multipartFile.isEmpty()) {
+    System.out.println(productCount);
+    /* 이미지버튼 파일첨부기능 만들고 이거 주석해제하면 됨.
+     * List<MultipartFile> files = multipartRequest.getFiles("files");
+     * 
+     * 
+     * 
+     * int productImageCount; if(files.get(0).getSize() == 0) { // 첨부가 없었으면,
+     * productImageCount = 1; } else { productImageCount = 0; }
+     * 
+     * for(MultipartFile multipartFile : files) {
+     * 
+     * if(multipartFile != null && !multipartFile.isEmpty()) {
+     * 
+     * String path = myFileUtils.getUploadPath(); File dir = new File(path);
+     * if(!dir.exists()) { dir.mkdirs(); }
+     * 
+     * String imageOriginalName = multipartFile.getOriginalFilename(); String
+     * filesystemName = myFileUtils.getFilesystemName(imageOriginalName); File file
+     * = new File(dir, filesystemName);
+     * 
+     * multipartFile.transferTo(file);
+     * 
+     * String contentType = Files.probeContentType(file.toPath()); int hasThumbnail
+     * = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+     * 
+     * if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" +
+     * filesystemName); Thumbnails.of(file) .size(100, 100) .toFile(thumbnail); }
+     * 
+     * ProductImageDto productImage = ProductImageDto.builder() .path(path)
+     * .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
+     * .hasThumbnail(hasThumbnail) .productNo(product.getProductNo()) .build();
+     * 
+     * productImageCount += productMapper.insertProductImage(productImage);
+     * 
+     * } // if
+     * 
+     * } // for
         
-        String path = myFileUtils.getUploadPath();
-        File dir = new File(path);
-        if(!dir.exists()) {
-          dir.mkdirs();
-        }
-        
-        String imageOriginalName = multipartFile.getOriginalFilename();
-        String filesystemName = myFileUtils.getFilesystemName(imageOriginalName);
-        File file = new File(dir, filesystemName);
-        
-        multipartFile.transferTo(file);
-        
-        String contentType = Files.probeContentType(file.toPath());
-        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
-        
-        if(hasThumbnail == 1) {
-          File thumbnail = new File(dir, "s_" + filesystemName);
-          Thumbnails.of(file)
-                    .size(100,  100)
-                    .toFile(thumbnail);
-        }
-      
-        ProductImageDto productImage = ProductImageDto.builder()
-                             .path(path)
-                             .imageOriginalName(imageOriginalName)
-                             .filesystemName(filesystemName)
-                             .hasThumbnail(hasThumbnail)
-                             .productNo(product.getProductNo())
-                             .build();
-        
-        productImageCount += productMapper.insertProductImage(productImage);
-        
-      }  // if
-      
-    }    // for
-    
     return (productCount == 1) && (files.size() == productImageCount);   // 1이면 성공. productImageCount와 파일사이즈가 같으면 성공. 
-    
+    */
+    return productMapper.insertProduct(product);
   }
   
+<<<<<<< HEAD
+=======
+  
+  
+>>>>>>> main
   @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getProductList(HttpServletRequest request) {

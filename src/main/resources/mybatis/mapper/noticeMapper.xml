@@ -71,5 +71,12 @@
      WHERE NOTICE_NO = #{noticeNo}  
   </delete>
   
+  <select id="getHour" parameterType="int" resultType="int">
+    SELECT EXTRACT(DAY    FROM SYSTIMESTAMP - TM) *24
+         + EXTRACT(HOUR   FROM SYSTIMESTAMP - TM) AS HOUR
+      FROM (SELECT CREATED_AT AS TM 
+              FROM NOTICE 
+             WHERE NOTICE_NO = #{noticeNo})
+  </select>
   
 </mapper>
