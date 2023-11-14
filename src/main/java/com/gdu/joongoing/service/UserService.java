@@ -17,4 +17,6 @@ public interface UserService {
   public ResponseEntity<Map<String, Object>> checkEmail(String email);
   public ResponseEntity<Map<String, Object>> sendCode(String email);
   public void join(HttpServletRequest request, HttpServletResponse response);
+  public UserDto findId(UserDto user);
+  public void findPw(UserDto user, HttpServletResponse response) throws Exception;
 }

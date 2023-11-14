@@ -28,25 +28,50 @@
   
   <hr>
   
-  <form>
+  <div>
     <div>
       <label for="email">이메일</label>
       <input type="text" name="email" id="email">
     </div>
     <div>
       <label for="name">이름</label>
-      <input type="text" name="name" id="id">
+      <input type="text" name="name" id="name">
     </div>  
     <div>
-      <label for="phone">전화번호</label>
-      <input type="text" name="phone" id="phone">
+      <button type="button" id="btn_findPw">비밀번호 찾기</button>
     </div>
-    <div>
-      <button type="submit">비밀번호 찾기</button>
-    </div>
-  </form>
+  </div>
   
 <script>
+	
+  $(() => {
+    fnFindPw();
+    fnRule();
+  })
+
+
+  const fnFindPw = () => {
+	$('#btn_findPw').click(() => {
+	  $.ajax({
+		url:  '${contextPath}/user/findPw.do',
+		type: 'post',
+		data: { 
+				email: $('#email').val(),
+				name: $('#name').val()
+			  },
+		success: (resData) => {
+		  alert(resData);
+		  location.href = '${contextPath}/user/login.form';
+		},
+	  })
+	});
+  }
+  
+  const fnRule = () => {
+	if('${sessionScope.user}' != '') {
+	  location.href= '${contextPath}/main.do';
+	}
+  }
 
 </script>
 
