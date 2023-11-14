@@ -28,6 +28,7 @@
           <td>제목</td>
           <td>작성자</td>
           <td>작성일자</td>
+          <td>최신상태</td>
         </tr>
       </thead>
       <tbody>
@@ -38,6 +39,11 @@
             <td>관리자</td>
             <td>
               <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
+            </td>
+            <td>
+              <c:if test="${noticeHour[vx.index] != null}">
+                  <div>${noticeHour[vx.index]}시간 전</div>
+              </c:if>
             </td>
           </tr>
         </c:forEach>
