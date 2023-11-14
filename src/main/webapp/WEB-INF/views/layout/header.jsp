@@ -39,8 +39,20 @@
         </div>
       </c:if>
     </div>
+<<<<<<< HEAD
+    <div class="gnb_wrap">
+      <ul class="gnb">
+        <li><a href="${contextPath}/notice/notice.do">문의게시판</a></li>
+        <li><a href="${contextPath}/blog/list.do">댓글형게시판</a></li>
+        <li><a href="${contextPath}/upload/list.do">첨부게시판</a></li>
+        <li><a href="${contextPath}/user/mypage.form">MY</a></li>
+      </ul>
+    </div>
+  </div>
+=======
     
     <hr>  <!-- 중앙선 -->
+>>>>>>> main
   
     <div class="btn_menu_var">
         <i class="fa-solid fa-bars"></i>
