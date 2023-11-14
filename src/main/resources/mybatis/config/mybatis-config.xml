@@ -16,10 +16,10 @@
     <typeAlias alias="LeaveUserDto"      type="com.gdu.joongoing.dto.LeaveUserDto"/>
     <typeAlias alias="ProductDto"        type="com.gdu.joongoing.dto.ProductDto"/>
     <typeAlias alias="ProductImage"      type="com.gdu.joongoing.dto.ProductImageDto"/>
-    <typeAlias alias="CategoryDto"        type="com.gdu.joongoing.dto.CategoryDto"/>
+    <typeAlias alias="CategoryDto"       type="com.gdu.joongoing.dto.CategoryDto"/>
     <typeAlias alias="InquiryDto"        type="com.gdu.joongoing.dto.InquiryDto"/>
     <typeAlias alias="NoticeDto"         type="com.gdu.joongoing.dto.NoticeDto"/>
-    <typeAlias alias="NoticeAttachDto"        type="com.gdu.joongoing.dto.NoticeAttachDto"/>
+    <typeAlias alias="NoticeAttachDto"   type="com.gdu.joongoing.dto.NoticeAttachDto"/>
     <typeAlias alias="ProductImageDto"   type="com.gdu.joongoing.dto.ProductImageDto"/>
   </typeAliases>
 

@@ -29,12 +29,12 @@ public class ProductController {
     return "layout/header";
   }
   
-  @GetMapping("/write.form")
+  @GetMapping("/product/write.form")
   public String write() {
     return "product/write";
   }
   
-  @PostMapping("/add.do")
+  @PostMapping("/product/add.do")
   public String add(MultipartHttpServletRequest multipartRequest
                   , RedirectAttributes redirectAttributes) throws Exception {
     boolean addResult = productService.addProduct(multipartRequest);
@@ -93,6 +93,5 @@ public class ProductController {
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/header.do";
   }
-  
-  
+    
 }
