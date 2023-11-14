@@ -31,6 +31,7 @@ public class MypageServiceImpl implements MypageService {
   
   @Override
   public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
+    
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
@@ -65,28 +66,11 @@ public class MypageServiceImpl implements MypageService {
     }
   }
   
-  @Override
-  public ResponseEntity<Map<String, Object>> modifyInterest(HttpServletRequest request) {
-    
-    String interestSido = request.getParameter("interestSido");
-    String interestSigungu = request.getParameter("interestSigungu");
-    int userNo = Integer.parseInt(request.getParameter("userNo"));
-    UserDto user = UserDto.builder()
-                          //.interestSido(interestSido)
-                          //.interestSigungu(interestSigungu)
-                          .userNo(userNo)
-                          .build();
-    int modifyInterestResult = mypageMapper.updateUserInterest(user);
 
-    if(modifyInterestResult == 1) {
-      // session 정보 수정
-      HttpSession session = request.getSession();
-      UserDto sessionUser = (UserDto)session.getAttribute("user");
-      //sessionUser.setInterestSido(interestSido);
-      //sessionUser.setInterestSigungu(interestSigungu);
-    }
+  @Override
+  public void modifyInterest(HttpServletRequest request, HttpServletResponse response) {
     
-    return new ResponseEntity<>(Map.of("modifyInterestResult", modifyInterestResult), HttpStatus.OK);
+    
     
   }
   

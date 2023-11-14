@@ -12,10 +12,11 @@
 
 <div>
 
+
+  <form id="frm_modify_interest" method="post" action="${contextPath}/mypage/modifyInterest.do">
+    
   <h1 class="title">관심지역 변경하기</h1>
 
-  <form id="frm_modify_interest" class="mt-5" method="post">
-    
     <div class="row mb-2">
       <div class="col-sm-3">관심지역</div>
       <select name="interest_sido" id="interest_sido"></select>
@@ -24,23 +25,16 @@
     
     <div class="text-center mt-3">
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
-      <button type="button" class="btn btn-primary">관심지역변경하기</button>
+      <button type="submit" class="btn btn-primary">관심지역변경하기</button>
     </div>
   </form>
 
 </div>
 
 <script>
-  
-  $(() => {
-	  fnModifyInterest();
-  })
-  
-  const fnModifyInterest = () => {
-	  $('#frm_modify_interest').((ev) => {
 
-	  })
-  }
+  
+
 </script>
 
 <%@ include file="../layout/footer.jsp" %>

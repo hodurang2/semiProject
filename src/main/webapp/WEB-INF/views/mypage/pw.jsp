@@ -43,6 +43,7 @@
 
 <script>
 
+  /* 함수 호출 */
   $(() => {
 	  fnCheckPassword();
 	  fnCheckPassword2();
