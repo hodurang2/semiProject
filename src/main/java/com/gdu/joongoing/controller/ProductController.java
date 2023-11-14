@@ -34,7 +34,7 @@ public class ProductController {
     return "product/write";
   }
   
-  @PostMapping("/add.do")
+  @PostMapping("/product/add.do")
   public String add(MultipartHttpServletRequest multipartRequest
                   , RedirectAttributes redirectAttributes) throws Exception {
     boolean addResult = productService.addProduct(multipartRequest);
