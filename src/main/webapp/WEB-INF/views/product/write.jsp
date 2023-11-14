@@ -77,7 +77,7 @@
     justify-content: center;
   }
   .btn_productImage {
-    border: 1px white;
+    border: 1px solid white;;
   }
 
   
@@ -116,13 +116,13 @@
       <input type="text" name="productPrice" id="productPrice" class="form-control" placeholder="가격을 입력해 주세요."> 원
     </div>
     <div>
-      <input type="radio" value="newProduct" id="newProduct">
+      <input type="radio" value="newProduct" id="newProduct" name="state">
       <label for="newProduct"> 새 상품(미사용)</label><br>
-      <input type="radio" value="goodProduct" id="goodProduct">
+      <input type="radio" value="goodProduct" id="goodProduct" name="state">
       <label for="goodProduct"> 사용감 적음</label><br>
-      <input type="radio" value="badProduct" id="badProduct">
+      <input type="radio" value="badProduct" id="badProduct" name="state">
       <label for="badProduct"> 사용감 많음</label><br>
-      <input type="radio" value="breakProduct" id="breakProduct">
+      <input type="radio" value="breakProduct" id="breakProduct" name="state">
       <label for="breakProduct"> 고장/파손 상품</label>
     </div>
     <div>
@@ -134,7 +134,7 @@
       <textarea rows="5" name="productInfo" id="productInfo" class="form-control"></textarea>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
-      <input type="hidden" name="userNo" value="${sessionScope.UserDto.userNo}">
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
       <button type="submit" class="btn btn-primary" style="margin: 32px;">등록하기</button>
     </div>
   </form>
