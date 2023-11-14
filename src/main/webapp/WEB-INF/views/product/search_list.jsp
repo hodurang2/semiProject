@@ -7,24 +7,9 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="검색목록" name="title"/>
+  <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
-<style>
-</style>
 
-<div>
-
-  <div>
-    </a>
-  </div>
-  
-  <div id="upload_list" class="upload_list"></div>
-
-</div>
-
-<script>
-
-</script>
 
 <%@ include file="../layout/footer.jsp" %>
