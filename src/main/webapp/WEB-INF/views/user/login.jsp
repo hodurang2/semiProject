@@ -14,6 +14,11 @@
   .login_form_wrap {
     width: 400px;
   }
+  .sub_menu {
+    display: flex;
+    justify-content: space-between;
+  }
+  
 </style>
   
   <div class="center_wrap login_form_wrap">
@@ -22,7 +27,7 @@
         <div class="col-3">
           <label for="email" class="col-form-label">아이디</label>
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <input type="text" name="email" id="email" placeholder="이메일" class="form-control col-4">
         </div>
       </div>
@@ -30,7 +35,7 @@
         <div class="col-3">
           <label for="pw" class="col-form-label">비밀번호</label>
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <input type="password" name="pw" id="pw" placeholder="●●●●" class="form-control col-4">
         </div>
       </div>
@@ -39,14 +44,14 @@
         <button class="btn btn-success" type="submit">로그인</button>
       </div>
     </form>
-    <ul class="ul_menu center_wrap">
+    <ul class="sub_menu">
       <li><a href="${contextPath}/user/agree.form">회원가입</a>
-      <li><a href="${contextPath}">아이디/비밀번호 찾기</a>
+      <li><a href="${contextPath}/user/find.form">아이디/비밀번호 찾기</a>
     </ul>
     <hr>
-    <div>
+    <div style="text-align: center;">
       <a href="${naverLoginURL}">
-        <img src="${contextPath}/resources/image/btnG_완성형.png" width="200px">
+        <img src="${contextPath}/resources/image/btnW_완성형.png" width="200px">
       </a>
     </div>
   </div>

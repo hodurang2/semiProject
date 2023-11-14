@@ -60,18 +60,19 @@ DROP TABLE USER_T;
 
 -- 사용자 테이블
 CREATE TABLE USER_T (
-    USER_NO         NUMBER                  NOT NULL        ,
-    EMAIL           VARCHAR2(100 BYTE)      NOT NULL UNIQUE ,
-    NAME            VARCHAR2(50 BYTE)       NULL            ,
-    PW              VARCHAR2(64 BYTE)       NULL            ,   -- 비밀번호 SHA-256 암호화 방식 사용
-    GENDER          VARCHAR2(2 BYTE)        NULL            ,   -- 성별
-    PHONE           VARCHAR2(15 BYTE)       NULL            ,   -- 휴대폰 번호 하이픈('-') 제거 후 저장
-    AGREE           NUMBER                  NULL            ,   -- 서비스동의여부 0:필수, 1:이벤트
-    STATE           NUMBER                  NULL            ,   -- 가입형태 0:정상 1:네이버
-    JOINED_AT       TIMESTAMP               NULL            ,   -- 가입일
-    SIDO            VARCHAR2(20 BYTE)       NOT NULL        ,   -- 시도
-    SIGUNGU         VARCHAR2(20 BYTE)       NOT NULL        ,   -- 시군구
-    INTEREST_CITY   VARCHAR2(40 BYTE)       NULL            ,   -- 관심지역
+    USER_NO          NUMBER                  NOT NULL        ,
+    EMAIL            VARCHAR2(100 BYTE)      NOT NULL UNIQUE ,
+    NAME             VARCHAR2(50 BYTE)       NULL            ,
+    PW               VARCHAR2(64 BYTE)       NULL            ,   -- 비밀번호 SHA-256 암호화 방식 사용
+    GENDER           VARCHAR2(2 BYTE)        NULL            ,   -- 성별
+    PHONE            VARCHAR2(15 BYTE)       NULL            ,   -- 휴대폰 번호 하이픈('-') 제거 후 저장
+    AGREE            NUMBER                  NULL            ,   -- 서비스동의여부 0:필수, 1:이벤트
+    STATE            NUMBER                  NULL            ,   -- 가입형태 0:정상 1:네이버
+    JOINED_AT        TIMESTAMP               NULL            ,   -- 가입일
+    SIDO             VARCHAR2(20 BYTE)       NOT NULL        ,   -- 시도
+    SIGUNGU          VARCHAR2(20 BYTE)       NOT NULL        ,   -- 시군구
+    INTEREST_SIDO    VARCHAR2(20 BYTE)       NULL            ,   -- 관심시도
+    INTEREST_SIGUNGU VARCHAR2(20 BYTE)       NULL            ,   -- 관심시군구
     CONSTRAINT PK_USER_T PRIMARY KEY(USER_NO) 
 );
 
@@ -185,19 +186,20 @@ CREATE TABLE ALARM (
 
 -- 휴면회원 테이블
 CREATE TABLE INACTIVE_USER (
-    USER_NO         NUMBER              NOT NULL            ,  -- 사용자번호
-    EMAIL           VARCHAR2(100 BYTE)  NOT NULL            ,  -- 사용자이메일
-    NAME            VARCHAR2(50 BYTE)   NULL                ,  -- 사용자이름
-    PW              VARCHAR2(64 BYTE)   NULL                ,  -- 비밀번호
-    GENDER          VARCHAR2(2 BYTE)    NULL                ,  -- 성별
-    PHONE           VARCHAR2(15 BYTE)   NULL                ,  -- 휴대폰 번호
-    AGREE           NUMBER              NOT NULL            ,  -- 서비스동의여부
-    STATE           NUMBER              NULL                ,  -- 가입형태
-    JOINED_AT       TIMESTAMP           NULL                ,  -- 가입일
-    INACTIVED_AT    TIMESTAMP           NULL                ,  -- 휴면처리일
-    SIDO            VARCHAR2(20 BYTE)   NOT NULL            ,  -- 시도
-    SIGUNGU         VARCHAR2(20 BYTE)   NOT NULL            ,  -- 시군구
-    INTEREST_CITY   VARCHAR2(40 BYTE)       NULL            ,  -- 관심지역
+    USER_NO          NUMBER              NOT NULL            ,  -- 사용자번호
+    EMAIL            VARCHAR2(100 BYTE)  NOT NULL            ,  -- 사용자이메일
+    NAME             VARCHAR2(50 BYTE)   NULL                ,  -- 사용자이름
+    PW               VARCHAR2(64 BYTE)   NULL                ,  -- 비밀번호
+    GENDER           VARCHAR2(2 BYTE)    NULL                ,  -- 성별
+    PHONE            VARCHAR2(15 BYTE)   NULL                ,  -- 휴대폰 번호
+    AGREE            NUMBER              NOT NULL            ,  -- 서비스동의여부
+    STATE            NUMBER              NULL                ,  -- 가입형태
+    JOINED_AT        TIMESTAMP           NULL                ,  -- 가입일
+    INACTIVED_AT     TIMESTAMP           NULL                ,  -- 휴면처리일
+    SIDO             VARCHAR2(20 BYTE)   NOT NULL            ,  -- 시도
+    SIGUNGU          VARCHAR2(20 BYTE)   NOT NULL            ,  -- 시군구
+    INTEREST_SIDO    VARCHAR2(20 BYTE)   NULL                ,  -- 관심시도
+    INTEREST_SIGUNGU VARCHAR2(20 BYTE)   NULL                ,  -- 관심시군구
     CONSTRAINT PK_INACTIVE_USER PRIMARY KEY(USER_NO)
 );
 
@@ -245,9 +247,8 @@ CREATE TABLE NOTICE (
 CREATE TABLE NOTICE_ATTACH (
     ATTACH_NO           NUMBER              NOT NULL    ,  -- 첨부한 파일의 번호
     NOTICE_NO           NUMBER              NOT NULL    ,  -- 공지번호
-    PATH                VARCHAR2(100 BYTE)  NOT NULL    ,  -- 파일의 위치경로
-    ORIGINAL_FILENAME   VARCHAR2(300 BYTE)  NOT NULL    ,  -- 원본 파일의 이름
-    FILESYSTEM_NAME     VARCHAR2(300 BYTE)  NOT NULL    ,  -- 변경된 파일의 이름
+    PATH                VARCHAR2(100 BYTE)  NULL        ,  -- 파일의 위치경로
+    FILESYSTEM_NAME     VARCHAR2(300 BYTE)  NULL        ,  -- 변경된 파일의 이름
     CONSTRAINT PK_NOTICE_ATTACH PRIMARY KEY (ATTACH_NO),
     CONSTRAINT FK_NOTICE_ATTACH FOREIGN KEY (NOTICE_NO) REFERENCES NOTICE(NOTICE_NO) ON DELETE CASCADE      -- 공지 삭제 시, 첨부된 사진 삭제
 );
@@ -266,14 +267,14 @@ CREATE TABLE SEARCH (
 -- INSERT 쿼리 테스트
 
 -- 관리자 INSERT
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'admin01@naver.com', '관리자1', '1111', 'F', '010-1111-1111', 1, 1, SYSTIMESTAMP, '경기도', '오산', '서울');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'admin01@naver.com', '관리자1', '1111', 'F', '010-1111-1111', 1, 1, SYSTIMESTAMP, '경기도', '오산시', '경기도', '용인시');
 
 ---사용자 (USER_T)
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user01@naver.com', '사용자1', '1111', 'M', '010-3333-3333', 0, 1, TO_TIMESTAMP('2023-01-20 12:33:23'), '서울', '금천', '인천');
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user02@naver.com', '사용자2', '1111', 'F', '010-2222-2222', 1, 1, TO_TIMESTAMP('2022-04-29 20:41:00'), '경기도', '용인', '제주');
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user03@naver.com', '사용자3', '1111', 'M', '010-2222-2222', 1, 0, TO_TIMESTAMP('2023-06-10 03:05:01'), '부산', '해운대', '부산');
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user04@naver.com', '사용자4', '1111', 'F', '010-2222-2222', 1, 0, TO_TIMESTAMP('2023-01-01 16:22:00'), '경기도', '수원', '속초');
-INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user05@naver.com', '사용자5', '1111', 'M', '010-2222-2222', 1, 1, TO_TIMESTAMP('2022-03-15 09:19:32'), '강원도', '강릉', '담양');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user01@naver.com', '사용자1', '1111', 'M', '010-3333-3333', 0, 1, TO_TIMESTAMP('2023-01-20 12:33:23'), '서울특별시', '금천구', '서울특별시', '서초구');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user02@naver.com', '사용자2', '1111', 'F', '010-2222-2222', 1, 1, TO_TIMESTAMP('2022-04-29 20:41:00'), '경기도', '용인시', '제주도', '서귀포시');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user03@naver.com', '사용자3', '1111', 'M', '010-2222-2222', 1, 0, TO_TIMESTAMP('2023-06-10 03:05:01'), '부산광역시', '부산진구', '부산광역시', '동래구');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user04@naver.com', '사용자4', '1111', 'F', '010-2222-2222', 1, 0, TO_TIMESTAMP('2023-01-01 16:22:00'), '경기도', '수원시', '경기도', '시흥시');
+INSERT INTO USER_T VALUES(USER_SEQ.NEXTVAL, 'user05@naver.com', '사용자5', '1111', 'M', '010-2222-2222', 1, 1, TO_TIMESTAMP('2022-03-15 09:19:32'), '강원도', '강릉시', '강원도', '동해시');
 
 --사용자 접속기록 (ACCESS_T)
 INSERT INTO ACCESS_T VALUES('admin01@naver.com', SYSTIMESTAMP);
@@ -339,7 +340,7 @@ INSERT INTO ALARM VALUES (ALARM_SEQ.NEXTVAL, 1, 1, '댓글왔어요~', '댓글�
 COMMIT;
 
 -- 휴면 회원 (INACTIVE_USER)
-INSERT INTO INACTIVE_USER VALUES (INACTIVE_USER_SEQ.NEXTVAL, 'goo2jo@naver.com', '구디2조', '1111', 'F', '010-1111-2222', 1, 1, SYSTIMESTAMP, SYSTIMESTAMP, '서울시', '양천구', '구로구');
+INSERT INTO INACTIVE_USER VALUES (INACTIVE_USER_SEQ.NEXTVAL, 'goo2jo@naver.com', '구디2조', '1111', 'F', '010-1111-2222', 1, 1, SYSTIMESTAMP, SYSTIMESTAMP, '서울특별시', '양천구', '서울특별시', '구로구');
 
 -- 탈퇴한 회원 (LEAVE_USER)
 INSERT INTO LEAVE_USER VALUES ('goo2jo@naver.com', SYSTIMESTAMP, SYSTIMESTAMP);

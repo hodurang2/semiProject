@@ -72,11 +72,6 @@
       <select name="sigungu" id="sigungu"></select>
     </div>
     
-    <script>
-      $(':select[name=sido] option[value=${sessionScope.user.sido}]').prop('selected', true);
-      $(':select[name=sigungu] option[value=${sessionScope.user.sigungu}]').prop('selected', true);
-    </script>
-    
      <hr class="my-3">
       
     <div class="row mt-3">
@@ -113,6 +108,10 @@
 
   $(() => {
 	  fnModifyPwForm();
+	  fnBeforeAddress();
+	  fnRemoveAddress();
+	  fnResetAddress();
+	  fnAddress();
   })
   
   /* 전역변수 선언 */
@@ -199,6 +198,51 @@
 	    })
 	  })
 	}
+	
+
+	 
+	  // 기존 선택한 시/도 확인
+	  const fnBeforeAddress = () => {
+      $('#sido').append('<option value="${sessionScope.user.sido}">${sessionScope.user.sido}</option>');
+      $('#sigungu').append('<option value="${sessionScope.user.sigungu}">${sessionScope.user.sigungu}</option>');
+	  }
+	  
+	  // 콤보박스 클릭 시 기존 시/도 삭제
+	  const fnRemoveAddress = () => {
+		  $('#sido').one('click', () => {			  
+  		  $('#sido').append('<option value=""></option>');
+  		  $('#sigungu').append('<option value=""></option>');
+  		  $('#sido option:eq(0)').remove();
+		  })
+	  }
+	  
+	  // 시/도 초기화
+	  function fnResetAddress(){
+      $("#sido").each(function() {
+          $selsido = $(this);
+          $.each(eval(area0), function() {
+            $selsido.append("<option value='"+this+"'>"+this+"</option>");
+          });
+          $selsido.next().append("<option value=''>시/군/구 선택</option>");
+        });
+	  }
+
+	  
+	  // 시/도 선택시 구/군 설정
+	  function fnAddress(){
+	    $("#sido").change(function() {
+	    var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 시군구 Array
+	    var $sigungu = $(this).next(); // 선택영역 시군구 객체
+	    $("option",$sigungu).remove(); // 시군구 초기화
+	    if(area == "area0")
+	      $sigungu.append("<option value=''>시/군/구 선택</option>");
+	    else {
+	      $.each(eval(area), function() {
+	      $sigungu.append("<option value='"+this+"'>"+this+"</option>");
+	      });
+	    }
+	    });
+	  }
 	
   
   
