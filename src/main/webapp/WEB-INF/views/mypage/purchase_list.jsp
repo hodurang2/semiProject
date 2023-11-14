@@ -6,12 +6,11 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
-<jsp:include page="../layout/header.jsp">
-  <jsp:param value="마이페이지" name="title"/>
-</jsp:include>
+<jsp:include page="../mypage/info.jsp"></jsp:include>
 
 <div>
 
+  <h1 class="text-center mb-4">나의 구매내역</h1>
 
 </div>
 

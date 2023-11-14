@@ -20,23 +20,42 @@
        SET PW = #{pw}
      WHERE USER_NO = #{userNo}
   </update>
-  
-  <update id="updateUser" parameterType="UserDto">
-    UPDATE USER_T
-       SET NAME = #{name}
-         , GENDER = #{gender}
-         , PHONE = #{phone}
-         , AGREE = #{agree}
-         , SIDO = #{sido}
-         , SIGUNGU = #{sigungu}
-     WHERE USER_NO = #{userNo}
-  </update>
-  
+
   <update id="updateUserInterest" parameterType="UserDto">
     UPDATE USER_T
        SET INTEREST_SIDO = #{interestSido}
          , INTEREST_SIGUNGU = #{interestSigungu}
      WHERE USER_NO = #{userNo}
   </update>
+  
+  <update id="updateUser" parameterType="UserDto">
+    UPDATE USER_T
+       SET NAME = #{name}
+         , GENDER = #{gender}
+         , PHONE = #{phone}
+         , SIDO = #{sido}
+         , SIGUNGU = #{sigungu}
+         , AGREE = #{agree}
+     WHERE USER_NO = #{userNo}
+  </update>
+  
+  <select id="getSalesCount" resultType="int">
+    SELECT COUNT(*)
+      FROM PRODUCT
+     WHERE PRODUCT_STATE = 2
+       AND SELLER_NO = #{sellerNo}
+  </select>
+  
+  <select id="getSalesList" parameterType="Map" resultMap="UploadMap">
+    SELECT A.UPLOAD_NO, A.TITLE, A.CONTENTS, A.CREATED_AT, A.MODIFIED_AT, A.ATTACH_COUNT, A.USER_NO, A.EMAIL, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY UPLOAD_NO DESC) AS RN,
+                   UP.UPLOAD_NO, UP.TITLE, UP.CONTENTS, UP.CREATED_AT, UP.MODIFIED_AT,
+                   (SELECT COUNT(*) FROM ATTACH_T ATC WHERE UP.UPLOAD_NO = ATC.UPLOAD_NO) AS ATTACH_COUNT,
+                   USR.USER_NO, USR.EMAIL, USR.NAME
+              FROM UPLOAD_T UP LEFT OUTER JOIN USER_T USR
+                ON UP.USER_NO = USR.USER_NO) A
+     WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select>
+  
   
 </mapper>

@@ -29,6 +29,21 @@ public class MypageController {
     return "mypage/detail";
   }
   
+  @GetMapping("/modifyInterest.form")
+  public String modifyInterest() {
+    return "mypage/interest";
+  }
+  
+  @PostMapping("/modifyInterest.do")
+  public void modifyInterest(HttpServletRequest request, HttpServletResponse response) {
+    mypageService.modifyInterest(request, response);
+  }
+  
+  @GetMapping("/modify.form")
+  public String modifyUser() {
+    return "mypage/modify";
+  }
+
   @GetMapping("/modifyPw.form")
   public String modifyPwForm() {
     return "mypage/pw";
@@ -39,24 +54,29 @@ public class MypageController {
     mypageService.modifyPw(request, response);
   }
 
-  @GetMapping("/modify.form")
-  public String modifyUser() {
-    return "mypage/modify";
-  }
-  
-  @GetMapping("/modifyInterest.form")
-  public String modifyInterest() {
-    return "mypage/interest";
-  }
-  
-  @PostMapping("/modifyInterest.do")
-  public void modifyInterest(HttpServletRequest request, HttpServletResponse response) {
-    mypageService.modifyInterest(request, response);
-  }
-
   @PostMapping(value="/modify.do", produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request) {
     return mypageService.modify(request);
+  }
+  
+  @GetMapping("/salesList.do")
+  public String salesList() {
+    return "mypage/sales_list";
+  }
+  
+  @GetMapping("/purchaseList.do")
+  public String purchaseList() {
+    return "mypage/purchase_list";
+  }
+  
+  @GetMapping("/wishList.do")
+  public String wishList() {
+    return "mypage/wish_list";
+  }
+  
+  @GetMapping("/reviewList.do")
+  public String reviewList() {
+    return "mypage/review_list";
   }
   
   
