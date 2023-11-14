@@ -6,7 +6,7 @@
 <mapper namespace="com.gdu.joongoing.dao.UserMapper">
 
   <select id="getUser" parameterType="Map" resultType="UserDto">
-    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
       FROM USER_T
     <where>
       <if test="email != null">EMAIL = #{email}</if>
@@ -22,7 +22,7 @@
   </select>
 
   <select id="getInactiveUser" parameterType="Map" resultType="InactiveUserDto">
-    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, INACTIVED_AT, SIDO, SIGUNGU, INTEREST_CITY
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, INACTIVED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
       FROM INACTIVE_USER
     <where>
       <if test="email != null">EMAIL = #{email}</if>
@@ -43,7 +43,8 @@
       , JOINED_AT
       , SIDO
       , SIGUNGU
-      , INTEREST_CITY
+      , INTEREST_SIDO
+      , INTEREST_SIGUNGU
     ) VALUES (
         USER_SEQ.NEXTVAL
       , #{email}
@@ -56,7 +57,8 @@
       , SYSTIMESTAMP
       , #{sido}
       , #{sigungu}
-      , #{interestCity}
+      , #{interestSido}
+      , #{interestSigungu}
     )
   </insert>
   
@@ -71,7 +73,7 @@
   </insert>
   
   <select id="getFindId" parameterType="Map" resultType="UserDto">
-    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
       FROM USER_T
      WHERE NAME = #{name}
        AND PHONE = #{phone}
