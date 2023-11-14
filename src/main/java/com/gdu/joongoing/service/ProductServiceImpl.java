@@ -99,12 +99,7 @@ public class ProductServiceImpl implements ProductService {
     */
     return productMapper.insertProduct(product);
   }
-  
-<<<<<<< HEAD
-=======
-  
-  
->>>>>>> main
+
   @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getProductList(HttpServletRequest request) {
