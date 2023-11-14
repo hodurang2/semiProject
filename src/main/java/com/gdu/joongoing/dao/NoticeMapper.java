@@ -18,4 +18,5 @@ public interface NoticeMapper {
   public int updateNotice(NoticeDto notice);
   public int deleteNotice(int noticeNo);
   public int getHour(int noticeNo);
+  public int getMinute(int noticeNo);
 }
