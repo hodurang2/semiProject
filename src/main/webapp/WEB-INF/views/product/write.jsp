@@ -98,24 +98,26 @@
         <li class="sc-iuDHTM bXMOKO">
          <button type="button" class="btn_productImage"><img alt="이미지등록" src="../resources/image/productImage.png" width="200"></button>
         </li>
-          </div>
-        </div>
-      </div>
+      </ul>
     </div>
    </li>
 </ul>
   <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    <div>
+      <label for="email" class="form-label">작성자</label>
+      <input type="text" id="email" class="form-control-plaintext" value="${sessionScope.user.email}" readonly>
+    </div>
     <div>
       <label for="name" class="form-labelPN">상품명</label>
       <input type="text" id="name" class="form_productName" value="${sessionScope.ProductDto.productName}">
     </div>
     <div>
       <label for="name" class="form-labelCG">카테고리</label>
-      <input type="text" id="categoryId" class="form_categoryId" value="${sessionScope.ProductDto.categoryId}">
+      <input type="text" id="categoryId" class="form_categoryId" value="${sessionScope.ProductDto.categoryDto}">
     </div>
     <div>
       <label for="productPrice" class="form-labelPC">가격</label>
-      <input type-"text" name="productPrice" id="productPrice" class="form_productPrice" value="${sessionScope.ProductDto.productPrice}" placeholder="가격을 입력해 주세요."> 원</textarea>
+      <input type="text" name="productPrice" id="productPrice" class="form_productPrice" value="${sessionScope.ProductDto.productPrice}" placeholder="가격을 입력해 주세요."> 원</textarea>
     </div>
     <div>
       <input type="radio" name="status" value="newProduct" id="newProduct">
