@@ -49,14 +49,25 @@
       ATTACH_NO,
       NOTICE_NO,
       PATH,
-      ORIGINAL_FILENAME,
       FILESYSTEM_NAME
     ) VALUES (
       #{attachNo},
       #{noticeNo},
       #{path},
-      #{originalFilename},
       #{filesystemName}
     )
   </insert>
+  
+  <update id="updateNotice" parameterType="NoticeDto">
+    UPDATE NOTICE
+       SET TITLE = #{title},
+           CONTENTS = #{createdAt}
+     WHERE NOTICE_NO = #{noticeNo}
+  </update>
+  
+  <delete id="deleteNotice" parameterType="int">
+    DELETE 
+      FROM NOTICE
+     WHERE NOTICE_NO = #{noticeNo}  
+  </delete>
 </mapper>
