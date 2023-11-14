@@ -10,7 +10,7 @@
       FROM INQUIRY_T
   </select>
 
-  <select id="getInquiryList" parameterType="Map" resultMap="InquiryMap">
+  <select id="getInquiryList" parameterType="Map" resultType="InquiryDto">
     SELECT A.INQUIRY_NO, A.USER_NO, A.INQUIRY_TITLE, A.INQUIRY_CONTENT, A.INQUIRY_CREATED_AT
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY I.INQUIRY_NO DESC) AS RN, I.USER_NO, I.INQUIRY_TITLE, I.INQUIRY_CONTENT, I.INQUIRY_CREATED_AT
               FROM USER_T U INNER JOIN INQUIRY_T I
