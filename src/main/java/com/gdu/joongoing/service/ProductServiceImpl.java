@@ -57,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
         .build();
     
     int productCount = productMapper.insertProduct(product);
-    System.out.println(productCount);
     /* 이미지버튼 파일첨부기능 만들고 이거 주석해제하면 됨.
      * List<MultipartFile> files = multipartRequest.getFiles("files");
      * 

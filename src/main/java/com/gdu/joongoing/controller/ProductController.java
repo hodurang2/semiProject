@@ -50,7 +50,7 @@ public class ProductController {
   }
   
   @ResponseBody
-  @GetMapping(value="/getList.do", produces="application/json")
+  @GetMapping(value="/getProductList.do", produces="application/json")
   public Map<String, Object> getProductList(HttpServletRequest request){
     return productService.getProductList(request);
   }

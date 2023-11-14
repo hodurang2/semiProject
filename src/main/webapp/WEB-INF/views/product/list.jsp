@@ -52,7 +52,7 @@
 	const fnGetProductList = () =>{
 		$.ajax({
 			type:'get',
-			url : '${contextPath}/product/getList.do',
+			url : '${contextPath}/product/getProductList.do',
 			data: 'page=' + page,
 			// 응답
 			dataType: 'json',
@@ -60,11 +60,10 @@
 				totalPage = resData.totalPage;
 				
 				$.each(resData.productList, (i, product) => {
-					let srt = '<div class="product" data-productNo="' + product.productNo + '">';
-					str += '<div id="image_box">' + ProductImageDto.hasThumnail + '</div>';
+					let str = '<div class="product" data-productNo="' + product.productNo + '">';
 					str += '<div>' + product.productName + '</div>';		
 					if(product.UserDto == null){
-						str += '<div>탈퇴한작성자</div>';
+						str += '<div>' + product.sellerNo + '</div>';
 					} else {
 						str += '<div>' + product.UserDto.name + '</div>';
 					} 
@@ -137,7 +136,7 @@
     }
   }
   
-  fnGetproductList();
+  fnGetProductList();
   fnproductDetail();
   fnScroll();
   fnAddResult();

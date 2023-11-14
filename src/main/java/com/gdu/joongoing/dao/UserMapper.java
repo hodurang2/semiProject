@@ -19,4 +19,5 @@ public interface UserMapper {
   public UserDto findId(UserDto user);
   public int findPwCheck(UserDto user);
   public void updatePw(Map<String, Object> map);
+  public int insertNaverUser(UserDto user);
 }
