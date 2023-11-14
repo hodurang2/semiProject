@@ -29,6 +29,11 @@ public class ProductController {
     return "layout/header";
   }
   
+  @GetMapping("/product/list.do")
+  public String list() {
+    return "product/list";
+  }
+  
   @GetMapping("/product/write.form")
   public String write() {
     return "product/write";
@@ -39,7 +44,7 @@ public class ProductController {
                   , RedirectAttributes redirectAttributes) throws Exception {
     boolean addResult = productService.addProduct(multipartRequest);
     redirectAttributes.addFlashAttribute("addResult", addResult);
-    return "redirect:/upload/list.do";
+    return "redirect:/product/list.do";
   }
  
   @ResponseBody
