@@ -61,7 +61,7 @@
   <update id="updateNotice" parameterType="NoticeDto">
     UPDATE NOTICE
        SET TITLE = #{title},
-           CONTENTS = #{createdAt}
+           CONTENTS = #{contents}
      WHERE NOTICE_NO = #{noticeNo}
   </update>
   
@@ -70,4 +70,6 @@
       FROM NOTICE
      WHERE NOTICE_NO = #{noticeNo}  
   </delete>
+  
+  
 </mapper>

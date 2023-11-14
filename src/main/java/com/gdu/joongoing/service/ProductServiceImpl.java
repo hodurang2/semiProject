@@ -36,18 +36,20 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
 
-    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
     String productName = multipartRequest.getParameter("productName");
+    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
     int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
+    String tradeAddress = multipartRequest.getParameter("tradeAddress");
     String productInfo = multipartRequest.getParameter("productInfo");
     int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
     
     ProductDto product = ProductDto.builder()
+        .productName(productName)
         .categoryDto(CategoryDto.builder()
                      .categoryId(categoryId)
                      .build())
-        .productName(productName)
         .productPrice(productPrice)
+        .tradeAddress(tradeAddress)
         .productInfo(productInfo)
         .sellerDto(UserDto.builder()
             .userNo(sellerNo)

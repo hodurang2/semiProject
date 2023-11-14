@@ -15,4 +15,6 @@ public interface NoticeService {
   public NoticeDto getNotice(int noticeNo, Model model);
   public int addNotice(HttpServletRequest request);
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest);
+  public int ModifyNotice(HttpServletRequest request);
+  public int removeNotice(int noticeNo);
 }
