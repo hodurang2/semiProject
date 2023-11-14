@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -82,6 +83,28 @@ public class UserController {
   public String findForm() {
     return "user/find";
   }
+  
+  @PostMapping("/findId.do")
+  public String findId(HttpServletRequest request, Model model, UserDto user) {
+    
+    user.setName(request.getParameter("name"));
+    user.setPhone(request.getParameter("phone"));
+    UserDto findId = userService.findId(user);
+    
+    model.addAttribute("findId", findId);
+    
+    return "user/find_id";
+  }
+  
+  @PostMapping("/findPw.do")
+  public void findPw(HttpServletRequest request, HttpServletResponse response, UserDto user) throws Exception {
+    
+    user.setEmail(request.getParameter("email"));
+    user.setName(request.getParameter("name"));
+    userService.findPw(user, response);
+    
+  }
+  
   
   
 }

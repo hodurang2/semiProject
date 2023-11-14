@@ -1,6 +1,7 @@
 package com.gdu.joongoing.service;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -167,4 +168,48 @@ try {
                     
     
   }
+
+  @Override
+  public UserDto findId(UserDto user) {
+    return userMapper.findId(user);
+  }
+  
+  @Override
+  public void findPw(UserDto user, HttpServletResponse response) throws Exception {
+    
+    response.setContentType("text/html;charset=utf-8");
+    PrintWriter out = response.getWriter();
+    
+    // RandomString 생성(10자리, 문자 사용, 숫자 사용) -- 임시 비밀번호
+    String temporaryPw = mySecurityUtils.getRandomString(10, true, true);
+    // 생성된 임시 비밀번호 암호화 처리
+    String temporarySHAPw = mySecurityUtils.getSHA256(temporaryPw);
+    
+    int pwCheckResult = userMapper.findPwCheck(user);  // 1 or 0
+    String email = user.getEmail();
+    String name = user.getName();
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("email", email);
+    map.put("name", name);
+    map.put("pw", temporarySHAPw);
+    
+    if(pwCheckResult == 1) {
+      userMapper.updatePw(map);
+      myJavaMailUtils.sendJavaMail(email
+          , "중고잉 임시 비밀번호발급"
+          , "<div>임시 비밀번호는 <strong>" + temporaryPw + "</strong>입니다. 로그인 후 비밀번호를 변경해주세요.</div>");
+      out.print(email + "로 임시 비밀번호가 전송되었습니다. 로그인 후 비밀번호를 변경해주세요.");
+      out.close();
+    } else {
+      out.print("잘못된 정보입니다. 정보를 다시 입력하세요." );
+      out.close();
+    }
+    
+  }
+
+  
+  
 }
+
+
