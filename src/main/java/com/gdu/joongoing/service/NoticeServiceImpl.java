@@ -78,25 +78,29 @@ public class NoticeServiceImpl implements NoticeService{
                           .build();
     int addResult = noticeMapper.insertNotice(notice);
     
-    Document document = Jsoup.parse(contents);
-    Elements elements =  document.getElementsByTag("img");
-    
-    int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-    if(elements != null) {
-      for(Element element : elements) {
-        String src = element.attr("src");
-        String filesystemName = src.substring(src.lastIndexOf("/") + 1);
-        NoticeAttachDto noticeAttach = NoticeAttachDto.builder()
-                                    .noticeNo(noticeNo)
-                                    .path(contents)
-                                    .filesystemName(filesystemName)
-                                    .build();
-        
-        noticeMapper.insertNoticeAttach(noticeAttach);
-      }
-    }
+    handleImageAttachments(contents, addResult);
     
     return addResult;
+  }
+  
+  @Override
+  public void handleImageAttachments(String contents, int noticeNo) {
+    Document document = Jsoup.parse(contents);
+    Elements elements = document.getElementsByTag("img");
+
+    if (elements != null) {
+        for (Element element : elements) {
+            String src = element.attr("src");
+            String filesystemName = src.substring(src.lastIndexOf("/") + 1);
+            NoticeAttachDto noticeAttach = NoticeAttachDto.builder()
+                    .noticeNo(noticeNo)
+                    .path(contents)
+                    .filesystemName(filesystemName)
+                    .build();
+
+            noticeMapper.insertNoticeAttach(noticeAttach);
+        }
+    }
   }
   @Override
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
