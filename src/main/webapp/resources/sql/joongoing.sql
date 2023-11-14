@@ -238,7 +238,7 @@ CREATE TABLE INQUIRY_ATTACH (
 CREATE TABLE NOTICE (
     NOTICE_NO           NUMBER              NOT NULL        ,  -- 공지번호
     TITLE               VARCHAR2(1000 BYTE) NOT NULL        ,  -- 제목
-    CONTENTS            VARCHAR2(4000 BYTE) NOT NULL        ,  -- 내용
+    CONTENTS            VARCHAR2(4000 BYTE) NULL            ,  -- 내용
     CREATED_AT          TIMESTAMP           NULL            ,  -- 작성일
     CONSTRAINT PK_NOTICE PRIMARY KEY(NOTICE_NO)
 );
