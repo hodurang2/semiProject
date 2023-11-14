@@ -24,6 +24,14 @@
       <div class="col-sm-3">이름</div>
       <div class="col-sm-9">${sessionScope.user.name}</div>
     </div>
+    <div class="row mb-4">
+      <div class="col-sm-3">관심지역</div>
+      <div class="col-sm-9">${sessionScope.user.interestCity}</div>
+    </div>
+    
+    <div>
+      <button type="button" id="btn_modify_interestCity">관심지역변경</button>
+    </div>
     
     <div class="list_wrap">
       <ul class="mypage_list">
@@ -51,3 +59,5 @@
 	  })
   }
 </script>
+
+<%@ include file="../layout/footer.jsp" %>

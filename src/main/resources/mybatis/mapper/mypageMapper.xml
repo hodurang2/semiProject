@@ -27,6 +27,8 @@
          , GENDER = #{gender}
          , PHONE = #{phone}
          , AGREE = #{agree}
+         , SIDO = #{sido}
+         , SIGUNGU = #{sigungu}
      WHERE USER_NO = #{userNo}
   </update>
   
