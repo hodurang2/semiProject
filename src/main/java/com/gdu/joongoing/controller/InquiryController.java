@@ -24,5 +24,16 @@ public class InquiryController {
     return "inquiry/list";
   }
   
+  @GetMapping("/write.form")
+  public String write() {
+    return "blog/write";
+  }
+  
+  @GetMapping("/detail.do")
+  public String detail(int inquiryNo, Model model) {
+    model.addAttribute("inquiry", inquiryService.getInquiry(inquiryNo, model));
+    return "inquiry/detail";
+  }
+  
   
 }

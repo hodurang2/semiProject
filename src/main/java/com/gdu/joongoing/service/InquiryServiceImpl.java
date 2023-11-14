@@ -41,7 +41,14 @@ public class InquiryServiceImpl implements InquiryService{
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/inquiry/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);
     
-    
+    System.out.println(inquiryList);
   }
+  
+  @Override
+  public InquiryDto getInquiry(int inquiryNo, Model model) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
   
 }
