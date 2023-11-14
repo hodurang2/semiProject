@@ -74,7 +74,7 @@
   ) VALUES (
     PRODUCT_SEQ.NEXTVAL
   , #{sellerDto.userNo}
-  , #{buyerDto.userNo}
+  , NULL
   , #{categoryDto.categoryId}
   , #{productName}
   , #{productPrice}
