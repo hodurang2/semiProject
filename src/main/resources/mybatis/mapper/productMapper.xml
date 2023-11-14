@@ -172,14 +172,23 @@
 </delete>
 
 
-
-
-
-
-
-
-
-
+<!-- 핫 리스트 -->
+<select id="hotProductList" resultType="ProductDto">
+  SELECT PRODUCT_NO
+       , SELLER_NO
+       , PRODUCT_NAME
+       , PRODUCT_PRICE
+       , PRODUCT_INFO
+       , PRODUCT_CREATED_AT
+       , PRODUCT_MODIFIED_AT
+       , PRODUCT_HIT, 
+       , PRODUCT_STATE
+    ROW_NUMBER() OVER (ORDER BY PRODUCT_NO DESC, PRODUCT_HIT DESC) AS RK
+    FROM (SELECT PRODUCT_NO, SELLER_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE)
+            FROM PRODUCT
+           ORDER BY PRODUCT_NO DESC)
+<![CDATA[where ROW_NUMBER <= 10]]>   
+</select>
 
 
 </mapper>
