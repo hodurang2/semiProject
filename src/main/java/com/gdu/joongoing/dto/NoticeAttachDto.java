@@ -13,6 +13,5 @@ public class NoticeAttachDto {
   private int attachNo;
   private int noticeNo;
   private String path;
-  private String originalFilename;
   private String filesystemName;
 }
