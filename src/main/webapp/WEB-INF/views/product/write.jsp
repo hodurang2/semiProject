@@ -77,7 +77,7 @@
     justify-content: center;
   }
   .btn_productImage {
-    border: 1px white;
+    border: 1px solid white;;
   }
 
   
