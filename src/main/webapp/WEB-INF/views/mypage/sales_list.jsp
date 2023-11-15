@@ -22,7 +22,7 @@
 </div>
 
 <script>
-
+/*
   // 전역 변수
   var page = 1;
   var totalPage = 0;
@@ -56,7 +56,7 @@
   }
   
   fnGetSalesList();
-
+*/
 </script>
 
 
