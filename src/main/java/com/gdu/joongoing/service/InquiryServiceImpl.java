@@ -1,5 +1,6 @@
 package com.gdu.joongoing.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.gdu.joongoing.dao.InquiryMapper;
+import com.gdu.joongoing.dto.AnswerDto;
 import com.gdu.joongoing.dto.InquiryDto;
 import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyPageUtils;
@@ -73,23 +75,67 @@ public class InquiryServiceImpl implements InquiryService{
   }
   
   @Override
-  public int modifyInquiry(HttpServletRequest request) {
-    // TODO Auto-generated method stub
-    return 0;
+  public Map<String, Object> addAnswer(HttpServletRequest request) {
+    
+    int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
+    String contents = request.getParameter("contents");
+    
+    System.out.println(inquiryNo);
+    System.out.println(contents);
+    
+    AnswerDto answer = AnswerDto.builder()
+                          .inquiryNo(inquiryNo)
+                          .contents(contents)
+                          .build();
+    
+    int addAnswerResult = inquiryMapper.insertAnswer(answer);
+    
+    return Map.of("addAnswerResult", addAnswerResult);
+  }
+    
+  @Override
+  public Map<String, Object> loadAnswerList(HttpServletRequest request) {
+    System.out.println("서비스시작");
+
+    int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
+    int page = Integer.parseInt(request.getParameter("page"));
+    int total = inquiryMapper.getAnswerCount(inquiryNo);
+    System.out.println("문의번호" + inquiryNo);
+    System.out.println("댓글개수" + total);
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("inquiryNo", inquiryNo
+                                   , "begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<AnswerDto> answerList = inquiryMapper.getAnswerList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("answerList", answerList);
+    result.put("paging", paging);
+    return result;
   }
   
   @Override
-  public int removeInquiry(int inquiryNo) {
-    // TODO Auto-generated method stub
-    return 0;
+  public Map<String, Object> addAnswerReply(HttpServletRequest request) {
+    String contents = request.getParameter("contents");
+    int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
+    int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+    
+    AnswerDto answer = AnswerDto.builder()
+                          .inquiryNo(inquiryNo)
+                          .contents(contents)
+                          .groupNo(groupNo)
+                          .build();
+    
+    int addAnswerReplyResult = inquiryMapper.insertAnswerReply(answer);
+    
+    return Map.of("addAnswerReplyResult", addAnswerReplyResult);
+    
   }
-  
-  @Override
-  public Map<String, Object> addComment(HttpServletRequest request) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  
   
   
 }

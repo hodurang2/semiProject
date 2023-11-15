@@ -88,6 +88,39 @@
     )
   </insert>
   
+  <select id="getAnswerCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+      FROM ANSWER
+     WHERE INQUIRY_NO = #{inquiryNo}
+  </select>
+
+  <select id="getAnswerList" parameterType="Map" resultType="AnswerDto">
+    SELECT ANSWER_NO, INQUIRY_NO, CONTENTS, CREATED_AT, STATUS, DEPTH, GROUP_NO
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, ANSWER_NO DESC) AS RN, ANSWER_NO, INQUIRY_NO, CONTENTS, CREATED_AT, STATUS, DEPTH, GROUP_NO
+              FROM ANSWER
+             WHERE INQUIRY_NO = #{inquiryNo})
+     WHERE RN BETWEEN #{begin} AND #{end};
+  </select>
+  
+  <insert id="insertAnswerReply" parameterType="AnswerDto">
+    INSERT INTO ANSWER (
+        ANSWER_NO
+      , INQUIRY_NO
+      , CONTENTS
+      , CREATED_AT
+      , STATUS
+      , DEPTH
+      , GROUP_NO
+    ) VALUES (
+        ANSWER_SEQ.NEXTVAL
+      , #{inquiryNo}
+      , #{contents}
+      , SYSTIMESTAMP
+      , 1
+      , 1
+      , #{groupNo}
+    )
+  </insert>
 
   
 </mapper>

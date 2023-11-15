@@ -14,7 +14,7 @@ public interface InquiryService {
   public InquiryDto getInquiry(int inquiryNo, Model model);
   public int addInquiry(HttpServletRequest request);
   
-  public Map<String, Object> addComment(HttpServletRequest request);
+  public Map<String, Object> addAnswer(HttpServletRequest request);
   public Map<String, Object> loadAnswerList(HttpServletRequest request);
   public Map<String, Object> addAnswerReply(HttpServletRequest request);
   
