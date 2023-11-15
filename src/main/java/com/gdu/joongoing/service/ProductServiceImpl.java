@@ -28,10 +28,10 @@ import net.coobird.thumbnailator.Thumbnails;
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
+  
   private final ProductMapper productMapper;  // 매퍼 이용할 용도
   private final MyFileUtils myFileUtils;      // 파일첨부할 용도
   private final MyPageUtils myPageUtils;      // 목록 다룰 용도
-  
   
   @Override
   public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
@@ -51,9 +51,7 @@ public class ProductServiceImpl implements ProductService {
         .productPrice(productPrice)
         .tradeAddress(tradeAddress)
         .productInfo(productInfo)
-        .sellerDto(UserDto.builder()
-            .userNo(sellerNo)
-            .build())
+        .sellerNo(sellerNo)
         .build();
     
     int productCount = productMapper.insertProduct(product);
@@ -96,7 +94,9 @@ public class ProductServiceImpl implements ProductService {
         
     return (productCount == 1) && (files.size() == productImageCount);   // 1이면 성공. productImageCount와 파일사이즈가 같으면 성공. 
     */
-    return productMapper.insertProduct(product);
+    
+    return productCount;
+    
   }
 
   @Transactional(readOnly=true)
@@ -191,61 +191,52 @@ public class ProductServiceImpl implements ProductService {
     return Map.of("removeResult", removeResult);
   }
     
-  @Override
-  public Map<String, Object> addProductImage(MultipartHttpServletRequest multipartRequest) throws Exception {
-    
-    List<MultipartFile> files =  multipartRequest.getFiles("files");
-    
-    int productImageCount;
-    if(files.get(0).getSize() == 0) {
-      productImageCount = 1;
-    } else {
-      productImageCount = 0;
-    }
-    
-    for(MultipartFile multipartFile : files) {
-      
-      if(multipartFile != null && !multipartFile.isEmpty()) {
-        
-        String path = myFileUtils.getUploadPath();
-        File dir = new File(path);
-        if(!dir.exists()) {
-          dir.mkdirs();
-        }
-        
-        String imageOriginalName = multipartFile.getOriginalFilename();
-        String filesystemName = myFileUtils.getFilesystemName(imageOriginalName);
-        File file = new File(dir, filesystemName);
-        
-        multipartFile.transferTo(file);
-        
-        String contentType = Files.probeContentType(file.toPath());
-        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
-        
-        if(hasThumbnail == 1) {
-          File thumbnail = new File(dir, "s_" + filesystemName);
-          Thumbnails.of(file)
-                    .size(100, 100)      // 가로 100px, 세로 100px
-                    .toFile(thumbnail);
-        }
-        
-        ProductImageDto productImage = ProductImageDto.builder()
-                            .path(path)
-                            .imageOriginalName(imageOriginalName)
-                            .filesystemName(filesystemName)
-                            .hasThumbnail(hasThumbnail)
-                            .productNo(Integer.parseInt(multipartRequest.getParameter("productNo")))
-                            .build();
-        
-        productImageCount += productMapper.insertProductImage(productImage);
-        
-      }
-      
-    }
-    
-    return Map.of("productImageResult", files.size() == productImageCount);
-    
-  }
+  /*
+   * @Override public Map<String, Object>
+   * addProductImage(MultipartHttpServletRequest multipartRequest) throws
+   * Exception {
+   * 
+   * List<MultipartFile> files = multipartRequest.getFiles("files");
+   * 
+   * int productImageCount; if(files.get(0).getSize() == 0) { productImageCount =
+   * 1; } else { productImageCount = 0; }
+   * 
+   * for(MultipartFile multipartFile : files) {
+   * 
+   * if(multipartFile != null && !multipartFile.isEmpty()) {
+   * 
+   * String path = myFileUtils.getUploadPath(); File dir = new File(path);
+   * if(!dir.exists()) { dir.mkdirs(); }
+   * 
+   * String imageOriginalName = multipartFile.getOriginalFilename(); String
+   * filesystemName = myFileUtils.getFilesystemName(imageOriginalName); File file
+   * = new File(dir, filesystemName);
+   * 
+   * multipartFile.transferTo(file);
+   * 
+   * String contentType = Files.probeContentType(file.toPath()); int hasThumbnail
+   * = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+   * 
+   * if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" +
+   * filesystemName); Thumbnails.of(file) .size(100, 100) // 가로 100px, 세로 100px
+   * .toFile(thumbnail); }
+   * 
+   * ProductImageDto productImage = ProductImageDto.builder() .path(path)
+   * .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
+   * .hasThumbnail(hasThumbnail)
+   * .productNo(Integer.parseInt(multipartRequest.getParameter("productNo")))
+   * .build();
+   * 
+   * productImageCount += productMapper.insertProductImage(productImage);
+   * 
+   * }
+   * 
+   * }
+   * 
+   * return Map.of("productImageResult", files.size() == productImageCount);
+   * 
+   * }
+   */
   
   @Override
   public int removeProduct(int productNo) {

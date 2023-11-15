@@ -58,7 +58,9 @@
       <div class="col-sm-9">${sessionScope.user.interestSido} ${sessionScope.user.interestSigungu}</div>
     </div>
     
+    
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
       <button type="button" id="btn_modify_interest" class="btn btn-primary">관심지역변경</button>
       <button type="button" id="btn_modify" class="btn btn-primary">개인정보수정</button>
       <button type="button" id="btn_leave" class="btn btn-primary">회원탈퇴</button>

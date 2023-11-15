@@ -23,7 +23,7 @@ public class ProductDto {
   private int reviewScore;
   private String createdAt;
   private String tradeAt;
-  private UserDto sellerDto;
-  private UserDto buyerDto;
+  private int sellerNo;
+  private int buyerNo;
   private CategoryDto categoryDto;
 }

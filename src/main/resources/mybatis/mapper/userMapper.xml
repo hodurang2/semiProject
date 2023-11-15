@@ -118,4 +118,58 @@
       , SYSDATE
     )
   </insert>
+  
+  <insert id="insertLeaveUser" parameterType="userDto">
+    INSERT INTO LEAVE_USER (
+        EMAIL
+      , JOINED_AT
+      , LEAVED_AT
+    ) VALUES (
+        #{email}
+      , #{joinedAt}
+      , SYSTIMESTAMP
+    )
+  </insert>
+  
+  <delete id="deleteUser" parameterType="UserDto">
+    DELETE
+      FROM USER_T
+     WHERE USER_NO = #{userNo}
+  </delete>
+  
+  <insert id="insertInactiveUser">
+    INSERT INTO INACTIVE_USER (
+      SELECT USER_NO, U.EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SYSTIMESTAMP, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
+        FROM USER_T U LEFT OUTER JOIN ACCESS_T A
+          ON U.EMAIL = A.EMAIL
+       WHERE MONTHS_BETWEEN(SYSTIMESTAMP, LOGIN_AT) >= 12
+          OR (LOGIN_AT IS NULL AND MONTHS_BETWEEN(SYSTIMESTAMP, JOINED_AT) >= 12)
+    )
+  </insert>
+  
+  <delete id="deleteUserForInactive">
+    DELETE
+      FROM USER_T
+     WHERE EMAIL IN(SELECT U.EMAIL
+                      FROM USER_T U LEFT OUTER JOIN ACCESS_T A
+                        ON U.EMAIL = A.EMAIL
+                     WHERE MONTHS_BETWEEN(SYSTIMESTAMP, LOGIN_AT) >= 12
+                        OR (LOGIN_AT IS NULL AND MONTHS_BETWEEN(SYSTIMESTAMP, JOINED_AT) >= 12))
+  </delete>
+
+  <insert id="insertActiveUser" parameterType="String">  
+    INSERT INTO USER_T (
+      SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
+        FROM INACTIVE_USER
+       WHERE EMAIL = #{email}
+    )
+  </insert>
+
+  <delete id="deleteInactiveUser" parameterType="String">
+    DELETE
+      FROM INACTIVE_USER
+     WHERE EMAIL = #{email}  
+  </delete>
+  
+  
 </mapper>

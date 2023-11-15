@@ -21,6 +21,45 @@
   
 </div>
 
+<script>
+
+  // 전역 변수
+  var page = 1;
+  var totalPage = 0;
+  
+  const fnGetSalesList = () => {
+    $.ajax({
+      // 요청
+      type: 'get',
+      url: '${contextPath}/mypage/getSalesList.do',
+      data: JSON.stringify({                // 문자열 형식의 JSON 데이터를 보낸다. 파라미터로 보내는 방식이 아니다.
+          'page': page,
+          'sellerNo' : sellerNo
+      }),
+      // 응답
+      dataType: 'json',
+      success: (resData) => {   // resData = {"uploadList": [], "totalPage" : 10}
+        totalPage = resData.totalPage;
+        $.each(resData.salesList, (i, sales) => {
+          let str = '<div class="sales" data-product_no="' + sales.productNo + '">';
+          str += '<div>상품명: ' + sales.productName + '</div>';
+          if(sales.sellerDto === null) {
+            str += '<div>탈퇴한 작성자</div>';
+          } else {
+          str += '<div>작성자: ' + sales.sellerDto.name + '</div>';
+          }
+          str += '<div>생성: ' + sales.productCreatedAt + '</div>';
+          str += '</div>';
+          $('#sales_list').append(str);
+        })
+      }
+    })
+  }
+  
+  fnGetSalesList();
+
+</script>
+
 
 
 <%@ include file="../layout/footer.jsp" %>

@@ -44,10 +44,11 @@ public class NoticeServiceImpl implements NoticeService{
     int total = noticeMapper.getNoticeCount();
     int display = 10;
     
+    myPageUtils.setPaging(page, total, display);
+    
     int begin = myPageUtils.getBegin();
     int end = myPageUtils.getEnd();
     
-    myPageUtils.setPaging(page, total, display);
     
     Map<String, Object> map = Map.of("begin", begin
                                    , "end", end);
@@ -61,12 +62,9 @@ public class NoticeServiceImpl implements NoticeService{
     for(NoticeDto notice : noticeList){
       hour.add(noticeMapper.getHour(notice.getNoticeNo()));
       minute.add(noticeMapper.getMinute(notice.getNoticeNo()));
+      num.add(noticeMapper.getRownum(notice.getNoticeNo()));
     }
     
-    
-    for(int i = end; i >= begin; i--) {
-      num.add(i);  
-    }
     
     model.addAttribute("num", num);
     model.addAttribute("noticeMinute", minute);

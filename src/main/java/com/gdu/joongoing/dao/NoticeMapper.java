@@ -1,5 +1,6 @@
 package com.gdu.joongoing.dao;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +20,5 @@ public interface NoticeMapper {
   public int deleteNotice(int noticeNo);
   public int getHour(int noticeNo);
   public int getMinute(int noticeNo);
+  public int getRownum(int noticeNo);
 }
