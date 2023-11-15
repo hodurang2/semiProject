@@ -8,6 +8,28 @@
 
 <jsp:include page="../mypage/info.jsp"></jsp:include>
 
+<style>
+
+  .sales_list {
+    margin: 5px auto;
+    display: flex;
+    flex-wrap: wrap;
+   }
+  .sales_product {
+    width: 150px;
+    height:  180px;
+    border: 1px solid gray;
+    padding-top: 80px;
+    margin: 10px 10px;
+    text-align:left;
+  }
+  .sales_product:hover {
+    background-color: silver;
+    cursor: pointer;
+  }
+
+</style>
+
 <div>
 
   <h1 class="text-center mb-4">나의 판매내역</h1>
@@ -17,37 +39,46 @@
     </a>
   </div>
   
-  <div id="sales_list" class="sales_list"></div>
+  <div class="wrap wrap_9">
+    <div id="sales_list" class="sales_list"></div>  
+  </div>
   
 </div>
 
 <script>
-/*
+
   // 전역 변수
   var page = 1;
   var totalPage = 0;
-  var sellerNo = 0;
+  let sta = '';
   
   const fnGetSalesList = () => {
     $.ajax({
       // 요청
       type: 'get',
       url: '${contextPath}/mypage/getSalesList.do',
-      data: 'page=' + page + '&sellerNo=' + sellerNo,
+      data: 'page=' + page + '&sellerNo=${sessionScope.user.userNo}',
       // 응답
       dataType: 'json',
-      success: (resData) => {   // resData = {"uploadList": [], "totalPage" : 10}
+      success: (resData) => {   // resData = {"sellerNo": 1, "salesList": [], "totalPage" : 10}
         totalPage = resData.totalPage;
         sellerNo = resData.sellerNo;
-        $.each(resData.salesList, (i, sales) => {
-          let str = '<div class="sales" data-product_no="' + sales.productNo + '">';
-          str += '<div>상품명: ' + sales.productName + '</div>';
-          if(sales.sellerDto === null) {
-            str += '<div>탈퇴한 작성자</div>';
+        $.each(resData.salesList, (i, sp) => {
+          let str = '<div class="sales_product" data-product_no="' + sp.productNo + '">';
+          str += '<div>상품명: ' + sp.productName + '</div>';
+          if(sp.sellerNo === null) {
+            str += '<div>탈퇴한 판매자</div>';
           } else {
-          str += '<div>작성자: ' + sales.sellerDto.name + '</div>';
+        	  str += '<div>판매자: ' + sp.sellerNo + '</div>';
           }
-          str += '<div>생성: ' + sales.productCreatedAt + '</div>';
+          switch(sp.state) {
+            case 0: sta = '판매중'; break;
+            case 1: sta = '예약중'; break;
+            case 2: sta = '판매완료'; break;
+            default: sta = '삭제'; break;
+          }
+          str += '<div>판매상태: ' + sta + '</div>';
+          str += '<div>생성: ' + sp.productCreatedAt + '</div>';
           str += '</div>';
           $('#sales_list').append(str);
         })
@@ -56,7 +87,7 @@
   }
   
   fnGetSalesList();
-*/
+
 </script>
 
 

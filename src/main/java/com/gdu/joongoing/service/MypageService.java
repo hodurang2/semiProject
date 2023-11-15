@@ -17,6 +17,9 @@ public interface MypageService {
   public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
   
   // 판매목록
-  //public Map<String, Object> getSalesList(HttpServletRequest request);
+  public Map<String, Object> getSalesList(HttpServletRequest request);
+  
+  // 구매목록
+  public Map<String, Object> getPurchaseList(HttpServletRequest request);
   
 }
