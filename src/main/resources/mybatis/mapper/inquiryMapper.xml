@@ -131,13 +131,11 @@
       ATTACH_NO,
       INQUIRY_NO,
       PATH,
-      ORIGINAL_NAME,
       FILESYSTEM_NAME
     ) VALUES (
-      #{attachNo},
+      INQUIRY_ATTACH_SEQ.NEXTVAL,
       #{inquiryNo},
       #{path},
-      #{originalName},
       #{filesystemName}
     )
   </insert>

@@ -8,6 +8,10 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.InquiryMapper;
 import com.gdu.joongoing.dto.AnswerDto;
+import com.gdu.joongoing.dto.InquiryAttachDto;
 import com.gdu.joongoing.dto.InquiryDto;
 import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyFileUtils;
@@ -63,7 +68,6 @@ public class InquiryServiceImpl implements InquiryService{
     String contents = request.getParameter("contents");
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
-    System.out.println(userNo);
     
     InquiryDto inquiry = InquiryDto.builder()
                           .inquiryTitle(title)
@@ -75,6 +79,23 @@ public class InquiryServiceImpl implements InquiryService{
                           
     
     int addResult = inquiryMapper.insertInquiry(inquiry);
+    
+    Document document = Jsoup.parse(contents);
+    Elements elements = document.getElementsByTag("img");
+
+    if (elements != null) {
+        for (Element element : elements) {
+            String src = element.attr("src");
+            String filesystemName = src.substring(src.lastIndexOf("/") + 1);
+            InquiryAttachDto inquiryAttach = InquiryAttachDto.builder()
+                    .inquiryNo(inquiry.getInquiryNo())
+                    .path(myFileUtils.getInquiryPath())
+                    .filesystemName(filesystemName)
+                    .build();
+
+            inquiryMapper.insertInquiryAttach(inquiryAttach);
+        }
+    }
     
     return addResult;
   }
@@ -143,7 +164,7 @@ public class InquiryServiceImpl implements InquiryService{
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
     
     // 이미지가 저장될 경로
-    String imagePath = myFileUtils.getBlogImagePath();
+    String imagePath = myFileUtils.getInquiryPath();
     File dir = new File(imagePath);
     if(!dir.exists()) {
       dir.mkdirs();

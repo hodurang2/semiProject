@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.gdu.joongoing.dto.AnswerDto;
+import com.gdu.joongoing.dto.InquiryAttachDto;
 import com.gdu.joongoing.dto.InquiryDto;
 
 @Mapper
@@ -15,6 +16,8 @@ public interface InquiryMapper {
   public List<InquiryDto> getInquiryList(Map<String, Object> map);
   public InquiryDto getInquiry(int inquiryNo);
   public int insertInquiry(InquiryDto inquiry);
+  
+  public int insertInquiryAttach(InquiryAttachDto attach);
   
   public int insertAnswer(AnswerDto answer);
   public int getAnswerCount(int inquiryNo);
