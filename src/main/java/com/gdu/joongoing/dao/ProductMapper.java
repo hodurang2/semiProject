@@ -10,6 +10,7 @@ import com.gdu.joongoing.dto.ProductImageDto;
 
 @Mapper
 public interface ProductMapper {
+  public int getProductNo(int sellerNo);
   public int insertProduct(ProductDto product);
   public int insertProductImage(ProductImageDto productImage);
   public int getProductCount();

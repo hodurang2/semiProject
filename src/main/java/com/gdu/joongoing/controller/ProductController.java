@@ -46,6 +46,7 @@ public class ProductController {
                   , RedirectAttributes redirectAttributes) throws Exception {
     boolean addResult = productService.addProduct(multipartRequest);
     redirectAttributes.addFlashAttribute("addResult", addResult);
+    
     return "redirect:/product/list.do";
   }
   

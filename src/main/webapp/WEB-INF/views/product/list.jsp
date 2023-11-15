@@ -7,145 +7,134 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="업로드게시판" name="title"/>
+  <jsp:param value="상품판매등록" name="title"/>
 </jsp:include>
 
 <style>
-  .product_list {
-    margin: 5px auto;
-    display: flex;
-    flex-wrap: wrap;
-   }
-  .product {
-    width: 150px;
-    height:  180px;
-    border: 1px solid gray;
-    padding-top: 80px;
-    margin: 10px 10px;
-    text-align:left;
-  }
-  .product:hover {
-    background-color: silver;
-    cursor: pointer;
-  }
-  
-  #image_box{
-    width : 70px;
-    height : 70px;
-    border: 1px solid gray;
-    padding-bottom : 10px;
-    margin : 10px 10px;
-  }
-  
+
 </style>
 
-<div class="wrap wrap_9">
-  <div id="product_list" class="product_list"></div>
-</div>
-
+<h2 class="ProductNewstyle">
+   기본정보
+  <span>&nbsp;*필수항목</span>
+</h2>
+    <br> 
+  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    
+    <div class="attached_list mt-2" id="attached_list"></div>
+    <div class="mt-3">
+      <label for="files" class="form-label">첨부</label>
+      <input type="file" name="files" id="files" class="form-control" accept="image/*" onchange="setThumbnail(event);" multiple/>
+      <div id="image_container"></div>
+    </div>
+    <div>
+      <label for="name" class="form-label">판매자</label>
+      <input type="text" name="sellerDto" id="sellerDto" class="form-control" value="${sessionScope.user.name}" readonly>
+    </div>
+    <br>
+    <div>
+      <label for="name" class="form-label">상품명</label>
+      <input type="text" name="productName" id="productName" class="form-control">
+    </div>
+    <br>
+    <div>카테고리
+      <select name="categoryId">
+        <option value="select" selected="selected">선택</option>
+        <option value="1">가전제품</option>
+        <option value="2">잡화</option>
+        <option value="3">식품</option>
+      </select>
+    </div>
+    <br>
+    <div>
+      <label for="productPrice" class="form-label">가격</label>
+      <input type="text" name="productPrice" id="productPrice" class="form-control" placeholder="가격을 입력해 주세요. (원)">
+    </div>
+    <br>
+    <div>제품상태<br>
+      <input type="radio" value="newProduct" id="newProduct" name="state">
+      <label for="newProduct"> 새 상품(미사용)</label><br>
+      <input type="radio" value="goodProduct" id="goodProduct" name="state">
+      <label for="goodProduct"> 사용감 적음</label><br>
+      <input type="radio" value="badProduct" id="badProduct" name="state">
+      <label for="badProduct"> 사용감 많음</label><br>
+      <input type="radio" value="breakProduct" id="breakProduct" name="state">
+      <label for="breakProduct"> 고장/파손 상품</label>
+    </div>
+    <div>
+    <br>
+      <label for="name" class="form-labelST">거래지역</label>
+      <br>
+      <input type="text" name="tradeAddress" id="tradeAddress" class="form_tradeAddress">
+    </div>
+    <div>
+    <br>
+      <label for="contents" class="form-labelCT">설명</label>
+      <textarea rows="5" name="productInfo" id="productInfo" class="form-control"></textarea>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+      <button type="submit" class="btn btn-primary" style="margin: 32px;">등록하기</button>
+    </div>
+  </form>
+  
+  <div id="file_list"></div>
+   
 <script>
 
-  // 전역 변수
-  var page = 1;
-  var totalPage = 0;
+const fnFileCheck = () => {
+    $('#files').change((ev) => {
+        for (var image of event.target.files) {
+          var reader = new FileReader();
 
-	const fnGetProductList = () =>{
-		$.ajax({
-			type:'get',
-			url : '${contextPath}/product/getProductList.do',
-			data: 'page=' + page,
-			// 응답
-			dataType: 'json',
-			success : (resData)  => {
-				totalPage = resData.totalPage;
-				
-				$.each(resData.productList, (i, product) => {
-					let str = '<div class="product" data-productNo="' + product.productNo + '">';
-					str += '<div>' + product.productName + '</div>';		
-					if(product.UserDto == null){
-						str += '<div>' + product.sellerDto.name + '</div>';
-					} else {
-						str += '<div>' + product.sellerDto.name + '</div>';
-					} 
-					str += '<div>' + product.productCreatedAt + '</div>';
-					str += '</div>';
-					$('#product_list').append(str);
-				})
-			}
-		})	
-	
-	}
-  
-  
-  const fnproductDetail = () => {
-    $(document).on('click', '.product', function(){
-      location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('product_no');
-    })
-  }
+          reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            img.setAttribute("width", "200px");
+            document.querySelector("div#image_container").appendChild(img);
+          };
 
-  const fnScroll = () => {
-    
-    var timerId;  // 최초 undefined 상태
-    
-    $(window).on('scroll', () => {
-      
-      if(timerId){  // timerId가 undefined이면 false로 인식, timerId가 값을 가지면 true로 인식
-        clearTimeout(timerId);
-      }
-      
-      timerId = setTimeout(() => {  // setTimeout 실행 전에는 timerId가 undefined 상태, setTimeout이 한 번이라도 동작하면 timerId가 값을 가짐
-        
-        let scrollTop = $(window).scrollTop();     // 스크롤바 위치(스크롤 된 길이)
-        let windowHeight = $(window).height();     // 화면 전체 크기
-        let documentHeight = $(document).height(); // 문서 전체 크기
-        
-        if((scrollTop + windowHeight + 100) >= documentHeight) {  // 스크롤이 바닥에 닿기 100px 전에 true가 됨
-          if(page > totalPage){  // 마지막 페이지를 보여준 이후에 true가 됨
-            return;              // 마지막 페이지를 보여준 이후에는 아래 코드를 수행하지 말 것 
-          }
-          page++;
-          fnGetproductList();
+          console.log(image);
+          reader.readAsDataURL(image);
         }
-        
-      }, 200);  // 200밀리초(0.2초) 후 동작(시간은 임의로 조정 가능함)
-      
+      $('#attached_list').empty();
+      let maxSize = 1024 * 1024 * 100;
+      let maxSizePerFile = 1024 * 1024 * 10;
+      let totalSize = 0;
+      let files = ev.target.files;
+      for(let i = 0; i < files.length; i++){
+        totalSize += files[i].size;
+        if(files[i].size > maxSizePerFile){
+          alert('각 첨부파일의 최대 크기는 10MB입니다.');
+          $(ev.target).val('');
+          $('#attached_list').empty();
+          return;
+        }
+      }
+      if(totalSize > maxSize){
+        alert('전체 첨부파일의 최대 크기는 100MB입니다.');
+        $(ev.target).val('');
+        $('#attached_list').empty();
+        return;
+      }
     })
-    
   }
   
-  const fnAddResult = () => {
-    let addResult = '${addResult}';  // '', 'true', 'false'
-    if(addResult !== ''){
-      if(addResult === 'true'){
-        alert('성공적으로 업로드 되었습니다.');
-      } else {
-        alert('업로드가 실패하였습니다.');
-      }
-    }
+  const fnSubmit = () => {
+     $('#frm_upload_add').submit((ev) => {
+        if($('#title').val() === ''){
+           alert('제목은 반드시 입력해야 합니다.');
+           $('#title').focus();
+           ev.preventDefault();
+           return;
+        }
+     })
   }
   
-  const fnRemoveResult = () => {
-    let removeResult = '${removeResult}';  // '', '1', '0'
-    if(removeResult !== ''){
-      if(removeResult === '1'){
-        alert('게시글이 삭제되었습니다.');
-        $('#product_list').empty();
-      } else {
-        alert('게시글 삭제가 실패했습니다.');
-      }
-    }
-  }
   
-  fnGetProductList();
-  fnproductDetail();
-  fnScroll();
-  fnAddResult();
-  fnRemoveResult();
-
+  fnFileCheck();
+  fnSubmit();
+  
 </script>
-
-
-
-
 
 <%@ include file="../layout/footer.jsp" %>

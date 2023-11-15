@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
     String tradeAddress = multipartRequest.getParameter("tradeAddress");
     String productInfo = multipartRequest.getParameter("productInfo");
     int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
-    
+
     ProductDto product = ProductDto.builder()
         .productName(productName)
         .categoryDto(CategoryDto.builder()
@@ -54,8 +54,8 @@ public class ProductServiceImpl implements ProductService {
         .build();
     
     int productCount = productMapper.insertProduct(product);
-    
-     List<MultipartFile> files = multipartRequest.getFiles("files");
+
+    List<MultipartFile> files = multipartRequest.getFiles("files");
       
       
       
@@ -66,11 +66,12 @@ public class ProductServiceImpl implements ProductService {
       
      if(multipartFile != null && !multipartFile.isEmpty()) {
       
-     String path = myFileUtils.getUploadPath(); File dir = new File(path);
+     String path = myFileUtils.getProductImagePath(); 
+     File dir = new File(path);
      if(!dir.exists()) { dir.mkdirs(); }
       
-     String imageOriginalName = multipartFile.getOriginalFilename(); String
-     filesystemName = myFileUtils.getFilesystemName(imageOriginalName); 
+     String imageOriginalName = multipartFile.getOriginalFilename(); 
+     String filesystemName = myFileUtils.getFilesystemName(imageOriginalName); 
      File file = new File(dir, filesystemName);
       
       multipartFile.transferTo(file); 
@@ -79,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
      if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" + filesystemName); Thumbnails.of(file) .size(100, 100) .toFile(thumbnail); }
      ProductImageDto productImage = ProductImageDto.builder() .path(path)
                                        .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
-                                       .hasThumbnail(hasThumbnail) .productNo(product.getProductNo()) .build();
+                                       .hasThumbnail(hasThumbnail) .productNo(productMapper.getProductNo(sellerNo)) .build();
       
      productImageCount += productMapper.insertProductImage(productImage);
       
@@ -87,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
       
      } // for
         
-    return (productCount == 1) && (files.size() == productImageCount);   // 1이면 성공. productImageCount와 파일사이즈가 같으면 성공. 
+    return (productCount == 1) && (files.size() == productImageCount);
     
   }
 
