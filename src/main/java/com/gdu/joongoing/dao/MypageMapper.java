@@ -14,6 +14,8 @@ public interface MypageMapper {
   public int updateUserPw(UserDto user);
   public int updateUserInterest(UserDto user);
   public int updateUser(UserDto user);
-  public int getSalesCount(int sellerNo);
-  public List<ProductDto> getSalesList(Map<String, Object> map);
+  /*
+   * public int getSalesCount(int sellerNo); public List<ProductDto>
+   * getSalesList(Map<String, Object> map);
+   */
 }

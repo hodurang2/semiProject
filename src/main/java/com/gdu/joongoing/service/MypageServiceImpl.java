@@ -154,26 +154,27 @@ public class MypageServiceImpl implements MypageService {
   }
   
   
-  @Override
-  public Map<String, Object> getSalesList(HttpServletRequest request) {
-    
-    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt.orElse("1"));
-    Optional<String> opt2 = Optional.ofNullable(request.getParameter("sellerNo"));
-    int sellerNo = Integer.parseInt(opt2.orElse("0"));  // 판매자 번호
-    int total = mypageMapper.getSalesCount(sellerNo);   // 판매 상품 갯수
-    int display = 9;    // 3 x 3 목록 만들기 위해
-    
-    myPageUtils.setPaging(page, total, display);  // begin, end 계산
-    
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd()); 
-    
-    // 전달하고 목록 받기
-    List<ProductDto> salesList = mypageMapper.getSalesList(map);
-   
-    return Map.of("salesList", salesList
-                , "totalPage", myPageUtils.getTotalPage());   // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
-  }
+  /*
+   * @Override public Map<String, Object> getSalesList(HttpServletRequest request)
+   * {
+   * 
+   * Optional<String> opt = Optional.ofNullable(request.getParameter("page")); int
+   * page = Integer.parseInt(opt.orElse("1")); Optional<String> opt2 =
+   * Optional.ofNullable(request.getParameter("sellerNo")); int sellerNo =
+   * Integer.parseInt(opt2.orElse("0")); // 판매자 번호 int total =
+   * mypageMapper.getSalesCount(sellerNo); // 판매 상품 갯수 int display = 9; // 3 x 3
+   * 목록 만들기 위해
+   * 
+   * myPageUtils.setPaging(page, total, display); // begin, end 계산
+   * 
+   * Map<String, Object> map = Map.of("begin", myPageUtils.getBegin() , "end",
+   * myPageUtils.getEnd());
+   * 
+   * // 전달하고 목록 받기 List<ProductDto> salesList = mypageMapper.getSalesList(map);
+   * 
+   * return Map.of("sellerNo", sellerNo , "salesList", salesList , "totalPage",
+   * myPageUtils.getTotalPage()); // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
+   * }
+   */
   
 }

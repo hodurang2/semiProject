@@ -2,7 +2,6 @@ package com.gdu.joongoing.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -80,11 +79,13 @@ public class MypageController {
     return "mypage/review_list";
   }
   
-  @ResponseBody
-  @GetMapping(value="/getSalesList.do", produces="application/json")
-  public Map<String, Object> getSalesList(HttpServletRequest request) {
-    return mypageService.getSalesList(request);
-  }
+  /*
+   * @ResponseBody
+   * 
+   * @GetMapping(value="/getSalesList.do", produces="application/json") public
+   * Map<String, Object> getSalesList(HttpServletRequest request) { return
+   * mypageService.getSalesList(request); }
+   */
   
   
 }

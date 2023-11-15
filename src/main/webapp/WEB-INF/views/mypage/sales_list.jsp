@@ -26,20 +26,19 @@
   // 전역 변수
   var page = 1;
   var totalPage = 0;
+  var sellerNo = 0;
   
   const fnGetSalesList = () => {
     $.ajax({
       // 요청
       type: 'get',
       url: '${contextPath}/mypage/getSalesList.do',
-      data: JSON.stringify({                // 문자열 형식의 JSON 데이터를 보낸다. 파라미터로 보내는 방식이 아니다.
-          'page': page,
-          'sellerNo' : sellerNo
-      }),
+      data: 'page=' + page + '&sellerNo=' + sellerNo,
       // 응답
       dataType: 'json',
       success: (resData) => {   // resData = {"uploadList": [], "totalPage" : 10}
         totalPage = resData.totalPage;
+        sellerNo = resData.sellerNo;
         $.each(resData.salesList, (i, sales) => {
           let str = '<div class="sales" data-product_no="' + sales.productNo + '">';
           str += '<div>상품명: ' + sales.productName + '</div>';
