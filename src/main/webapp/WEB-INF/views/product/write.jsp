@@ -11,123 +11,54 @@
 </jsp:include>
 
 <style>
-  .section
-  {
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    font: inherit;
-    vertical-align: baseline;
-  }
-  .fGSdXi {
-    height: 100px;
-    color: rgb(25, 25, 25);
-    font-size: 26px;
-    font-weight: 400;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    border-bottom: 2px solid rgb(25, 25, 25);
-  }
-  .hcyuoc {
-    padding-top: 0.5rem;
-  }
-  
-  ul {
-    list-style: none;
-  }
-  .iZffvT {
-    width: 100%;
-    display: flex;
-    padding: 2rem 0px;
-    border-bottom: 1px solid rgb(246, 246, 246);
-  }
-  .cosfJW {
-    width: 10.5rem;
-    font-size: 18px;
-    font-weight: 400;
-    color: rgb(25, 25, 25);
-  }
-  .cosfJW > span {
-    color: rgb(216, 12, 24);
-  }
-  .cosfJW > small {
-    color: rgb(178, 178, 178);
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 20px;
-    margin-left: 0.25rem;
-  }
-  .nqDMw {
-    flex: 1 1 0%;
-    position: relative;
-  }
-  .btn-primary {
-    height: 3.5rem;
-    width: 10rem;
-    color: rgb(255, 255, 255); 
-    font-size: 20px;
-    font-weight: 700;
-    border-radius: 2px;
-    background: rgb(50, 205, 50);
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-  }
-  .btn_productImage {
-    border: 1px solid white;;
-  }
 
-  
 </style>
 
-<section class="ProductNewstyle_Basic-sc-7fge4a-3 bsIKMq">
-<h2 class="ProductNewstyle_SectionTitle-sc-7fge4a-1 fGSdXi">
+<h2 class="ProductNewstyle">
    기본정보
-  <span>&nbsp*필수항목</span>
+  <span>&nbsp;*필수항목</span>
 </h2>
-<ul class="ProductNewstyle_Groups-sc-7fge4a-4 hcyuoc">
-  <li class="ProductNewstyle_Groups-sc-7fge4a-5 iZffvT">
-    <div class="ProductNewstyle_Label-sc-7fge4a-6 cosfJW">
-      상품이미지<small>(0/12)</small>
-    </div>
-    <div class="ProductNewstyle_Content-sc-7fge4a-7 nqDMw">
-      <ul class="sc-FQuPU eUN1GD">
-        <li class="sc-iuDHTM bXMOKO">
-         <button type="button" class="btn_productImage"><img alt="이미지등록" src="../resources/image/productImage.png" width="200">
-           <label for="files" class="form-label"></label>
-           <input type="file" name="files" id="files" class="form-control" multiple>
-         </button>
-        </li>
-      </ul>
-    </div>
-   </li>
-</ul>
   <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    <div class="ProductNewstyle_Label">
+      상품이미지
+    </div>
+    <!-- 이미지 영역 호버시 툴팁 -->
+    <div>
+      <a data-toggle="tooltip" title="이미지등록">
+        <img id="productImage" width="200px">
+      </a>
+    </div>
+    <!-- <!-- 이미지 영역 클릭 시 파일 등록 -->
+    <div class="input-type" id="file-area">
+      <input type="file" id="productImage1" onchange="loadImg(this,1)" class="form-control-file border" name="files" multiple required>
+    </div>
+    <br> -->
+    
     <div>
       <label for="name" class="form-label">판매자</label>
-      <input type="text" name="sellerDto" id="sellerDto" class="form-control">
+      <input type="text" name="sellerDto" id="sellerDto" class="form-control" value="${sessionScope.user.name}" readonly>
     </div>
+    <br>
     <div>
       <label for="name" class="form-label">상품명</label>
       <input type="text" name="productName" id="productName" class="form-control">
     </div>
-    <div>${SessionScope.categoryList.name}</div>
-    <div>
+    <br>
+    <div>카테고리
       <select name="categoryId">
-        <option value="select" name="categoryId" selected="selected">선택</option>
+        <option value="select" selected="selected">선택</option>
         <option value="1">가전제품</option>
         <option value="2">잡화</option>
         <option value="3">식품</option>
       </select>
     </div>
+    <br>
     <div>
       <label for="productPrice" class="form-label">가격</label>
-      <input type="text" name="productPrice" id="productPrice" class="form-control" placeholder="가격을 입력해 주세요."> 원
+      <input type="text" name="productPrice" id="productPrice" class="form-control" placeholder="가격을 입력해 주세요. (원)">
     </div>
-    <div>
+    <br>
+    <div>제품상태<br>
       <input type="radio" value="newProduct" id="newProduct" name="state">
       <label for="newProduct"> 새 상품(미사용)</label><br>
       <input type="radio" value="goodProduct" id="goodProduct" name="state">
@@ -138,10 +69,13 @@
       <label for="breakProduct"> 고장/파손 상품</label>
     </div>
     <div>
+    <br>
       <label for="name" class="form-labelST">거래지역</label>
+      <br>
       <input type="text" name="tradeAddress" id="tradeAddress" class="form_tradeAddress">
     </div>
     <div>
+    <br>
       <label for="contents" class="form-labelCT">설명</label>
       <textarea rows="5" name="productInfo" id="productInfo" class="form-control"></textarea>
     </div>
@@ -152,10 +86,35 @@
   </form>
   
   <div id="file_list"></div>
-  
-</section>
-  
+   
 <script>
+
+  $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  
+  $(function(){
+	    $("#file-area").hide();
+	    $("#productImage").click(function(){
+	      $("#productImage1").click();    
+	  })
+	})
+	
+	/* function loadImg(inputFile,num){
+  if(inputFile.files.length == 1){
+
+  var reader = new FileReader();
+
+  reader.readAsDataURL(inputFile.files[0]);
+  reader.onload = function(e){
+    $("#productImage").attr("src", e.target.result);
+  }
+
+  } else {
+      $("#productImage").attr("src", nul);
+    }
+  }
+ */
 
   const fnFileCheck = () => {
     $('#files').change((ev) => {
@@ -183,8 +142,10 @@
     })
   }
   
+  
+  /* loadImg(); */
   fnFileCheck();
   
 </script>
-  
+
 <%@ include file="../layout/footer.jsp" %>

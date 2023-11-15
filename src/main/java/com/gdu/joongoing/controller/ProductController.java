@@ -87,11 +87,14 @@ public class ProductController {
     return productService.removeProductImage(request);  
   }
   
-  @ResponseBody
-  @PostMapping(value="/addProductImage.do", produces="application/json")
-  public Map<String, Object> addProductImage(MultipartHttpServletRequest multipartRequest) throws Exception {
-    return productService.addProductImage(multipartRequest);
-  }
+  /*
+   * @ResponseBody
+   * 
+   * @PostMapping(value="/addProductImage.do", produces="application/json") public
+   * Map<String, Object> addProductImage(MultipartHttpServletRequest
+   * multipartRequest) throws Exception { return
+   * productService.addProductImage(multipartRequest); }
+   */
   
   @PostMapping("/removeProduct.do")
   public String removeProduct(@RequestParam(value = "productNo", required = false, defaultValue = "0") int productNo
