@@ -44,7 +44,7 @@ public class ProductController {
   @PostMapping("/add.do")
   public String add(MultipartHttpServletRequest multipartRequest
                   , RedirectAttributes redirectAttributes) throws Exception {
-    int addResult = productService.addProduct(multipartRequest);
+    boolean addResult = productService.addProduct(multipartRequest);
     redirectAttributes.addFlashAttribute("addResult", addResult);
     return "redirect:/product/list.do";
   }
@@ -86,15 +86,6 @@ public class ProductController {
   public Map<String, Object> removeProductImage(HttpServletRequest request) {
     return productService.removeProductImage(request);  
   }
-  
-  /*
-   * @ResponseBody
-   * 
-   * @PostMapping(value="/addProductImage.do", produces="application/json") public
-   * Map<String, Object> addProductImage(MultipartHttpServletRequest
-   * multipartRequest) throws Exception { return
-   * productService.addProductImage(multipartRequest); }
-   */
   
   @PostMapping("/removeProduct.do")
   public String removeProduct(@RequestParam(value = "productNo", required = false, defaultValue = "0") int productNo

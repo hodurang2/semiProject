@@ -59,7 +59,7 @@
 )
 </insert>
 
-<!-- <insert id="insertProductImage" parameterType="ProductImageDto">
+<insert id="insertProductImage" parameterType="ProductImageDto">
   INSERT INTO PRODUCT_IMAGE (
      IMAGE_NO
    , PRODUCT_NO
@@ -75,7 +75,7 @@
     #{imageOriginalName},
     #{hasThumbnail}
   )
-</insert> -->
+</insert>
 
 <!-- 상품 총 갯수(완) -->
 <select id="getProductCount" resultType="int">

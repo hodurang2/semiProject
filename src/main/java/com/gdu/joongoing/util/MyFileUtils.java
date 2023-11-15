@@ -9,23 +9,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyFileUtils {
 
-  // 블로그 작성시 사용된 이미지가 저장될 경로 반환하기
+  // 상품 작성시 사용된 이미지가 저장될 경로 반환하기
   public String getBlogImagePath() {
     LocalDate today = LocalDate.now();
-    return "/blog/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
+    return "/product/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
   }
   
-  // 블로그 이미지가 저장된 어제 경로를 반환
+  // 상품 이미지가 저장된 어제 경로를 반환
   public String getBlogImagePathInYesterday() {
     LocalDate date = LocalDate.now();
     date = date.minusDays(1);  // 1일 전
-    return "/blog/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(date);
+    return "/product/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(date);
   }
   
-  // 업로드 게시판 작성시 첨부한 파일이 저장될 경로 반환하기
+  // 상품 게시판 작성시 첨부한 파일이 저장될 경로 반환하기
   public String getUploadPath() {
     LocalDate today = LocalDate.now();
-    return "/upload/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
+    return "/product/" + DateTimeFormatter.ofPattern("yyyy/MM/dd").format(today);
   }
   
   // 임시 파일이 저장될 경로 반환하기 (zip 파일)
