@@ -190,54 +190,7 @@ public class ProductServiceImpl implements ProductService {
     
     return Map.of("removeResult", removeResult);
   }
-    
-  /*
-   * @Override public Map<String, Object>
-   * addProductImage(MultipartHttpServletRequest multipartRequest) throws
-   * Exception {
-   * 
-   * List<MultipartFile> files = multipartRequest.getFiles("files");
-   * 
-   * int productImageCount; if(files.get(0).getSize() == 0) { productImageCount =
-   * 1; } else { productImageCount = 0; }
-   * 
-   * for(MultipartFile multipartFile : files) {
-   * 
-   * if(multipartFile != null && !multipartFile.isEmpty()) {
-   * 
-   * String path = myFileUtils.getUploadPath(); File dir = new File(path);
-   * if(!dir.exists()) { dir.mkdirs(); }
-   * 
-   * String imageOriginalName = multipartFile.getOriginalFilename(); String
-   * filesystemName = myFileUtils.getFilesystemName(imageOriginalName); File file
-   * = new File(dir, filesystemName);
-   * 
-   * multipartFile.transferTo(file);
-   * 
-   * String contentType = Files.probeContentType(file.toPath()); int hasThumbnail
-   * = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
-   * 
-   * if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" +
-   * filesystemName); Thumbnails.of(file) .size(100, 100) // 가로 100px, 세로 100px
-   * .toFile(thumbnail); }
-   * 
-   * ProductImageDto productImage = ProductImageDto.builder() .path(path)
-   * .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
-   * .hasThumbnail(hasThumbnail)
-   * .productNo(Integer.parseInt(multipartRequest.getParameter("productNo")))
-   * .build();
-   * 
-   * productImageCount += productMapper.insertProductImage(productImage);
-   * 
-   * }
-   * 
-   * }
-   * 
-   * return Map.of("productImageResult", files.size() == productImageCount);
-   * 
-   * }
-   */
-  
+
   @Override
   public int removeProduct(int productNo) {
     
@@ -266,25 +219,36 @@ public class ProductServiceImpl implements ProductService {
   }
 
   
-  @Transactional(readOnly=true)
+  /*
+   * @Override public Map<String, Object> getHotProductList(HttpServletRequest
+   * request) { return Map.of("productHotList",
+   * productMapper.getHotProductList()); }
+   */
+  
   @Override
-  public Map<String, Object> getHotList(HttpServletRequest request) {
-  
-    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt.orElse("1"));
-    int total = productMapper.getProductCount();
-    int display = 9;
+  public int hotProductList(MultipartHttpServletRequest multipartRequest) throws Exception {
+
+    String productName = multipartRequest.getParameter("productName");
+    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
+    int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
+    String tradeAddress = multipartRequest.getParameter("tradeAddress");
+    int hit = Integer.parseInt(multipartRequest.getParameter("hit"));
+    int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
     
-    myPageUtils.setPaging(page, total, display);
+    ProductDto product = ProductDto.builder()
+        .productName(productName)
+        .categoryDto(CategoryDto.builder()
+                     .categoryId(categoryId)
+                     .build())
+        .productPrice(productPrice)
+        .tradeAddress(tradeAddress)
+        .hit(hit)
+        .sellerNo(sellerNo)
+        .build();
     
-    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                     ,"end", myPageUtils.getEnd());
-    
-    List<ProductDto> hotList = productMapper.getHotList(map);
-    
-    return Map.of("hotList", hotList
-                  ,"totalPage", myPageUtils.getTotalPage());
+    int productCount = productMapper.insertProduct(product);
+    return productMapper.insertProduct(product);
   }
-  
-  
+
+
 }
