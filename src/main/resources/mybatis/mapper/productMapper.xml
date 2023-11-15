@@ -20,37 +20,9 @@
   <result column="REVIEW_SCORE"           property="reviewScore"/>
   <result column="CREATED_AT"             property="createdAt"/>
   <result column="TRADE_AT"               property="tradeAt"/>
-  <association javaType="UserDto"   property="sellerDto">
-    <id     column="USER_NO"        property="userNo"/>
-    <result column="EMAIL"          property="email"/> 
-    <result column="NAME"           property="name"/> 
-    <result column="PW"             property="pw"/> 
-    <result column="GENDER"         property="gender"/> 
-    <result column="PHONE"          property="phone"/> 
-    <result column="AGREE"          property="agree"/> 
-    <result column="STATE"          property="state"/> 
-    <result column="JOINED_AT"      property="joinedAt"/>  
-    <result column="SIDO"           property="sido"/>  
-    <result column="SIGUNGU"        property="sigungu"/>  
-    <result column="INTEREST_SIDO"      property="interestSido" />
-    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
-  </association>  
-  <association javaType="UserDto"   property="buyerDto">
-    <id     column="USER_NO"        property="userNo"/>
-    <result column="EMAIL"          property="email"/> 
-    <result column="NAME"           property="name"/> 
-    <result column="PW"             property="pw"/> 
-    <result column="GENDER"         property="gender"/> 
-    <result column="PHONE"          property="phone"/> 
-    <result column="AGREE"          property="agree"/> 
-    <result column="STATE"          property="state"/> 
-    <result column="JOINED_AT"      property="joinedAt"/>  
-    <result column="SIDO"           property="sido"/>  
-    <result column="SIGUNGU"        property="sigungu"/>  
-    <result column="INTEREST_SIDO"      property="interestSido" />
-    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
-  </association> 
-  <association javaType="CategoryDto"     property="categoryDto">
+  <result column="SELLER_NO"              property="sellerNo"/>
+  <result column="BUYER_NO"               property="buyerNo"/>  
+  <association javaType="CategoryDto"   property="categoryDto">
     <id     column="CATEGORY_ID"        property="categoryId"/>
     <result column="NAME"               property="name" />
   </association>
@@ -73,7 +45,7 @@
     ,PRODUCT_TRADE_ADDRESS
   ) VALUES (
     PRODUCT_SEQ.NEXTVAL
-  , #{sellerDto.userNo}
+  , #{sellerNo}
   , NULL
   , #{categoryDto.categoryId}
   , #{productName}
@@ -87,11 +59,11 @@
 )
 </insert>
 
-<insert id="insertProductImage" parameterType="ProductImageDto">
+<!-- <insert id="insertProductImage" parameterType="ProductImageDto">
   INSERT INTO PRODUCT_IMAGE (
-    IMAGE_NO
-   ,PRODUCT_NO
-   ,  PATH
+     IMAGE_NO
+   , PRODUCT_NO
+   , PATH
    , FILESYSTEM_NAME
    , IMAGE_ORIGINAL_NAME
    , HAS_THUMBNAIL
@@ -101,16 +73,15 @@
     #{path},
     #{filesystemName},
     #{imageOriginalName},
-    1
+    #{hasThumbnail}
   )
-</insert>
+</insert> -->
 
 <!-- 상품 총 갯수(완) -->
 <select id="getProductCount" resultType="int">
   SELECT COUNT(*)
     FROM PRODUCT
 </select>
-
 
 <!-- 상품 번호별로 수정하기(완)-->
 <select id="getProductList" parameterType="Map" resultMap="ProductMap">
@@ -127,33 +98,33 @@
    WHERE A.RN BETWEEN #{begin} AND #{end}
 </select>
 
-
 <!-- 상품조회하기(완) -->
 <select id="getProduct" parameterType="int" resultMap="ProductMap">
   SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
          P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
          P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
-         USR.USER_NO, USR.EMAIL, USR.NAME
+         USR.USER_NO, USR.EMAIL, USR.NAME,
+         C.NAME
     FROM USER_T USR RIGHT OUTER JOIN PRODUCT P
-      ON USR.USER_NO = P.SELLER_NO
+      ON USR.USER_NO = P.SELLER_NO 
+      INNER JOIN CATEGORY C
+      ON P.CATEGORY_ID = C.CATEGORY_ID
    WHERE P.PRODUCT_NO = #{productNo}
 </select>
 
 <!-- 이미지 조회하기(완) -->
-<select id="getProductImageList" parameterType="int" resultType="ProductDto">
-  SELECT IMAGE_NO,PRODUCT_NO, PATH, FILESYSTEM_NAME, IMAGE_ORIGINAL_NAME, HAS_THUMBNAIL
+<select id="getProductImageList" parameterType="int" resultType="ProductImageDto">
+  SELECT IMAGE_NO, PRODUCT_NO, PATH, FILESYSTEM_NAME, IMAGE_ORIGINAL_NAME, HAS_THUMBNAIL
     FROM PRODUCT_IMAGE
    WHERE FILESYSTEM_NAME = #{filesystemName}
 </select>
 
 <!-- 핫 리스트 -->
-<select id="hotProductList" resultType="ProductDto">
-  SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS
+<select id="getHotProductList" resultType="ProductDto">
+  SELECT PRODUCT_NO, SELLER_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS
     FROM PRODUCT
-   ORDER BY PRODUCT_HIT DESC;
+   ORDER BY PRODUCT_HIT DESC
 </select>
-
-
 
 <!-- 상품 수정하기(완)-->
 <update id="updateProduct" parameterType="ProductDto">

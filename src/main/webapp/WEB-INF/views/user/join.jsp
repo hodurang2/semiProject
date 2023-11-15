@@ -9,7 +9,16 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="회원가입" name="title"/>
 </jsp:include>
-
+<style>
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .btn {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+</style>
 
 <div class="wrap wrap_7">
 
@@ -26,8 +35,8 @@
     </div>
     
     <div class="row mb-2">
-      <div class="col-sm-8"><input type="text" id="code" class="form-control" placeholder="인증코드입력" disabled></div>
-      <div class="col-sm-4 d-grid gap-2"><button type="button" class="btn btn-outline-secondary" id="btn_verify_code" disabled>인증하기</button></div>
+      <div class="col-sm-9"><input type="text" id="code" class="form-control" placeholder="인증코드입력" disabled></div>
+      <div class="col-sm-3 d-grid gap-2"><button type="button" class="btn btn-outline-secondary" id="btn_verify_code" disabled>인증하기</button></div>
     </div>
     
     <hr class="my-3">
@@ -82,19 +91,19 @@
     
     <div>
       <label for="address" class="col-sm-3 col-form-label">주소</label>
-      <select name="sido" id="sido"></select>
-      <select name="sigungu" id="sigungu"></select>
+      <select class="col-sm-2" name="sido" id="sido"></select>
+      <select class="col-sm-2" name="sigungu" id="sigungu"></select>
     </div>
     <div>
-      <label for="address" class="col-sm-3 col-form-label">관심지역</label>
-      <select name="interestSido" id="interestSido"></select>
-      <select name="interestSigungu" id="interestSigungu"></select>
+      <label for="address" class="col-sm-3 col-form-label">관심지역 (선택)</label>
+      <select class="col-sm-2" name="interestSido" id="interestSido"></select>
+      <select class="col-sm-2" name="interestSigungu" id="interestSigungu"></select>
     </div>
     
     <script>
     </script>
     
-    <div class="mt-3 text-center">
+    <div class="d-grid gap-2 col-6 mx-auto text-center">
       <input type="hidden" name="event" value="${event}">
       <button type="submit" class="btn btn-primary">회원가입하기</button>
     </div>
@@ -152,7 +161,7 @@ $(() => {
 	}
 
 	const fnCheckEmail = () => {
-	  $('#btn_get_code').click(() => {
+	  $('#btn_get_code').one('click', () => {
 	    let email = $('#email').val();
 	    // 연속된 ajax() 함수 호출의 실행 순서를 보장하는 JavaScript 객체 Promise
 	    new Promise((resolve, reject) => {
