@@ -11,9 +11,9 @@ import com.gdu.joongoing.dto.InquiryDto;
 public interface InquiryMapper {
 
   public int getInquiryCount();
-
   public List<InquiryDto> getInquiryList(Map<String, Object> map);
-
+  public InquiryDto getInquiry(int inquiryNo);
+  public int insertInquiry(InquiryDto inquiry);
   
   
 

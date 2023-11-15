@@ -40,12 +40,54 @@
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
-  <select id="getInquiry" parameterType="int" resultType="InquiryDto">
-    SELECT INQUIRY_NO, USER_NO, INQUIRY_TITLE, INQUIRY_CONTENTS, INQUIRY_CREATED_AT
-      FROM INQUIRY
+  <select id="getInquiry" parameterType="int" resultMap="InquiryMap">
+    SELECT INQUIRY_NO, EMAIL, USER_NO, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_CREATED_AT
+      FROM (SELECT INQUIRY_NO, I.USER_NO, U.EMAIL, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_CREATED_AT
+              FROM INQUIRY I INNER JOIN USER_T U
+                ON I.USER_NO = U.USER_NO)
      WHERE INQUIRY_NO = #{inquiryNo}
   </select>
-
+  
+  <insert id="insertInquiry" parameterType="InquiryDto">
+    <selectKey order="BEFORE" keyProperty="inquiryNo" resultType="int">
+      SELECT INQUIRY_SEQ.NEXTVAL
+        FROM DUAL
+    </selectKey>
+    INSERT INTO INQUIRY(
+        INQUIRY_NO
+      , USER_NO
+      , INQUIRY_TITLE
+      , INQUIRY_CONTENT
+      , INQUIRY_CREATED_AT
+    ) VALUES (
+        #{inquiryNo}
+      , #{userDto.userNo}
+      , #{inquiryTitle}
+      , #{inquiryContent}
+      , SYSTIMESTAMP
+    )
+  </insert>
+  
+  <insert id="insertAnswer" parameterType="AnswerDto">
+    INSERT INTO ANSWER (
+        ANSWER_NO
+      , INQUIRY_NO
+      , CONTENTS
+      , CREATED_AT
+      , DEPTH
+      , STATUS
+      , GROUP_NO
+    ) VALUES (
+        ANSWER_SEQ.NEXTVAL
+      , #{inquiryNo}
+      , #{contents}
+      , SYSTIMESTAMP
+      , 1
+      , 0
+      , ANSWER_SEQ.CURRVAL
+    )
+  </insert>
+  
 
   
 </mapper>

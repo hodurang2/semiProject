@@ -26,7 +26,7 @@
 
   <form id="frm_inquiry_add" method="post" action="${contextPath}/inquiry/addInquiry.do">
     
-    <h1 style="text-align: center;">블로그를 작성하세요</h1>
+    <h1 style="text-align: center;">문의사항을 작성하세요</h1>
     
     <div>
       <label for="title">제목</label>
