@@ -14,4 +14,5 @@ public interface MypageService {
   public void modifyPw(HttpServletRequest request, HttpServletResponse response);
   public void modifyInterest(HttpServletRequest request, HttpServletResponse response);
   public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request);
+  
 }
