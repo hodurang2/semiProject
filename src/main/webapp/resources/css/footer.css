@@ -13,5 +13,6 @@
 
 .logo{
   background-image: url(../../resources/image/logo.png);
-  background-size: 510px 308px;
+  size : 20%;
+  float:left;
 }

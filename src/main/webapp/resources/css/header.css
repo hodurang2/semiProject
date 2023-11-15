@@ -25,16 +25,9 @@
   height: 48px;
   border-bottom: 1px solid gray;
 }
-.gnb {
-  display: flex;
-  justify-content: space-between;
-  flex: 4;
-}
-.gnb li {
-  width: 100%;
-}
+
 .gnb a {
-  display: block;
+  display: inline;
   width: 100%;
   text-align: center;
   line-height: 48px;
@@ -43,3 +36,8 @@
 .gnb a:hover {
   background-color: #efefef;
 }
+
+
+
+
+

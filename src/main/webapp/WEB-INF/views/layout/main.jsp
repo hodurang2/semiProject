@@ -7,12 +7,25 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="업로드게시판" name="title"/>
+  <jsp:param value="메인" name="title"/>
 </jsp:include>
+
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    li {
+        display: inline;
+        margin-right: 10px; /* Adjust the margin as needed */
+    }
+</style>
 
 
 <div class="banner"><img src="${contextPath}/resources/image/banner_dum.png"></div>
-
+<br>
 <div class="btn_five">
   
   <ul>
@@ -24,6 +37,7 @@
   </ul>
 </div>
 
+<br><hr>
 <h4>전체상품보기</h3>
 
 
