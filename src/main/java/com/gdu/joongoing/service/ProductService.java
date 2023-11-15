@@ -19,11 +19,6 @@ public interface ProductService {
   public int modifyProduct(ProductDto product);
   public Map<String, Object> getProductImageList(HttpServletRequest request);
   public Map<String, Object> removeProductImage(HttpServletRequest request);
-
-  /*
-   * public Map<String, Object> addProductImage(MultipartHttpServletRequest
-   * multipartRequest) throws Exception;
-   */
   public int removeProduct(int productNo);
   
   public int hotProductList(MultipartHttpServletRequest multipartRequest) throws Exception;
