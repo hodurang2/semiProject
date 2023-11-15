@@ -10,7 +10,23 @@
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
-내 지역 게시판
+<h3>내 지역 게시판</h3>
 
+<div class="myarea_joongo">
+  <!--  -->
+  <select>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    
+  </select>
+
+</div>
 
 <%@ include file="../layout/footer.jsp" %>

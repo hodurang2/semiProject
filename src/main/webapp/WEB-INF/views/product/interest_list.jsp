@@ -10,7 +10,7 @@
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
-내 지역 게시판
+<h3>관심지역 리스트 게시판</h3>
 
 
 <%@ include file="../layout/footer.jsp" %>
