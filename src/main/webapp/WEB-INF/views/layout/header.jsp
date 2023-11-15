@@ -23,8 +23,12 @@
 
 <body>
 
+
   <div class="header_wrap">
-    <div class="logo"></div>
+    <div class="header_dddd">
+          <div class="logo">
+      <img src="${contextPath}/resources/image/logo.png" width="150px">
+    </div>
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
@@ -35,25 +39,30 @@
       <c:if test="${sessionScope.user != null}">
         <div>${sessionScope.user.name}님 환영합니다</div>
         <div>
-          <a href="${contextPath}/product/write.form" id="joongo_btn">중고판매하기</a>
-          <a href="${contextPath}/mypage/detail.do">마이페이지</a>
-          <a href="${contextPath}/user/logout.do">로그아웃</a>
+          <div><a href="${contextPath}/product/write.form" id="joongo_btn">중고판매하기</a></div>
+          <div><a href="${contextPath}/mypage/detail.do">마이페이지</a></div>
+          <div><a href="${contextPath}/user/logout.do">로그아웃</a></div>
+          <div>고객센터</div>
         </div>
       </c:if>
-    </div>    
+     </div>
+      
+      
+      
+      
+    
+    </div>
+
+
+   
     <hr>
-    
-    
-      <ul>
+      <ul class="menu_var left_var">
         <li><i class="fa-solid fa-bars"></i></li>
         <li><div class="css-1vh2lxo">카테고리</div></li>
         <li><div class="css_1vh2lxo">전체매물</div></li>
         <li><div class="hot_list"><a href="${contextPath}/product/hot_list.do">인기상품</a></div></li>
       </ul>
-
-    
-  <div class="main_wrap">
-
+  <hr>
 <script>
 
     const fnMain = () => {
