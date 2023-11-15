@@ -13,19 +13,10 @@
 <h3>내 지역 게시판</h3>
 
 <div class="myarea_joongo">
-  <!--  -->
-  <select>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-    <option></option>
-  </select>
-
+    <ul>
+      <li>${UserDto.interestSido}</li>
+      <li>${UserDto.interestSigungu}</li>
+    </ul>
 </div>
 
 <script>

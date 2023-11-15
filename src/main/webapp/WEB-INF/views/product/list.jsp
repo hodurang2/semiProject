@@ -17,12 +17,12 @@
     flex-wrap: wrap;
    }
   .product {
-    width: 150px;
-    height:  180px;
+    width: 200px;
+    height:  230px;
     border: 1px solid gray;
     padding-top: 80px;
     margin: 10px 10px;
-    text-align:left;
+    
   }
   .product:hover {
     background-color: silver;
@@ -63,9 +63,9 @@
 					let str = '<div class="product" data-productNo="' + product.productNo + '">';
 					str += '<div>' + product.productName + '</div>';		
 					if(product.UserDto == null){
-						str += '<div>' + product.sellerDto.name + '</div>';
+						str += '<div>' + product.sellerNo + '</div>';
 					} else {
-						str += '<div>' + product.sellerDto.name + '</div>';
+						str += '<div>' + product.sellerNo + '</div>';
 					} 
 					str += '<div>' + product.productCreatedAt + '</div>';
 					str += '</div>';
