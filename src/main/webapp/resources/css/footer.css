@@ -8,11 +8,5 @@
   height: 100px;
   border-top: 1px solid gray;
   text-align: center;
-  line-height: 100px;
-}
-
-.logo{
-  background-image: url(../../resources/image/logo.png);
-  size : 20%;
-  float:left;
+  line-height: 50px;
 }
