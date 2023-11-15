@@ -17,4 +17,11 @@ public interface UserService {
   public ResponseEntity<Map<String, Object>> checkEmail(String email);
   public ResponseEntity<Map<String, Object>> sendCode(String email);
   public void join(HttpServletRequest request, HttpServletResponse response);
+  public UserDto findId(UserDto user);
+  public void findPw(UserDto user, HttpServletResponse response) throws Exception;
+  public String getNaverLoginURL(HttpServletRequest request) throws Exception;
+  public String getNaverLoginAccessToken(HttpServletRequest request) throws Exception;
+  public UserDto getNaverProfile(String accessToken) throws Exception;
+  public void naverJoin(HttpServletRequest request, HttpServletResponse response);
+  public void naverLogin(HttpServletRequest request, HttpServletResponse response, UserDto naveProfile) throws Exception;
 }

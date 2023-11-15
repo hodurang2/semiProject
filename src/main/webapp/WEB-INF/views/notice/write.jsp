@@ -44,7 +44,7 @@
     
     <div>
       <input type="hidden" name="noticeNo" >
-      <button class="btn btn-primary col-12" type="submit">작성완료</button>
+      <button id="btn_add" class="btn btn-primary col-12" type="submit">작성완료</button>
     </div>
     
   </form>
@@ -76,8 +76,21 @@
 	  })
   }
   
+  const fnBlock = () => {
+	  $('#btn_add').click((e) => {
+  	  if(confirm('게시글을 등록하시겠습니까?')){
+  		  	if($('#title').val() === ''){
+  				  alert('제목을 입력해주세요!');
+  				  e.preventDefault();
+  			  	return;
+  			  }
+  		  	fnNoticeAdd();
+  		  }
+	  })
+  }
+  
+  fnBlock();
   fnCkeditor();
-  fnNoticeAdd();
   
 </script>
 
