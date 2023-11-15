@@ -19,6 +19,8 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/decoupled-document/ckeditor.js"></script>
 </head>
+
+
 <body>
 
   <div class="header_wrap">
@@ -39,14 +41,16 @@
         </div>
       </c:if>
     </div>    
-    <hr>  <!-- 중앙선 -->
-    <div class="btn_menu_var">
-        <i class="fa-solid fa-bars"></i>
-      </div>
-      <div class="css-1vh2lxo">카테고리</div>
-      <div class="css_1vh2lxo">전체매물</div>
-      <div class="hot_list"><a href="${contextPath}/product/hot_list.jsp">인기상품</a></div>
-    </div>
+    <hr>
+    
+    
+      <ul>
+        <li><i class="fa-solid fa-bars"></i></li>
+        <li><div class="css-1vh2lxo">카테고리</div></li>
+        <li><div class="css_1vh2lxo">전체매물</div></li>
+        <li><div class="hot_list"><a href="${contextPath}/product/hot_list.do">인기상품</a></div></li>
+      </ul>
+
     
   <div class="main_wrap">
 

@@ -92,4 +92,30 @@
      WHERE EMAIL = #{email}
        AND NAME = #{name}
   </update>
+  
+  <insert id="insertNaverUser" parameterType="UserDto">
+    INSERT INTO USER_T (
+        USER_NO
+      , EMAIL
+      , NAME
+      , GENDER
+      , PHONE
+      , SIDO
+      , SIGUNGU
+      , AGREE
+      , STATE
+      , JOINED_AT
+    ) VALUES (
+        USER_SEQ.NEXTVAL
+      , #{email}
+      , #{name}
+      , #{gender}
+      , #{phone}
+      , #{sido}
+      , #{sigungu}
+      , #{agree}
+      , 1
+      , SYSDATE
+    )
+  </insert>
 </mapper>
