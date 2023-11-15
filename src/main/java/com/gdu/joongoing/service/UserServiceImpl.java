@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -149,7 +150,7 @@ public class UserServiceImpl implements UserService {
                     .agree(event.equals("on") ? 1 : 0)
                     .sido(sido)
                     .sigungu(sigungu)
-                    .interestSido(interestSido)
+                    .interestSido(interestSido.equals("시/도 선택") ? "없음" : interestSido)
                     .interestSigungu(interestSigungu)
                     .build();
     
@@ -209,7 +210,7 @@ try {
       userMapper.updatePw(map);
       myJavaMailUtils.sendJavaMail(email
           , "중고잉 임시 비밀번호발급"
-          , "<div>임시 비밀번호는 <strong>" + temporaryPw + "</strong>입니다. 로그인 후 비밀번호를 변경해주세요.</div>");
+          , "<div>임시 비밀번호는 <strong>" + temporaryPw + "</strong>입니다. <h2 style='color: crimson;'>* 로그인 후 비밀번호를 변경해주세요 *</h2></div>");
       out.print(email + "로 임시 비밀번호가 전송되었습니다. 로그인 후 비밀번호를 변경해주세요.");
       out.close();
     } else {
@@ -398,6 +399,93 @@ try {
       out.close();
     }
   }
+  
+  @Override
+  public void leave(HttpServletRequest request, HttpServletResponse response) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("userNo"));
+    int userNo = Integer.parseInt(opt.orElse("0"));
+    
+    UserDto user = userMapper.getUser(Map.of("userNo", userNo));
+    
+    if(user == null) {
+      try {
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<script>");
+        out.println("alert('회원 탈퇴를 수행할 수 없습니다.')");
+        out.println("location.href='" + request.getContextPath() + "/main.do'");
+        out.println("</script>");
+        out.flush();
+        out.close();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    
+    int insertLeaveUserResult = userMapper.insertLeaveUser(user);
+    int deleteUserResult = userMapper.deleteUser(user);
+    
+   try {
+      
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      if(insertLeaveUserResult == 1 && deleteUserResult == 1) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        out.println("alert('회원 탈퇴되었습니다. 그 동안 이용해 주셔서 감사합니다.')");
+        out.println("location.href='" + request.getContextPath() + "/main.do'");
+      } else {
+        out.println("alert('회원 탈퇴되지 않았습니다.')");
+        out.println("history.back()");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
+  
+  @Override
+  public void active(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+  
+    InactiveUserDto inactiveUser = (InactiveUserDto)session.getAttribute("inactiveUser");
+    String email = inactiveUser.getEmail();
+    
+    int insertActiveUserResult = userMapper.insertActiveUser(email);
+    int deleteInactiveUserResult = userMapper.deleteInactiveUser(email);
+    
+    try {
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      if(insertActiveUserResult == 1 && deleteInactiveUserResult == 1) {
+        out.println("alert('휴면계정이 복구되었습니다. 계정 활성화를 위해서 곧바로 로그인 해 주세요.')");
+        out.println("location.href='" + request.getContextPath() + "/main.do'");  // 로그인 페이지로 보내면 로그인 후 다시 휴면 계정 복구 페이지로 돌아오므로 main으로 이동한다.
+      } else {
+        out.println("alert('휴면계정이 복구가 실패했습니다. 다시 시도하세요.')");
+        out.println("history.back()");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
+  
+  @Override
+  public void inactiveUserBatch() {
+    userMapper.insertInactiveUser();
+    userMapper.deleteUserForInactive();
+  }
+
+  
   
 }
 

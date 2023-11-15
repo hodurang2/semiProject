@@ -152,7 +152,7 @@ $(() => {
 	}
 
 	const fnCheckEmail = () => {
-	  $('#btn_get_code').click(() => {
+	  $('#btn_get_code').one('click', () => {
 	    let email = $('#email').val();
 	    // 연속된 ajax() 함수 호출의 실행 순서를 보장하는 JavaScript 객체 Promise
 	    new Promise((resolve, reject) => {

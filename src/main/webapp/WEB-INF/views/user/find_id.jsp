@@ -7,7 +7,7 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="아이디/비밀번호 찾기" name="title"/>
+  <jsp:param value="아이디 찾기" name="title"/>
 </jsp:include>
 
   <h3>회원님의 아이디를 확인해주세요</h3>

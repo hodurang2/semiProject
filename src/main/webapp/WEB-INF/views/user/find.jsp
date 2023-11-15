@@ -51,7 +51,7 @@
 
 
   const fnFindPw = () => {
-	$('#btn_findPw').click(() => {
+	$('#btn_findPw').one('click', () => {
 	  $.ajax({
 		url:  '${contextPath}/user/findPw.do',
 		type: 'post',
