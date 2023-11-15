@@ -16,7 +16,7 @@
   
   <div>
     안녕하세요. ${sessionScope.inactiveUser.email}님은 1년 이상 로그인하지 않아
-    관계 법령에 의해서 휴면회원으로 전환되었습니다.
+    휴면회원으로 전환되었습니다.
   </div>
   <div>
     휴면전환일 : ${sessionScope.inactiveUser.inactivedAt}
