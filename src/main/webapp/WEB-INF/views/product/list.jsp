@@ -49,10 +49,10 @@
   var page = 1;
   var totalPage = 0;
 
-	const fnGetproductList = () =>{
+	const fnGetProductList = () =>{
 		$.ajax({
 			type:'get',
-			url : '${contextPath}/product/getList.do',
+			url : '${contextPath}/product/getProductList.do',
 			data: 'page=' + page,
 			// 응답
 			dataType: 'json',
@@ -60,11 +60,10 @@
 				totalPage = resData.totalPage;
 				
 				$.each(resData.productList, (i, product) => {
-					let srt = '<div class="upload" data-upload_no="' + product.productNo + '">';
-					str += '<div id="image_box">' + ProductImageDto.hasThumnail + '</div>';
+					let str = '<div class="product" data-productNo="' + product.productNo + '">';
 					str += '<div>' + product.productName + '</div>';		
 					if(product.UserDto == null){
-						str += '<div>탈퇴한작성자</div>';
+						str += '<div>' + product.sellerNo + '</div>';
 					} else {
 						str += '<div>' + product.UserDto.name + '</div>';
 					} 
@@ -119,7 +118,6 @@
     if(addResult !== ''){
       if(addResult === 'true'){
         alert('성공적으로 업로드 되었습니다.');
-        $('#product_list').empty();
       } else {
         alert('업로드가 실패하였습니다.');
       }
@@ -138,7 +136,7 @@
     }
   }
   
-  fnGetproductList();
+  fnGetProductList();
   fnproductDetail();
   fnScroll();
   fnAddResult();

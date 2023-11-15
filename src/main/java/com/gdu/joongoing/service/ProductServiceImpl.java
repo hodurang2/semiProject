@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.ProductMapper;
+import com.gdu.joongoing.dto.CategoryDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
 import com.gdu.joongoing.dto.UserDto;
@@ -31,80 +32,71 @@ public class ProductServiceImpl implements ProductService {
   private final MyFileUtils myFileUtils;      // 파일첨부할 용도
   private final MyPageUtils myPageUtils;      // 목록 다룰 용도
   
+  
   @Override
-  public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
-    
-    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
+  public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
+
     String productName = multipartRequest.getParameter("productName");
+    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
     int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
+    String tradeAddress = multipartRequest.getParameter("tradeAddress");
     String productInfo = multipartRequest.getParameter("productInfo");
     int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
     
     ProductDto product = ProductDto.builder()
-                        .categoryId(categoryId)
-                        .productName(productName)
-                        .productPrice(productPrice)
-                        .productInfo(productInfo)
-                        .sellerNo(UserDto.builder()
-                                  .userNo(sellerNo)
-                                  .build())
-                        .build();
-                        
+        .productName(productName)
+        .categoryDto(CategoryDto.builder()
+                     .categoryId(categoryId)
+                     .build())
+        .productPrice(productPrice)
+        .tradeAddress(tradeAddress)
+        .productInfo(productInfo)
+        .sellerDto(UserDto.builder()
+            .userNo(sellerNo)
+            .build())
+        .build();
+    
     int productCount = productMapper.insertProduct(product);
-    
-    List<MultipartFile> files = multipartRequest.getFiles("files");
-    
-   
-    
-    int productImageCount;
-    if(files.get(0).getSize() == 0) {   // 첨부가 없었으면,
-      productImageCount = 1;
-    } else {
-      productImageCount = 0;
-    }
-    
-    for(MultipartFile multipartFile : files) {
-      
-      if(multipartFile != null && !multipartFile.isEmpty()) {
+    /* 이미지버튼 파일첨부기능 만들고 이거 주석해제하면 됨.
+     * List<MultipartFile> files = multipartRequest.getFiles("files");
+     * 
+     * 
+     * 
+     * int productImageCount; if(files.get(0).getSize() == 0) { // 첨부가 없었으면,
+     * productImageCount = 1; } else { productImageCount = 0; }
+     * 
+     * for(MultipartFile multipartFile : files) {
+     * 
+     * if(multipartFile != null && !multipartFile.isEmpty()) {
+     * 
+     * String path = myFileUtils.getUploadPath(); File dir = new File(path);
+     * if(!dir.exists()) { dir.mkdirs(); }
+     * 
+     * String imageOriginalName = multipartFile.getOriginalFilename(); String
+     * filesystemName = myFileUtils.getFilesystemName(imageOriginalName); File file
+     * = new File(dir, filesystemName);
+     * 
+     * multipartFile.transferTo(file);
+     * 
+     * String contentType = Files.probeContentType(file.toPath()); int hasThumbnail
+     * = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
+     * 
+     * if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" +
+     * filesystemName); Thumbnails.of(file) .size(100, 100) .toFile(thumbnail); }
+     * 
+     * ProductImageDto productImage = ProductImageDto.builder() .path(path)
+     * .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
+     * .hasThumbnail(hasThumbnail) .productNo(product.getProductNo()) .build();
+     * 
+     * productImageCount += productMapper.insertProductImage(productImage);
+     * 
+     * } // if
+     * 
+     * } // for
         
-        String path = myFileUtils.getUploadPath();
-        File dir = new File(path);
-        if(!dir.exists()) {
-          dir.mkdirs();
-        }
-        
-        String imageOriginalName = multipartFile.getOriginalFilename();
-        String filesystemName = myFileUtils.getFilesystemName(imageOriginalName);
-        File file = new File(dir, filesystemName);
-        
-        multipartFile.transferTo(file);
-        
-        String contentType = Files.probeContentType(file.toPath());
-        int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0;
-        
-        if(hasThumbnail == 1) {
-          File thumbnail = new File(dir, "s_" + filesystemName);
-          Thumbnails.of(file)
-                    .size(100,  100)
-                    .toFile(thumbnail);
-        }
-      
-        ProductImageDto productImage = ProductImageDto.builder()
-                             .path(path)
-                             .imageOriginalName(imageOriginalName)
-                             .filesystemName(filesystemName)
-                             .hasThumbnail(hasThumbnail)
-                             .productNo(product.getProductNo())
-                             .build();
-        
-        productImageCount += productMapper.insertProductImage(productImage);
-        
-      }  // if
-      
-    }    // for
-    
     return (productCount == 1) && (files.size() == productImageCount);   // 1이면 성공. productImageCount와 파일사이즈가 같으면 성공. 
-    
+    */
+    return productMapper.insertProduct(product);
   }
 
   @Transactional(readOnly=true)
@@ -281,5 +273,27 @@ public class ProductServiceImpl implements ProductService {
     return productMapper.deleteProduct(productNo);
     
   }
+
+  
+  @Transactional(readOnly=true)
+  @Override
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+  
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                     ,"end", myPageUtils.getEnd());
+    
+    List<ProductDto> hotList = productMapper.getHotList(map);
+    
+    return Map.of("hotList", hotList
+                  ,"totalPage", myPageUtils.getTotalPage());
+  }
+  
   
 }

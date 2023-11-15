@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gdu.joongoing.dao.ProductMapper">
+
+<!-- UserDto, CategoryDto  resultMap-->
+<resultMap type="ProductDto"               id="ProductMap">
+  <id     column="PRODUCT_NO"             property="productNo"/>
+  <result column="PRODUCT_NAME"           property="productName"/>
+  <result column="PRODUCT_PRICE"          property="productPrice"/>
+  <result column="PRODUCT_INFO"           property="productInfo"/>
+  <result column="PRODUCT_CREATED_AT"     property="productCreatedAt"/>
+  <result column="PRODUCT_MODIFIED_AT"    property="productModifiedAt"/>
+  <result column="PRODUCT_HIT"            property="hit"/>
+  <result column="PRODUCT_STATE"          property="state"/>
+  <result column="PRODUCT_TRADE_ADDRESS"  property="tradeAddress" />
+  <result column="REVIEW_CONTENTS"        property="reviewContents"/>
+  <result column="REVIEW_SCORE"           property="reviewScore"/>
+  <result column="CREATED_AT"             property="createdAt"/>
+  <result column="TRADE_AT"               property="tradeAt"/>
+  <association javaType="UserDto"   property="sellerDto">
+    <id     column="USER_NO"        property="userNo"/>
+    <result column="EMAIL"          property="email"/> 
+    <result column="NAME"           property="name"/> 
+    <result column="PW"             property="pw"/> 
+    <result column="GENDER"         property="gender"/> 
+    <result column="PHONE"          property="phone"/> 
+    <result column="AGREE"          property="agree"/> 
+    <result column="STATE"          property="state"/> 
+    <result column="JOINED_AT"      property="joinedAt"/>  
+    <result column="SIDO"           property="sido"/>  
+    <result column="SIGUNGU"        property="sigungu"/>  
+    <result column="INTEREST_SIDO"      property="interestSido" />
+    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
+  </association>  
+  <association javaType="UserDto"   property="buyerDto">
+    <id     column="USER_NO"        property="userNo"/>
+    <result column="EMAIL"          property="email"/> 
+    <result column="NAME"           property="name"/> 
+    <result column="PW"             property="pw"/> 
+    <result column="GENDER"         property="gender"/> 
+    <result column="PHONE"          property="phone"/> 
+    <result column="AGREE"          property="agree"/> 
+    <result column="STATE"          property="state"/> 
+    <result column="JOINED_AT"      property="joinedAt"/>  
+    <result column="SIDO"           property="sido"/>  
+    <result column="SIGUNGU"        property="sigungu"/>  
+    <result column="INTEREST_SIDO"      property="interestSido" />
+    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
+  </association> 
+  <association javaType="CategoryDto"     property="categoryDto">
+    <id     column="CATEGORY_ID"        property="categoryId"/>
+    <result column="NAME"               property="name" />
+  </association>
+</resultMap>
+
+<!-- 상품 넣기  -->
+<insert id="insertProduct" parameterType="ProductDto">
+  INSERT INTO PRODUCT(
+     PRODUCT_NO
+    ,SELLER_NO
+    ,BUYER_NO
+    ,CATEGORY_ID
+    ,PRODUCT_NAME
+    ,PRODUCT_PRICE
+    ,PRODUCT_INFO
+    ,PRODUCT_CREATED_AT
+    ,PRODUCT_MODIFIED_AT
+    ,PRODUCT_HIT
+    ,PRODUCT_STATE
+    ,PRODUCT_TRADE_ADDRESS
+  ) VALUES (
+    PRODUCT_SEQ.NEXTVAL
+  , #{sellerDto.userNo}
+  , NULL
+  , #{categoryDto.categoryId}
+  , #{productName}
+  , #{productPrice}
+  , #{productInfo}
+  , SYSTIMESTAMP
+  , SYSTIMESTAMP
+  , 0
+  , 1
+  , #{tradeAddress}
+)
+</insert>
+
+<insert id="insertProductImage" parameterType="ProductImageDto">
+  INSERT INTO PRODUCT_IMAGE (
+    IMAGE_NO
+   ,PRODUCT_NO
+   ,  PATH
+   , FILESYSTEM_NAME
+   , IMAGE_ORIGINAL_NAME
+   , HAS_THUMBNAIL
+  ) VALUES (
+    PRODUCT_IMAGE_SEQ.NEXTVAL,
+    #{productNo},
+    #{path},
+    #{filesystemName},
+    #{imageOriginalName},
+    1
+  )
+</insert>
+
+<!-- 상품 총 갯수(완) -->
+<select id="getProductCount" resultType="int">
+  SELECT COUNT(*)
+    FROM PRODUCT
+</select>
+
+
+<!-- 상품 번호별로 수정하기(완)-->
+<select id="getProductList" parameterType="Map" resultMap="ProductMap">
+  SELECT A.PRODUCT_NO, A.SELLER_NO, A.BUYER_NO, A.CATEGORY_ID, A.PRODUCT_NAME, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_CREATED_AT, 
+         A.PRODUCT_MODIFIED_AT, A.PRODUCT_HIT, A.PRODUCT_STATE, A.PRODUCT_TRADE_ADDRESS, A.REVIEW_CONTENTS, 
+         A.REVIEW_SCORE, A.CREATED_AT, A.TRADE_AT
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN,
+         P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+         P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+         P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+         USR.USER_NO, USR.EMAIL, USR.NAME
+         FROM PRODUCT P LEFT OUTER JOIN USER_T USR
+           ON P.SELLER_NO = USR.USER_NO) A
+   WHERE A.RN BETWEEN #{begin} AND #{end}
+</select>
+
+
+<!-- 상품조회하기(완) -->
+<select id="getProduct" parameterType="int" resultMap="ProductMap">
+  SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+         P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+         P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+         USR.USER_NO, USR.EMAIL, USR.NAME
+    FROM USER_T USR RIGHT OUTER JOIN PRODUCT P
+      ON USR.USER_NO = P.SELLER_NO
+   WHERE P.PRODUCT_NO = #{productNo}
+</select>
+
+<!-- 이미지 조회하기(완) -->
+<select id="getProductImageList" parameterType="int" resultType="ProductDto">
+  SELECT IMAGE_NO,PRODUCT_NO, PATH, FILESYSTEM_NAME, IMAGE_ORIGINAL_NAME, HAS_THUMBNAIL
+    FROM PRODUCT_IMAGE
+   WHERE FILESYSTEM_NAME = #{filesystemName}
+</select>
+
+<!-- 핫 리스트 -->
+<select id="hotProductList" resultType="ProductDto">
+  SELECT PRODUCT_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS
+    FROM PRODUCT
+   ORDER BY PRODUCT_HIT DESC;
+</select>
+
+
+
+<!-- 상품 수정하기(완)-->
+<update id="updateProduct" parameterType="ProductDto">
+  UPDATE PRODUCT
+     SET PRODUCT_NAME = #{productName}
+         , PRODUCT_INFO = #{productInfo}
+         , PRODUCT_MODIFIED_AT = SYSTIMESTAMP
+   WHERE PRODUCT_NO = #{productNo}
+</update>
+
+
+<!-- 이미지 삭제하기(완)-->
+<delete id="deleteProductImage" parameterType="int">
+  DELETE 
+    FROM PRODUCT_IMAGE
+   WHERE IMAGE_NO = #{imageNo}
+</delete>
+
+<!-- 삭제하기(완)-->
+<delete id="deleteProduct" parameterType="int">
+  DELETE 
+    FROM PRODUCT
+   WHERE PRODUCT_NO = #{productNo}
+</delete>
+
+</mapper>

@@ -28,16 +28,27 @@
           <td>제목</td>
           <td>작성자</td>
           <td>작성일자</td>
+          <td>최신상태</td>
         </tr>
       </thead>
       <tbody>
         <c:forEach items="${noticeList}" var="n" varStatus="vx">
           <tr>
-            <td>${n.noticeNo}</td>
+            <td>${num[vx.index]}</td>
             <td><a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a></td>
             <td>관리자</td>
             <td>
               <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
+            </td>
+            <td>
+              <c:choose> 
+                <c:when test="${noticeHour[vx.index] != null && noticeHour[vx.index] < 24 && noticeHour[vx.index] > 0}">
+                  <div>${noticeHour[vx.index]}시간 전</div>
+                </c:when> 
+                <c:when test="${noticeHour[vx.index] == 0}">
+                  <div>${noticeMinute[vx.index]}분 전</div>
+                </c:when> 
+              </c:choose>
             </td>
           </tr>
         </c:forEach>

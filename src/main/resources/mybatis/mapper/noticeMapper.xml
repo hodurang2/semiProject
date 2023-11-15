@@ -61,7 +61,7 @@
   <update id="updateNotice" parameterType="NoticeDto">
     UPDATE NOTICE
        SET TITLE = #{title},
-           CONTENTS = #{createdAt}
+           CONTENTS = #{contents}
      WHERE NOTICE_NO = #{noticeNo}
   </update>
   
@@ -70,4 +70,21 @@
       FROM NOTICE
      WHERE NOTICE_NO = #{noticeNo}  
   </delete>
+  
+  <select id="getHour" parameterType="int" resultType="int">
+    SELECT EXTRACT(DAY      FROM SYSTIMESTAMP - TM) *24
+         + EXTRACT(HOUR     FROM SYSTIMESTAMP - TM) AS HOUR
+      FROM (SELECT CREATED_AT AS TM 
+              FROM NOTICE 
+             WHERE NOTICE_NO = #{noticeNo})
+  </select>
+  
+  <select id="getMinute" parameterType="int" resultType="int">
+    SELECT EXTRACT(MINUTE   FROM SYSTIMESTAMP - TM) AS MINUTE
+      FROM (SELECT CREATED_AT AS TM 
+              FROM NOTICE 
+             WHERE NOTICE_NO = #{noticeNo}) 
+  </select>
+  
+  
 </mapper>
