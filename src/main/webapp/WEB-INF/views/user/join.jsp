@@ -350,9 +350,14 @@ $(() => {
 	      alert('휴대전화번호를 확인하세요.');
 	      ev.preventDefault();
 	      return;
+	    } else if($("#sido").val() == '' || $("#sigungu").val() == ''){
+      	  alert('주소를 선택해주세요.')
+          ev.preventDefault();
+	      return;
 	    }
 	  })
 	}
+	
 
 </script>
 
