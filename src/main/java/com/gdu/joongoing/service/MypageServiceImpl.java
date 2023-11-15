@@ -1,7 +1,9 @@
 package com.gdu.joongoing.service;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,19 +12,24 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gdu.joongoing.dao.MypageMapper;
+import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.UserDto;
+import com.gdu.joongoing.util.MyPageUtils;
 import com.gdu.joongoing.util.MySecurityUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class MypageServiceImpl implements MypageService {
 
   private final MypageMapper mypageMapper;
-  private final MySecurityUtils mySecurityUtils; 
+  private final MySecurityUtils mySecurityUtils;
+  private final MyPageUtils myPageUtils;
   
   @Override
   public UserDto getUser2(String email) {
@@ -144,6 +151,29 @@ public class MypageServiceImpl implements MypageService {
     }
     
     return new ResponseEntity<>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
+  }
+  
+  
+  @Override
+  public Map<String, Object> getSalesList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    Optional<String> opt2 = Optional.ofNullable(request.getParameter("sellerNo"));
+    int sellerNo = Integer.parseInt(opt2.orElse("0"));  // 판매자 번호
+    int total = mypageMapper.getSalesCount(sellerNo);   // 판매 상품 갯수
+    int display = 9;    // 3 x 3 목록 만들기 위해
+    
+    myPageUtils.setPaging(page, total, display);  // begin, end 계산
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()); 
+    
+    // 전달하고 목록 받기
+    List<ProductDto> salesList = mypageMapper.getSalesList(map);
+   
+    return Map.of("salesList", salesList
+                , "totalPage", myPageUtils.getTotalPage());   // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
   }
   
 }
