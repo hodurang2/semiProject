@@ -50,7 +50,7 @@
     <result column="INTEREST_SIDO"      property="interestSido" />
     <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
   </association> 
-  <association javaType="CategoryDto"     property="categoryDto">
+  <association javaType="CategoryDto"   property="categoryDto">
     <id     column="CATEGORY_ID"        property="categoryId"/>
     <result column="NAME"               property="name" />
   </association>
@@ -133,9 +133,12 @@
   SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
          P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
          P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
-         USR.USER_NO, USR.EMAIL, USR.NAME
+         USR.USER_NO, USR.EMAIL, USR.NAME,
+         C.NAME
     FROM USER_T USR RIGHT OUTER JOIN PRODUCT P
-      ON USR.USER_NO = P.SELLER_NO
+      ON USR.USER_NO = P.SELLER_NO 
+      INNER JOIN CATEGORY C
+      ON P.CATEGORY_ID = C.CATEGORY_ID
    WHERE P.PRODUCT_NO = #{productNo}
 </select>
 

@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
   private final MyFileUtils myFileUtils;      // 파일첨부할 용도
   private final MyPageUtils myPageUtils;      // 목록 다룰 용도
   
-  
   @Override
   public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception {
 

@@ -107,9 +107,14 @@
       <label for="name" class="form-label">상품명</label>
       <input type="text" name="productName" id="productName" class="form-control">
     </div>
+    <div>${SessionScope.categoryList.name}</div>
     <div>
-      <label for="name" class="form-label">카테고리</label>
-      <input type="text" name="categoryId" id="categoryId" class="form-control">
+      <select name="categoryId">
+        <option value="select" name="categoryId" selected="selected">선택</option>
+        <option value="1">가전제품</option>
+        <option value="2">잡화</option>
+        <option value="3">식품</option>
+      </select>
     </div>
     <div>
       <label for="productPrice" class="form-label">가격</label>

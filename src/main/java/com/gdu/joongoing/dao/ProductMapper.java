@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdu.joongoing.dto.CategoryDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
 
