@@ -26,9 +26,10 @@
 
   <div class="header_wrap">
     <div class="header_dddd">
-          <div class="logo">
+     <div class="logo">
       <img src="${contextPath}/resources/image/logo.png" width="150px">
     </div>
+     <!-- 로그인 --> 
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
@@ -36,25 +37,20 @@
           <li>고객센터</li>
         </ul>
       </c:if>
+      <ul class="ul_menu right_wrap">
       <c:if test="${sessionScope.user != null}">
-        <div>${sessionScope.user.name}님 환영합니다</div>
-        <div>
-          <div><a href="${contextPath}/product/write.form" id="joongo_btn">중고판매하기</a></div>
-          <div><a href="${contextPath}/mypage/detail.do">마이페이지</a></div>
-          <div><a href="${contextPath}/user/logout.do">로그아웃</a></div>
-          <div>고객센터</div>
+        <li>${sessionScope.user.name}님 환영합니다</li>
+          <li><a href="${contextPath}/product/write.form" id="joongo_btn">중고판매하기</a></li>
+          <li><a href="${contextPath}/mypage/detail.do">마이페이지</a></li>
+          <li><a href="${contextPath}/user/logout.do">로그아웃</a></li>
+          <li>고객센터</li>
         </div>
       </c:if>
-     </div>
-      
-      
-      
-      
-    
-    </div>
-
-
-   
+      </ul>
+   </div> 
+ </div>
+ 
+ 
     <hr>
       <ul class="menu_var left_var">
         <li><i class="fa-solid fa-bars"></i></li>
