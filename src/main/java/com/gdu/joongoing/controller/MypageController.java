@@ -26,7 +26,7 @@ public class MypageController {
   
   @GetMapping("/detail.do")
   public String myPage() {
-    return "mypage/detail";
+    return "mypage/sales_list";
   }
   
   @GetMapping("/modifyInterest.form")
