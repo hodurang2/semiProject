@@ -106,7 +106,6 @@ public class UserServiceImpl implements UserService {
     Map<String, Object> map = Map.of("email", email);
     
     boolean enableEmail = userMapper.getUser(map) == null
-                       && userMapper.getLeaveUser(map) == null
                        && userMapper.getInactiveUser(map) == null;
     
     return new ResponseEntity<>(Map.of("enableEmail", enableEmail), HttpStatus.OK);

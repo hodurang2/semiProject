@@ -9,12 +9,25 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="아이디 찾기" name="title"/>
 </jsp:include>
+<style>
+  .wrap_5 {
+    width: 500px;
+  }
+  
+  .wrap {
+    padding: 10px;
+    margin: 0 auto;  
+  }
+</style>
 
-  <h3>회원님의 아이디를 확인해주세요</h3>
 
-  <div id="findIdResult">
+  <div class="wrap wrap_5">
+  
+    <h2>회원님의 아이디를 확인해주세요</h2>
+    <h4 style="margin-top: 20px" id="findIdResult"></h4>
     
   </div>
+  
     
 <script>
   $(() => {

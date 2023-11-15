@@ -21,8 +21,13 @@
     margin-bottom: 20px;
   }
 
-  .login_form_wrap {
+  .wrap_5 {
     width: 500px;
+  }
+  
+  .wrap {
+    padding: 10px;
+    margin: 0 auto;  
   }
   
   .sub_menu {
@@ -81,7 +86,7 @@
   
 </style>
   
-  <div class="center_wrap login_form_wrap">
+  <div class="wrap wrap_5">
     <h3 class="title">로그인</h3>
     <form method="post" action="${contextPath}/user/login.do">
       <div class="input-box">      
