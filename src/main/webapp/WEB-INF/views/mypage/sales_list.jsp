@@ -10,8 +10,17 @@
 
 <div>
 
-    <h1 class="text-center mb-4">찜한 상품</h1>
-
+  <h1 class="text-center mb-4">나의 판매내역</h1>
+  <div>
+    <a href="${contextPath}/product/write.form">
+      <button type="button" class="btn btn-primary">판매하기</button>
+    </a>
+  </div>
+  
+  <div id="sales_list" class="sales_list"></div>
+  
 </div>
+
+
 
 <%@ include file="../layout/footer.jsp" %>

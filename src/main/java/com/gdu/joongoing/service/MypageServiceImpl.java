@@ -31,6 +31,7 @@ public class MypageServiceImpl implements MypageService {
   
   @Override
   public void modifyPw(HttpServletRequest request, HttpServletResponse response) {
+    
     String pw = mySecurityUtils.getSHA256(request.getParameter("pw"));
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
@@ -65,6 +66,47 @@ public class MypageServiceImpl implements MypageService {
     }
   }
   
+
+  @Override
+  public void modifyInterest(HttpServletRequest request, HttpServletResponse response) {
+    
+    String interestSido = request.getParameter("interestSido");
+    String interestSigungu = request.getParameter("interestSigungu");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    UserDto user = UserDto.builder()
+                          .interestSido(interestSido)
+                          .interestSigungu(interestSigungu)
+                          .userNo(userNo)
+                          .build();
+    int modifyInterestResult = mypageMapper.updateUserInterest(user);
+    
+    try {
+      
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      out.println("<script>");
+      if(modifyInterestResult == 1) {
+        HttpSession session = request.getSession();
+        UserDto sessionUser = (UserDto)session.getAttribute("user");
+        sessionUser.setInterestSido(interestSido);
+        sessionUser.setInterestSigungu(interestSigungu);
+        out.println("alert('관심지역이 수정되었습니다.')");
+        out.println("location.href='" + request.getContextPath() + "/mypage/detail.do'");
+      } else {
+        out.println("alert('관심지역이 수정되지 않았습니다.");
+        out.println("history.back()");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+      
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
+  
   
   @Override
   public ResponseEntity<Map<String, Object>> modify(HttpServletRequest request) {
@@ -72,21 +114,19 @@ public class MypageServiceImpl implements MypageService {
     String name = mySecurityUtils.preventXSS(request.getParameter("name"));
     String gender = request.getParameter("gender");
     String phone = request.getParameter("phone");
-    String event = request.getParameter("event");
-    int agree = event.equals("on") ? 1 : 0;
-    
     String sido = request.getParameter("sido");
     String sigungu = request.getParameter("sigungu");
-    
+    String event = request.getParameter("event");
+    int agree = event.equals("on") ? 1 : 0;    
     int userNo = Integer.parseInt(request.getParameter("userNo"));
     
     UserDto user = UserDto.builder()
                           .name(name)
                           .gender(gender)
                           .phone(phone)
-                          .agree(agree)
                           .sido(sido)
                           .sigungu(sigungu)
+                          .agree(agree)
                           .userNo(userNo)
                           .build();
     int modifyResult = mypageMapper.updateUser(user);
@@ -98,9 +138,9 @@ public class MypageServiceImpl implements MypageService {
       sessionUser.setName(name);
       sessionUser.setGender(gender);
       sessionUser.setPhone(phone);
-      sessionUser.setAgree(agree);
       sessionUser.setSido(sido);
       sessionUser.setSigungu(sigungu);
+      sessionUser.setAgree(agree);
     }
     
     return new ResponseEntity<>(Map.of("modifyResult", modifyResult), HttpStatus.OK);
