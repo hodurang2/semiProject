@@ -6,9 +6,6 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
-<jsp:include page="../layout/header.jsp">
-  <jsp:param value="인기게시판" name="title"/>
-</jsp:include>
 
 <style>
   .product_list {
@@ -39,37 +36,34 @@
   
 </style>
 
+<jsp:include page="../layout/header.jsp">
+  <jsp:param value="인기게시판" name="title"/>
+</jsp:include>
 
-<div class="hot_list">
+<h1>인기 조회수</h1>
 
-  <div class="list">
-    <ul>
-      <div class="img_hot"><img src="../resources/image/banner_dum.png"></div>
-      <li>#{product.productNo}</li>
-      <li>#{product.productName}</li>
-      <li>#{product.productPrice}</li>
-      <li>#{product.productAt}</li>
-      <li>#{product.productHit}</li>
-    </ul>
-  </div>
-  
-  <c:foreach var="hot" items="${map.hotList}">
-    <tr>
-      <td><img src="${contextPath}/resources/logo.png" /><a href="hotList.do?productNo=${hot.productNo}"></a></td>
-      <td>${hot.productHit}</td>   
-      <td>${hot.productNo}</td>
-      <td>${hot.productName}</td>
-    </tr>
-  </c:foreach>
-
-</div>
-
-
-
-
-
-
-
+<c:if test="${not empty productHotList}">
+  <table>
+    <thead>
+      <tr>
+        <th>제품명</th>
+        <th>가격</th>
+        <th>생성일</th>
+        <th>조회수</th>
+      </tr>
+    </thead>
+    <tbody>
+      <c:forEach var="product" items="${productHotList}">
+        <tr>
+          <td>${product.productName}</td>
+          <td>${product.productPrice}</td>
+          <td>${product.productCreatedAt}</td>
+          <td>${product.hit}</td>
+        </tr>
+      </c:forEach>
+    </tbody>
+  </table>
+</c:if>
 
 
 

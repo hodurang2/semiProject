@@ -103,14 +103,20 @@ public class ProductController {
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/header.do";
   }
+
+//  @ResponseBody
+//  @GetMapping(value = "/hot_list.do", produces="application/json")
+//  public Map<String, Object> getHotProductList(HttpServletRequest request){
+//    return productService.getHotProductList(request);
+//  }
   
-  @ResponseBody
-  @GetMapping("/product/hot_list.do")
-  public Map<String, Object> getHotList(HttpServletRequest request){
-    return productService.getHotList(request);
+  @GetMapping("/hot_list.do")
+  public String hotList(MultipartHttpServletRequest multipartRequest
+                      , RedirectAttributes redirectAttributes) throws Exception {
+    int hotlistResult = productService.hotProductList(multipartRequest);
+    redirectAttributes.addFlashAttribute("hotlistResult", hotlistResult);
+    return "redirect:/product/hot_list.do";
   }
- 
+
   
-  
-    
 }
