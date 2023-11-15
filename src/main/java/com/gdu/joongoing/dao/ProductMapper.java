@@ -10,9 +10,9 @@ import com.gdu.joongoing.dto.ProductImageDto;
 
 @Mapper
 public interface ProductMapper {
+  public int getProductNo(int sellerNo);
   public int insertProduct(ProductDto product);
-
-  /* public int insertProductImage(ProductImageDto productImage); */
+  public int insertProductImage(ProductImageDto productImage);
   public int getProductCount();
   public List<ProductDto> getProductList(Map<String, Object> map);  // 매퍼.xml 에서는 ProductMap 으로 적었지만, 자바가 인식하기는 ProductDto로 인식한다.
   public ProductDto getProduct(int productNo);
@@ -23,5 +23,5 @@ public interface ProductMapper {
   public int deleteProduct(int productNo);
 
   public List<ProductDto> getHotProductList();
+}
   
-}                                                                                                                                                                                                                                                                                                                                                                                            
