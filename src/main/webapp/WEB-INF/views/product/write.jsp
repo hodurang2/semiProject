@@ -18,21 +18,15 @@
    기본정보
   <span>&nbsp;*필수항목</span>
 </h2>
-    <div class="ProductNewstyle_Label">
-      상품이미지
-    </div>
-    <!-- 이미지 영역 호버시 툴팁 -->
-    <div>
-      <a data-toggle="tooltip" title="이미지등록">
-        <img id="productImage" width="200px">
-      </a>
-    </div>
-    <!-- 이미지 영역 클릭 시 파일 등록 -->
-    <div class="input-type" id="file-area">
-      <input type="file" id="productImage1" onchange="loadImg(this,1)" class="form-control-file border" name="files" multiple required>
-    </div>
     <br> 
-    <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    
+    <div class="attached_list mt-2" id="attached_list"></div>
+    <div class="mt-3">
+      <label for="files" class="form-label">첨부</label>
+      <input type="file" name="files" id="files" class="form-control" accept="image/*" onchange="setThumbnail(event);" multiple/>
+      <div id="image_container"></div>
+    </div>
     <div>
       <label for="name" class="form-label">판매자</label>
       <input type="text" name="sellerDto" id="sellerDto" class="form-control" value="${sessionScope.user.name}" readonly>
@@ -88,36 +82,22 @@
    
 <script>
 
-  $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  
-  $(function(){
-	    $("#file-area").hide();
-	    $("#productImage").click(function(){
-	      $("#productImage1").click();    
-	  })
-	})
-	
-	/* function loadImg(inputFile,num){
-  if(inputFile.files.length == 1){
-
-  var reader = new FileReader();
-
-  reader.readAsDataURL(inputFile.files[0]);
-  reader.onload = function(e){
-    $("#productImage").attr("src", e.target.result);
-  }
-
-  } else {
-      $("#productImage").attr("src", nul);
-    }
-  }
- */
-
-  const fnFileCheck = () => {
+const fnFileCheck = () => {
     $('#files').change((ev) => {
-      $('#file_list').empty();
+        for (var image of event.target.files) {
+          var reader = new FileReader();
+
+          reader.onload = function(event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            img.setAttribute("width", "300px");
+            document.querySelector("div#image_container").appendChild(img);
+          };
+
+          console.log(image);
+          reader.readAsDataURL(image);
+        }
+      $('#attached_list').empty();
       let maxSize = 1024 * 1024 * 100;
       let maxSizePerFile = 1024 * 1024 * 10;
       let totalSize = 0;
@@ -127,23 +107,33 @@
         if(files[i].size > maxSizePerFile){
           alert('각 첨부파일의 최대 크기는 10MB입니다.');
           $(ev.target).val('');
-          $('#file_list').empty();
+          $('#attached_list').empty();
           return;
         }
-        $('#file_list').append('<div>' + files[i].name + '</div>');
       }
       if(totalSize > maxSize){
         alert('전체 첨부파일의 최대 크기는 100MB입니다.');
         $(ev.target).val('');
-        $('#file_list').empty();
+        $('#attached_list').empty();
         return;
       }
     })
   }
   
+  const fnSubmit = () => {
+     $('#frm_upload_add').submit((ev) => {
+        if($('#title').val() === ''){
+           alert('제목은 반드시 입력해야 합니다.');
+           $('#title').focus();
+           ev.preventDefault();
+           return;
+        }
+     })
+  }
   
-  /* loadImg(); */
+  
   fnFileCheck();
+  fnSubmit();
   
 </script>
 

@@ -1,6 +1,5 @@
 package com.gdu.joongoing.service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.gdu.joongoing.dto.ProductDto;
 
 public interface ProductService {
-  public int addProduct(MultipartHttpServletRequest multipartRequest) throws Exception; 
+  public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception; 
   public Map<String, Object> getProductList(HttpServletRequest request);
   public void loadProduct(HttpServletRequest request, Model model);
   public void removeTempFiles();
