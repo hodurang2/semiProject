@@ -14,6 +14,10 @@
     text-align: center;
     margin-bottom: 20px;
   }
+  .btn_join {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="wrap wrap_7">
@@ -31,8 +35,8 @@
     </div>
     
     <div class="row mb-2">
-      <div class="col-sm-8"><input type="text" id="code" class="form-control" placeholder="인증코드입력" disabled></div>
-      <div class="col-sm-4 d-grid gap-2"><button type="button" class="btn btn-outline-secondary" id="btn_verify_code" disabled>인증하기</button></div>
+      <div class="col-sm-9"><input type="text" id="code" class="form-control" placeholder="인증코드입력" disabled></div>
+      <div class="col-sm-3 d-grid gap-2"><button type="button" class="btn btn-outline-secondary" id="btn_verify_code" disabled>인증하기</button></div>
     </div>
     
     <hr class="my-3">
@@ -91,7 +95,7 @@
       <select class="col-sm-2" name="sigungu" id="sigungu"></select>
     </div>
     <div>
-      <label for="address" class="col-sm-3 col-form-label">관심지역</label>
+      <label for="address" class="col-sm-3 col-form-label">관심지역 (선택)</label>
       <select class="col-sm-2" name="interestSido" id="interestSido"></select>
       <select class="col-sm-2" name="interestSigungu" id="interestSigungu"></select>
     </div>
@@ -101,7 +105,7 @@
     
     <div class="d-grid gap-2 col-6 mx-auto text-center">
       <input type="hidden" name="event" value="${event}">
-      <button type="submit" class="btn btn-primary">회원가입하기</button>
+      <button type="submit" class="btn btn_join btn-primary">회원가입하기</button>
     </div>
     
   </form>

@@ -14,6 +14,9 @@
     text-align: center;
     margin-bottom: 20px;
   }
+  .btn {
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="wrap wrap_7">
@@ -116,7 +119,7 @@
     <div class="form-check mt-3">
       <input type="checkbox" name="event" class="form-check-input chk_each" id="event">
       <label class="form-check-label" for="event">
-        이벤트 알림 동의(선택)
+        이벤트 알림 동의 (선택)
       </label>
     </div>
     <div>
