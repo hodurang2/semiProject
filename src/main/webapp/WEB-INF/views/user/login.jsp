@@ -35,6 +35,11 @@
     justify-content: space-between;
   }
   
+   .atag {
+    text-decoration: none;
+    color: #333333;
+  }
+  
   .input-box{
     position:relative;
     margin:10px 0;
@@ -103,8 +108,8 @@
       </div>
     </form>
     <ul class="sub_menu">
-      <li><a href="${contextPath}/user/agree.form">회원가입</a>
-      <li><a href="${contextPath}/user/find.form">아이디/비밀번호 찾기</a>
+      <li><a class="atag" href="${contextPath}/user/agree.form">회원가입</a>
+      <li><a class="atag" href="${contextPath}/user/find.form">아이디/비밀번호 찾기</a>
     </ul>
     <hr>
     <div style="text-align: center;">

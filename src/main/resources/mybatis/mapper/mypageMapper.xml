@@ -20,36 +20,8 @@
   <result column="REVIEW_SCORE"           property="reviewScore"/>
   <result column="CREATED_AT"             property="createdAt"/>
   <result column="TRADE_AT"               property="tradeAt"/>
-  <association javaType="UserDto"   property="sellerDto">
-    <id     column="USER_NO"        property="userNo"/>
-    <result column="EMAIL"          property="email"/> 
-    <result column="NAME"           property="name"/> 
-    <result column="PW"             property="pw"/> 
-    <result column="GENDER"         property="gender"/> 
-    <result column="PHONE"          property="phone"/> 
-    <result column="AGREE"          property="agree"/> 
-    <result column="STATE"          property="state"/> 
-    <result column="JOINED_AT"      property="joinedAt"/>  
-    <result column="SIDO"           property="sido"/>  
-    <result column="SIGUNGU"        property="sigungu"/>  
-    <result column="INTEREST_SIDO"      property="interestSido" />
-    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
-  </association>  
-  <association javaType="UserDto"   property="buyerDto">
-    <id     column="USER_NO"        property="userNo"/>
-    <result column="EMAIL"          property="email"/> 
-    <result column="NAME"           property="name"/> 
-    <result column="PW"             property="pw"/> 
-    <result column="GENDER"         property="gender"/> 
-    <result column="PHONE"          property="phone"/> 
-    <result column="AGREE"          property="agree"/> 
-    <result column="STATE"          property="state"/> 
-    <result column="JOINED_AT"      property="joinedAt"/>  
-    <result column="SIDO"           property="sido"/>  
-    <result column="SIGUNGU"        property="sigungu"/>  
-    <result column="INTEREST_SIDO"      property="interestSido" />
-    <result column="INTEREST_SIGUNGU"   property="interestSigungu"/>
-  </association> 
+  <result column="SELLER_NO"              property="sellerNo"/>
+  <result column="BUYER_NO"               property="buyerNo"/>
   <association javaType="CategoryDto"     property="categoryDto">
     <id     column="CATEGORY_ID"        property="categoryId"/>
     <result column="NAME"               property="name" />
@@ -94,8 +66,7 @@
   SELECT COUNT(*)
     FROM (SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
                  P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
-                 P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
-                 USR.USER_NO, USR.EMAIL, USR.NAME
+                 P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT, USR.USER_NO
             FROM PRODUCT P LEFT OUTER JOIN USER_T USR
               ON P.SELLER_NO = USR.USER_NO
            WHERE P.SELLER_NO = #{sellerNo})
@@ -104,7 +75,7 @@
   <select id="getSalesList" parameterType="Map" resultMap="ProductMap">
     SELECT A.PRODUCT_NO, A.SELLER_NO, A.BUYER_NO, A.CATEGORY_ID, A.PRODUCT_NAME, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_CREATED_AT, 
            A.PRODUCT_MODIFIED_AT, A.PRODUCT_HIT, A.PRODUCT_STATE, A.PRODUCT_TRADE_ADDRESS, A.REVIEW_CONTENTS, 
-           A.REVIEW_SCORE, A.CREATED_AT, A.TRADE_AT
+           A.REVIEW_SCORE, A.CREATED_AT, A.TRADE_AT, A.NAME
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN,
                    P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
                    P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
@@ -112,10 +83,35 @@
                    USR.USER_NO, USR.EMAIL, USR.NAME
               FROM PRODUCT P LEFT OUTER JOIN USER_T USR
                 ON P.SELLER_NO = USR.USER_NO
-             WHERE P.PRODUCT_STATE = 2) A
+             WHERE P.SELLER_NO = #{sellerNo}) A
     WHERE A.RN BETWEEN #{begin} AND #{end}
   </select>
   
+    <select id="getPurchaseCount" parameterType="int" resultType="int">
+  SELECT COUNT(*)
+    FROM (SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+                 P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+                 P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT, USR.USER_NO
+            FROM PRODUCT P LEFT OUTER JOIN USER_T USR
+              ON P.BUYER_NO = USR.USER_NO
+           WHERE P.BUYER_NO = #{buyerNo})
+  </select>
+  
+  <select id="getPurchaseList" parameterType="Map" resultMap="ProductMap">
+    SELECT A.PRODUCT_NO, A.SELLER_NO, A.BUYER_NO, A.CATEGORY_ID, A.PRODUCT_NAME, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_CREATED_AT, 
+           A.PRODUCT_MODIFIED_AT, A.PRODUCT_HIT, A.PRODUCT_STATE, A.PRODUCT_TRADE_ADDRESS, A.REVIEW_CONTENTS, 
+           A.REVIEW_SCORE, A.CREATED_AT, A.TRADE_AT, A.NAME
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN,
+                   P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.CATEGORY_ID, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+                   P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+                   P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+                   USR.USER_NO, USR.EMAIL, USR.NAME
+              FROM PRODUCT P LEFT OUTER JOIN USER_T USR
+                ON P.BUYER_NO = USR.USER_NO
+             WHERE P.PRODUCT_STATE = 2
+               AND P.BUYER_NO = #{buyerNo}) A
+    WHERE A.RN BETWEEN #{begin} AND #{end}
+  </select>
  
   
 </mapper>
