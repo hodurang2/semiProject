@@ -26,7 +26,6 @@
         <tr>
           <td>글번호</td>
           <td>제목</td>
-          <td>작성자</td>
           <td>작성일자</td>
           <td>최신상태</td>
         </tr>
@@ -36,7 +35,6 @@
           <tr>
             <td>${num[vx.index]}</td>
             <td><a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a></td>
-            <td>관리자</td>
             <td>
               <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
             </td>
