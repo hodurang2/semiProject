@@ -96,13 +96,20 @@
     <div class="ProductNewstyle_Content-sc-7fge4a-7 nqDMw">
       <ul class="sc-FQuPU eUN1GD">
         <li class="sc-iuDHTM bXMOKO">
-         <button type="button" class="btn_productImage"><img alt="이미지등록" src="../resources/image/productImage.png" width="200"></button>
+         <button type="button" class="btn_productImage"><img alt="이미지등록" src="../resources/image/productImage.png" width="200">
+           <label for="files" class="form-label"></label>
+           <input type="file" name="files" id="files" class="form-control" multiple>
+         </button>
         </li>
       </ul>
     </div>
    </li>
 </ul>
   <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    <div>
+      <label for="name" class="form-label">판매자</label>
+      <input type="text" name="sellerDto" id="sellerDto" class="form-control">
+    </div>
     <div>
       <label for="name" class="form-label">상품명</label>
       <input type="text" name="productName" id="productName" class="form-control">
