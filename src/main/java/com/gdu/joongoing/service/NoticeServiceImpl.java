@@ -104,7 +104,7 @@ public class NoticeServiceImpl implements NoticeService{
             String filesystemName = src.substring(src.lastIndexOf("/") + 1);
             NoticeAttachDto noticeAttach = NoticeAttachDto.builder()
                     .noticeNo(notice.getNoticeNo())
-                    .path(myFileUtils.getBlogImagePath())
+                    .path(myFileUtils.getNoticeImagePath())
                     .filesystemName(filesystemName)
                     .build();
 
@@ -120,7 +120,7 @@ public class NoticeServiceImpl implements NoticeService{
   public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
     
     // 이미지가 저장될 경로
-    String imagePath = myFileUtils.getBlogImagePath();
+    String imagePath = myFileUtils.getNoticeImagePath();
     File dir = new File(imagePath);
     if(!dir.exists()) {
       dir.mkdirs();
