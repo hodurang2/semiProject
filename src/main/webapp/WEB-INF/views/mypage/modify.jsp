@@ -15,13 +15,13 @@
   <form id="frm_mypage_modify" method="post">
 
     <h1 class="text-center mb-4">회원정보수정</h1>
-
+    
     <c:if test="${sessionScope.user.state == 0}">
       <div class="text-center">
         <button type="button" id="btn_modify_pw" class="btn btn-danger">비밀번호변경하기</button>
       </div>      
-      <hr class="my-3">
     </c:if>
+    <hr class="my-3">
     
     <div class="row mb-4">
       <div class="col-sm-3">이메일</div>
@@ -107,7 +107,10 @@
 <script>
 
   $(() => {
-	  fnModifyPwForm();
+	  fnModifyPasswordForm();
+	  fnCheckName();
+	  fnCheckMobile();
+	  fnModifyUser();
 	  fnBeforeAddress();
 	  fnRemoveAddress();
 	  fnResetAddress();
@@ -115,6 +118,8 @@
   })
   
   /* 전역변수 선언 */
+  var namePassed = true;
+  var mobilePassed = true;
   var area0 = ["시/도 선택","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
   var area1 = ["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
   var area2 = ["계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
@@ -133,11 +138,12 @@
   var area15 = ["거제시","김해시","마산시","밀양시","사천시","양산시","진주시","진해시","창원시","통영시","거창군","고성군","남해군","산청군","의령군","창녕군","하동군","함안군","함양군","합천군"];
   var area16 = ["서귀포시","제주시","남제주군","북제주군"];
 
-  /* 함수 정의 */
-  const fnModifyPwForm = () => {
-	  $('#btn_modify_pw').click(() => {
-		  location.href = '${contextPath}/mypage/modifyPw.form';
-	  })
+  
+  /* 함수 정의 */ 
+  const fnModifyPasswordForm = () => {
+    $('#btn_modify_pw').click(() => {
+      location.href = '${contextPath}/mypage/modifyPw.form';
+    })
   }
   
   const fnCheckName = () => {
@@ -154,6 +160,8 @@
 	    namePassed = (bytes <= 50);
 	    if(!namePassed){
 	      $('#msg_name').text('이름은 50바이트 이내로 작성해야 합니다.');
+	    } else {
+  	    $('#msg_name').text('');	    	
 	    }
 	  })
 	}
@@ -167,7 +175,7 @@
 	    if(mobilePassed){
 	      $('#msg_phone').text('');
 	    } else {
-	      $('#msg_phnoe').text('휴대폰번호를 확인하세요.');       
+	      $('#msg_phone').text('휴대폰번호를 확인하세요.');       
 	    }
 	  })
 	}
@@ -200,49 +208,48 @@
 	}
 	
 
-	 
-	  // 기존 선택한 시/도 확인
-	  const fnBeforeAddress = () => {
-      $('#sido').append('<option value="${sessionScope.user.sido}">${sessionScope.user.sido}</option>');
-      $('#sigungu').append('<option value="${sessionScope.user.sigungu}">${sessionScope.user.sigungu}</option>');
-	  }
-	  
-	  // 콤보박스 클릭 시 기존 시/도 삭제
-	  const fnRemoveAddress = () => {
-		  $('#sido').one('click', () => {			  
-  		  $('#sido').append('<option value=""></option>');
-  		  $('#sigungu').append('<option value=""></option>');
-  		  $('#sido option:eq(0)').remove();
-		  })
-	  }
-	  
-	  // 시/도 초기화
-	  function fnResetAddress(){
-      $("#sido").each(function() {
-          $selsido = $(this);
-          $.each(eval(area0), function() {
-            $selsido.append("<option value='"+this+"'>"+this+"</option>");
-          });
-          $selsido.next().append("<option value=''>시/군/구 선택</option>");
-        });
-	  }
+	// 기존 선택한 시/도 확인
+  const fnBeforeAddress = () => {
+    $('#sido').append('<option value="${sessionScope.user.sido}">${sessionScope.user.sido}</option>');
+    $('#sigungu').append('<option value="${sessionScope.user.sigungu}">${sessionScope.user.sigungu}</option>');
+  }
+  
+  // 콤보박스 클릭 시 기존 시/도 삭제
+  const fnRemoveAddress = () => {
+    $('#sido').one('click', () => {
+      $("#sido").empty();
+      fnResetAddress();
+    })
+  }
+  
+  // 시/도 초기화
+  function fnResetAddress(){
+    $("#sido").each(function() {
+      $selsido = $(this);
+      $.each(eval(area0), function() {
+        $selsido.append("<option value='"+this+"'>"+this+"</option>");
+      });
+      $selsido.next().append("<option value=''>시/군/구 선택</option>");
+    });
+  }
 
-	  
-	  // 시/도 선택시 구/군 설정
-	  function fnAddress(){
-	    $("#sido").change(function() {
-	    var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 시군구 Array
-	    var $sigungu = $(this).next(); // 선택영역 시군구 객체
-	    $("option",$sigungu).remove(); // 시군구 초기화
-	    if(area == "area0")
-	      $sigungu.append("<option value=''>시/군/구 선택</option>");
-	    else {
-	      $.each(eval(area), function() {
-	      $sigungu.append("<option value='"+this+"'>"+this+"</option>");
-	      });
-	    }
-	    });
-	  }
+  
+  // 시/도 선택시 구/군 설정
+  function fnAddress(){
+    $("#sido").change(function() {
+      var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 시군구 Array
+      var $sigungu = $(this).next(); // 선택영역 시군구 객체
+      $("option",$sigungu).remove(); // 시군구 초기화
+      if(area == "area0")
+        $sigungu.append("<option value=''>시/군/구 선택</option>");
+      else {
+        $.each(eval(area), function() {
+        $sigungu.append("<option value='"+this+"'>"+this+"</option>");
+        });
+      }
+    });
+  }
+
 	
   
   

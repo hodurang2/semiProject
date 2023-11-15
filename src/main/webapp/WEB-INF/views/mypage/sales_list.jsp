@@ -6,11 +6,21 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
-<jsp:include page="../layout/header.jsp">
-  <jsp:param value="업로드게시판" name="title"/>
-</jsp:include>
+<jsp:include page="../mypage/info.jsp"></jsp:include>
 
-내 지역 게시판
+<div>
+
+  <h1 class="text-center mb-4">나의 판매내역</h1>
+  <div>
+    <a href="${contextPath}/product/write.form">
+      <button type="button" class="btn btn-primary">판매하기</button>
+    </a>
+  </div>
+  
+  <div id="sales_list" class="sales_list"></div>
+  
+</div>
+
 
 
 <%@ include file="../layout/footer.jsp" %>

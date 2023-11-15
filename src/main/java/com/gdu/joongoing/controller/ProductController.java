@@ -100,5 +100,14 @@ public class ProductController {
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
     return "redirect:/product/header.do";
   }
+  
+  @ResponseBody
+  @GetMapping("/product/hot_list.do")
+  public Map<String, Object> getHotList(HttpServletRequest request){
+    return productService.getHotList(request);
+  }
+ 
+  
+  
     
 }
