@@ -107,5 +107,7 @@ public class ProductController {
     return productService.getHotList(request);
   }
  
+  
+  
     
 }

@@ -6,7 +6,7 @@
 <mapper namespace="com.gdu.joongoing.dao.MypageMapper">
   
   <select id="getUser2" parameterType="Map" resultType="UserDto">
-    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_CITY
+    SELECT USER_NO, EMAIL, NAME, PW, GENDER, PHONE, AGREE, STATE, JOINED_AT, SIDO, SIGUNGU, INTEREST_SIDO, INTEREST_SIGUNGU
       FROM USER_T
     <where>
       <if test="email != null">EMAIL = #{email}</if>
@@ -20,16 +20,30 @@
        SET PW = #{pw}
      WHERE USER_NO = #{userNo}
   </update>
+
+  <update id="updateUserInterest" parameterType="UserDto">
+    UPDATE USER_T
+       SET INTEREST_SIDO = #{interestSido}
+         , INTEREST_SIGUNGU = #{interestSigungu}
+     WHERE USER_NO = #{userNo}
+  </update>
   
   <update id="updateUser" parameterType="UserDto">
     UPDATE USER_T
        SET NAME = #{name}
          , GENDER = #{gender}
          , PHONE = #{phone}
-         , AGREE = #{agree}
          , SIDO = #{sido}
          , SIGUNGU = #{sigungu}
+         , AGREE = #{agree}
      WHERE USER_NO = #{userNo}
   </update>
+  
+  <select id="getSalesCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+      FROM PRODUCT
+     WHERE PRODUCT_STATE = 2
+       AND SELLER_NO = #{sellerNo}
+  </select> 
   
 </mapper>

@@ -5,21 +5,44 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
-<%@ include file="header.jsp" %>
 
-<div class="banner"><img src="${contextPath}/resources/image/banner_dum.png"></div>
+<jsp:include page="../layout/header.jsp">
+  <jsp:param value="메인" name="title"/>
+</jsp:include>
 
-<div class="btn_five">
+<style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
   
-  <ul>
-    <li><a href="${contextPath}/product/new_list.jsp">최신</a></li>
-    <li><a href="${contextPath}/product/hot_list.jsp">인기</a></li>
-    <li><a href="${contextPath}/product/interest_list.jsp">관심지역</a></li>
-    <li><a href="${contextPath}/product/myarea_list.jsp">내 주변 매물</a></li> 
-    <li><a href="${contextPath}/product/latest_list.jsp">최근에 본 상품</a></li>
+  li {
+      display: inline;
+      margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  .btn_five{
+    text-align: center;
+  }
+</style>
+
+
+
+
+<div>
+  
+  <ul class="btn_five">
+    <li><a href="${contextPath}/product/list.do">최신</a></li>
+    <li><a href="${contextPath}/product/hot_list.do">인기</a></li>
+    <li><a href="${contextPath}/product/interest_list.do">관심지역</a></li>
+    <li><a href="${contextPath}/product/myarea_list.do">내 주변 매물</a></li> 
+    <li><a href="${contextPath}/product/latest_list.do">최근에 본 상품</a></li>
   </ul>
 </div>
 
+
+<br><hr>
 <h4>전체상품보기</h3>
 
 
