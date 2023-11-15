@@ -19,7 +19,7 @@
         <form id="frm_btn" method="post">
           <input type="hidden" name="noticeNo" value="${notice.noticeNo}">
           <input type="hidden" name="title" value="${notice.title}">
-          <input type="hidden" name="contents" value="${notice.contents}">
+          <input type="hidden" name="contents" value='${notice.contents}'>
           <button type="button" id="btn_edit" class="btn btn-primary">편집</button>
           <button type="button" id="btn_rmv"  class="btn btn-danger">삭제</button>
       </form>
