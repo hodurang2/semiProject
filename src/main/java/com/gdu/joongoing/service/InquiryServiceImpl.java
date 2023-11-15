@@ -1,5 +1,6 @@
 package com.gdu.joongoing.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.InquiryMapper;
 import com.gdu.joongoing.dto.AnswerDto;
 import com.gdu.joongoing.dto.InquiryDto;
 import com.gdu.joongoing.dto.UserDto;
+import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +28,7 @@ public class InquiryServiceImpl implements InquiryService{
   
   private final InquiryMapper inquiryMapper;
   private final MyPageUtils myPageUtils;
+  private final MyFileUtils myFileUtils;
 
   @Override
   public void loadInquiryList(HttpServletRequest request, Model model) {
@@ -78,10 +83,10 @@ public class InquiryServiceImpl implements InquiryService{
   public Map<String, Object> addAnswer(HttpServletRequest request) {
     
     int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
-    String contents = request.getParameter("contents");
-    
     System.out.println(inquiryNo);
+    String contents = request.getParameter("contents");
     System.out.println(contents);
+    
     
     AnswerDto answer = AnswerDto.builder()
                           .inquiryNo(inquiryNo)
@@ -95,13 +100,10 @@ public class InquiryServiceImpl implements InquiryService{
     
   @Override
   public Map<String, Object> loadAnswerList(HttpServletRequest request) {
-    System.out.println("서비스시작");
 
     int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
     int page = Integer.parseInt(request.getParameter("page"));
     int total = inquiryMapper.getAnswerCount(inquiryNo);
-    System.out.println("문의번호" + inquiryNo);
-    System.out.println("댓글개수" + total);
     int display = 10;
     
     myPageUtils.setPaging(page, total, display);
@@ -124,7 +126,7 @@ public class InquiryServiceImpl implements InquiryService{
     String contents = request.getParameter("contents");
     int inquiryNo = Integer.parseInt(request.getParameter("inquiryNo"));
     int groupNo = Integer.parseInt(request.getParameter("groupNo"));
-    
+
     AnswerDto answer = AnswerDto.builder()
                           .inquiryNo(inquiryNo)
                           .contents(contents)
@@ -135,6 +137,38 @@ public class InquiryServiceImpl implements InquiryService{
     
     return Map.of("addAnswerReplyResult", addAnswerReplyResult);
     
+  }
+  
+  @Override
+  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
+    
+    // 이미지가 저장될 경로
+    String imagePath = myFileUtils.getBlogImagePath();
+    File dir = new File(imagePath);
+    if(!dir.exists()) {
+      dir.mkdirs();
+    }
+    
+    // 이미지 파일 (CKEditor는 이미지를 upload라는 이름으로 보냄)
+    MultipartFile upload = multipartRequest.getFile("upload");
+    
+    // 이미지가 저장될 이름
+    String originalFilename = upload.getOriginalFilename();
+    String filesystemName = myFileUtils.getFilesystemName(originalFilename);
+    
+    // 이미지 File 객체
+    File file = new File(dir, filesystemName);
+    
+    // 저장
+    try {
+      upload.transferTo(file);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    // CKEditor로 저장된 이미지의 경로를 JSON 형식으로 반환해야 함
+    return Map.of("uploaded", true
+                , "url", multipartRequest.getContextPath() + imagePath + "/" + filesystemName);
   }
   
   

@@ -82,8 +82,8 @@
       , #{inquiryNo}
       , #{contents}
       , SYSTIMESTAMP
-      , 1
       , 0
+      , 1
       , ANSWER_SEQ.CURRVAL
     )
   </insert>
@@ -99,7 +99,7 @@
       FROM (SELECT ROW_NUMBER() OVER(ORDER BY GROUP_NO DESC, DEPTH ASC, ANSWER_NO DESC) AS RN, ANSWER_NO, INQUIRY_NO, CONTENTS, CREATED_AT, STATUS, DEPTH, GROUP_NO
               FROM ANSWER
              WHERE INQUIRY_NO = #{inquiryNo})
-     WHERE RN BETWEEN #{begin} AND #{end};
+     WHERE RN BETWEEN #{begin} AND #{end}
   </select>
   
   <insert id="insertAnswerReply" parameterType="AnswerDto">
@@ -121,6 +121,27 @@
       , #{groupNo}
     )
   </insert>
+  
+  <insert id="insertInquiryAttach" parameterType="InquiryAttachDto">
+    <selectKey order="BEFORE" keyProperty="attachNo" resultType="int">
+        SELECT INQUIRY_ATTACH_SEQ.NEXTVAL
+          FROM DUAL
+      </selectKey>
+    INSERT INTO INQUIRY_ATTACH (
+      ATTACH_NO,
+      INQUIRY_NO,
+      PATH,
+      ORIGINAL_NAME,
+      FILESYSTEM_NAME
+    ) VALUES (
+      #{attachNo},
+      #{inquiryNo},
+      #{path},
+      #{originalName},
+      #{filesystemName}
+    )
+  </insert>
+  
 
   
 </mapper>

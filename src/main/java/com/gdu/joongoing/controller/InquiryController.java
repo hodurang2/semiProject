@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.joongoing.service.InquiryService;
@@ -40,6 +41,12 @@ public class InquiryController {
     return "inquiry/write";
   }
   
+  @PostMapping(value = "/imageUpload.do", produces = "application/json")
+  @ResponseBody
+  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
+    return inquiryService.imageUpload(multipartRequest);
+  }
+  
   @PostMapping(value = "/addInquiry.do", produces = "application/json")
   public String addNotice(HttpServletRequest request, RedirectAttributes redirectAttributes) {
     redirectAttributes.addFlashAttribute("addResult", inquiryService.addInquiry(request));
@@ -48,20 +55,20 @@ public class InquiryController {
   
   @ResponseBody
   @PostMapping(value="/addAnswer.do", produces="application/json")
-  public Map<String, Object> addComment(HttpServletRequest request) {
+  public Map<String, Object> addAnswer(HttpServletRequest request) {
     return inquiryService.addAnswer(request);
   }
   
   @ResponseBody
   @GetMapping(value="/answerList.do", produces="application/json")
   public Map<String, Object> answerList(HttpServletRequest request){
-    System.out.println("컨트롤러 서비스");
     return inquiryService.loadAnswerList(request);
   }
   
   @ResponseBody
   @PostMapping(value="/addAnswerReply.do", produces="application/json")
   public Map<String, Object> addAnswerReply(HttpServletRequest request) {
+    System.out.println("컨트롤러 서비스");
     return inquiryService.addAnswerReply(request);
   }
   
