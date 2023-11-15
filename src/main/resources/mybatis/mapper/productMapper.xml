@@ -28,6 +28,14 @@
   </association>
 </resultMap>
 
+<select id="getProductNo" parameterType="int" resultType="int">
+  SELECT PRODUCT_NO
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO
+            FROM PRODUCT
+           WHERE SELLER_NO = #{sellerNo})
+   WHERE RN = 1
+</select>
+
 <!-- 상품 넣기  -->
 <insert id="insertProduct" parameterType="ProductDto">
   INSERT INTO PRODUCT(
@@ -59,7 +67,7 @@
 )
 </insert>
 
-<!-- <insert id="insertProductImage" parameterType="ProductImageDto">
+<insert id="insertProductImage" parameterType="ProductImageDto">
   INSERT INTO PRODUCT_IMAGE (
      IMAGE_NO
    , PRODUCT_NO
@@ -75,7 +83,7 @@
     #{imageOriginalName},
     #{hasThumbnail}
   )
-</insert> -->
+</insert>
 
 <!-- 상품 총 갯수(완) -->
 <select id="getProductCount" resultType="int">
