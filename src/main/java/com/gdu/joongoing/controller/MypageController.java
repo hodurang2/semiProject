@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.joongoing.service.MypageService;
 
@@ -77,6 +78,12 @@ public class MypageController {
   @GetMapping("/reviewList.do")
   public String reviewList() {
     return "mypage/review_list";
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/getSalesList.do", produces="application/json")
+  public Map<String, Object> getSalesList(HttpServletRequest request) {
+    return mypageService.getSalesList(request);
   }
   
   

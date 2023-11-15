@@ -86,5 +86,11 @@
              WHERE NOTICE_NO = #{noticeNo}) 
   </select>
   
-  
+  <select id="getRownum" parameterType="int" resultType="int">
+    SELECT RN
+      FROM (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO ASC) AS RN, NOTICE_NO
+              FROM NOTICE
+             ORDER BY NOTICE_NO DESC)
+     WHERE NOTICE_NO = #{noticeNo}
+  </select>
 </mapper>

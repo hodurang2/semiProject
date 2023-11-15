@@ -63,9 +63,9 @@
 					let str = '<div class="product" data-productNo="' + product.productNo + '">';
 					str += '<div>' + product.productName + '</div>';		
 					if(product.UserDto == null){
-						str += '<div>' + product.sellerNo + '</div>';
+						str += '<div>' + product.sellerDto.name + '</div>';
 					} else {
-						str += '<div>' + product.UserDto.name + '</div>';
+						str += '<div>' + product.sellerDto.name + '</div>';
 					} 
 					str += '<div>' + product.productCreatedAt + '</div>';
 					str += '</div>';

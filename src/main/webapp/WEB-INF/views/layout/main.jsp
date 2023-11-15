@@ -7,15 +7,32 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="업로드게시판" name="title"/>
+  <jsp:param value="메인" name="title"/>
 </jsp:include>
 
-
-<div class="banner"><img src="${contextPath}/resources/image/banner_dum.png"></div>
-
-<div class="btn_five">
+<style>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
   
-  <ul>
+  li {
+      display: inline;
+      margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  .btn_five{
+    text-align: center;
+  }
+</style>
+
+
+
+
+<div>
+  
+  <ul class="btn_five">
     <li><a href="${contextPath}/product/list.do">최신</a></li>
     <li><a href="${contextPath}/product/hot_list.do">인기</a></li>
     <li><a href="${contextPath}/product/interest_list.do">관심지역</a></li>
@@ -24,6 +41,8 @@
   </ul>
 </div>
 
+
+<br><hr>
 <h4>전체상품보기</h3>
 
 

@@ -13,7 +13,7 @@
  <div>
     <h1>${notice.title}</h1>
     <div>작성자  : 관리자</div>
-    <div>작성일  : <fmt:formatDate pattern="yyyy-MM-dd" value="${notice.createdAt}"/></div>
+    <div>작성일  : <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${notice.createdAt}"/></div>
     <div>
       <%-- <c:if test="${sessionScope.user.userNo == 1}"> --%>
         <form id="frm_btn" method="post">
