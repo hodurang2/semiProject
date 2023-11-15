@@ -18,6 +18,7 @@
    기본정보
   <span>&nbsp;*필수항목</span>
 </h2>
+  <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
     <div class="ProductNewstyle_Label">
       상품이미지
     </div>
@@ -31,8 +32,8 @@
     <div class="input-type" id="file-area">
       <input type="file" id="productImage1" onchange="loadImg(this,1)" class="form-control-file border" name="files" multiple required>
     </div>
-    <br> 
-    <form method="post" action="${contextPath}/product/add.do" enctype="multipart/form-data">
+    <br>
+    
     <div>
       <label for="name" class="form-label">판매자</label>
       <input type="text" name="sellerDto" id="sellerDto" class="form-control" value="${sessionScope.user.name}" readonly>
