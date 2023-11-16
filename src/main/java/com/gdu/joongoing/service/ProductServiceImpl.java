@@ -328,5 +328,24 @@ public class ProductServiceImpl implements ProductService {
                 , "totalPage", myPageUtils.getTotalPage());
   }
   
+  @Transactional(readOnly=true)
+  @Override
+  public Map<String, Object> getSearchProductList(HttpServletRequest request) {
 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productList = productMapper.getProductList(map);
+    
+    return Map.of("productList", productList
+                , "totalPage", myPageUtils.getTotalPage());
+    
+  }
 }

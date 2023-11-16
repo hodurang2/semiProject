@@ -28,6 +28,32 @@
   </association>
 </resultMap>
 
+<resultMap type="ProductCommentDto"     id="ProductCommentMap">
+  <id      column="COMMENT_NO"   property="commentNo" />
+  <result  column="PRODUCT_NO"   property="productNo" />
+  <result  column="USER_NO"      property="userNo" />
+  <result  column="CONTENTS"     property="contents" />
+  <result  column="CREATED_AT"   property="createdAt" />
+  <result  column="DEPTH"        property="depth" />
+  <result  column="GROUP_NO"     property="groupNo" />
+  <result  column="STATUS"       property="status" />
+  <association javaType="UserDto"        property="userDto">
+    <id        column="USER_NO"          property="userNo"/>
+    <result    column="EMAIL"            property="email" />
+    <result    column="NAME"             property="name" />
+    <result    column="PW"               property="pw" />
+    <result    column="GENDER"           property="gender" />
+    <result    column="PHONE"            property="phone" />
+    <result    column="AGREE"            property="agree" />
+    <result    column="STATE"            property="state" />
+    <result    column="JOINED_AT"        property="joinedAt" />
+    <result    column="SIDO"             property="sido" />
+    <result    column="SIGUNGU"          property="sigungu" />
+    <result    column="INTEREST_SIDO"    property="interestSido" />
+    <result    column="INTEREST_SIGUNGU" property="interestSigungu" />
+  </association>
+</resultMap>
+
 <select id="getProductNo" parameterType="int" resultType="int">
   SELECT PRODUCT_NO
     FROM (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO
@@ -210,6 +236,7 @@ SELECT PRODUCT_NO, SELLER_NO, BUYER_NO, CATEGORY_ID, PRODUCT_NAME, PRODUCT_PRICE
      WHERE A.RN BETWEEN #{begin} AND #{end}
 </select>
 
+
 <insert id="insertProductCommentReply" parameterType="ProductCommentDto">
     INSERT INTO PRODUCT_COMMENT(
         COMMENT_NO
@@ -237,5 +264,12 @@ SELECT PRODUCT_NO, SELLER_NO, BUYER_NO, CATEGORY_ID, PRODUCT_NAME, PRODUCT_PRICE
        SET STATUS = 0
      WHERE COMMENT_NO = #{commentNo}
 </update>
-
+  
+<select id="getSearchProductList" parameterType="Map" >
+    SELECT A.PRODUCT_NO, A.SELLER_NO, A.PRODUCT_NAME, A.PRODUCT_PRICE, A.PRODUCT_INFO, A.PRODUCT_CREATED_AT, A.PRODUCT_MODIFIED_AT, A.PRODUCT_HIT, A.PRODUCT_STATE, A.PRODUCT_TRADE_ADDRESS
+    FROM  (SELECT ROW_NUMBER() OVER(ORDER BY PRODUCT_NO DESC) AS RN, PRODUCT_NO, SELLER_NO, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT,PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS
+             FROM PRODUCT) A
+    WHERE A.RN BETWEEN #{begin} AND #{end}
+ </select>
+  
 </mapper>

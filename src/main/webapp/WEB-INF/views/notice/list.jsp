@@ -116,7 +116,7 @@
                 <button type="button" class="btn btn-dark btn_write">새글작성</button>
               </a>
             </div>
-        </c:if>
+          </c:if>
       </div>
       <table border="1" class="table">
         <thead>
