@@ -210,6 +210,32 @@ SELECT PRODUCT_NO, SELLER_NO, BUYER_NO, CATEGORY_ID, PRODUCT_NAME, PRODUCT_PRICE
      WHERE A.RN BETWEEN #{begin} AND #{end}
 </select>
 
+<insert id="insertProductCommentReply" parameterType="ProductCommentDto">
+    INSERT INTO PRODUCT_COMMENT(
+        COMMENT_NO
+      , PRODUCT_NO
+      , USER_NO
+      , CONTENTS
+      , CREATED_AT
+      , DEPTH
+      , GROUP_NO
+      , STATUS
+    ) VALUES(
+        PRODUCT_COMMENT_SEQ.NEXTVAL
+      , #{productNo}
+      , #{userNo}
+      , #{contents}
+      , SYSTIMESTAMP
+      , 1
+      , #{groupNo}
+      , 1
+    )
+</insert>
 
+<update id="deleteProductComment" parameterType="int">
+    UPDATE PRODUCT_COMMENT
+       SET STATUS = 0
+     WHERE COMMENT_NO = #{commentNo}
+</update>
 
 </mapper>

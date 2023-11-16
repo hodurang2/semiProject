@@ -282,6 +282,32 @@ public class ProductServiceImpl implements ProductService {
     return result;
   }
   
+  @Override
+  public Map<String, Object> addProductCommentReply(HttpServletRequest request) {
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+    
+    ProductCommentDto productComment = ProductCommentDto.builder()
+                           .contents(contents)
+                           .userDto(UserDto.builder()
+                                     .userNo(userNo)
+                                     .build())
+                           .productNo(productNo)
+                           .groupNo(groupNo)
+                           .build();
+    
+    int addProductCommentReplyResult = productMapper.insertProductCommentReply(productComment);
+    
+    return Map.of("addProductCommentReplyResult",addProductCommentReplyResult);
+  }
+  
+  @Override
+  public Map<String, Object> removeProductComment(int commentNo) {
+    int removeProductCommentResult = productMapper.deleteProductComment(commentNo);
+    return Map.of("removeProductCommentResult", removeProductCommentResult);
+  }
   
   @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
