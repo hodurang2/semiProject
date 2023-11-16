@@ -14,7 +14,7 @@
     text-align: center;
     margin-bottom: 20px;
   }
-  .btn {
+  .btn_join {
     margin-top: 10px;
     margin-bottom: 20px;
   }
@@ -105,7 +105,7 @@
     
     <div class="d-grid gap-2 col-6 mx-auto text-center">
       <input type="hidden" name="event" value="${event}">
-      <button type="submit" class="btn btn-primary">회원가입하기</button>
+      <button type="submit" class="btn btn_join btn-primary">회원가입하기</button>
     </div>
     
   </form>

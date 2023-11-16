@@ -19,4 +19,7 @@ public interface MypageService {
   // 판매목록
   public Map<String, Object> getSalesList(HttpServletRequest request);
   
+  // 구매목록
+  public Map<String, Object> getPurchaseList(HttpServletRequest request);
+  
 }

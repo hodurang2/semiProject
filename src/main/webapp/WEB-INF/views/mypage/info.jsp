@@ -42,7 +42,7 @@
 
   <form id="frm_mypage" method="post">
     
-    <h1 class="text-center mb-4">마이페이지</h1>
+    <h1 class="text-center mb-4">내 정보</h1>
     
     <div class="row mb-4">
       <div class="col-sm-3">이메일</div>

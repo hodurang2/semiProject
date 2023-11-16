@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
                     .agree(event.equals("on") ? 1 : 0)
                     .sido(sido)
                     .sigungu(sigungu)
-                    .interestSido(interestSido.equals("시/도 선택") ? "없음" : interestSido)
+                    .interestSido(interestSido.equals("시/도 선택") ? "" : interestSido)
                     .interestSigungu(interestSigungu)
                     .build();
     
