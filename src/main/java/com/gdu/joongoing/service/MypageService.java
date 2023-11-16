@@ -27,4 +27,6 @@ public interface MypageService {
   // 구매상품리뷰
   public ProductDto getPurchaseProduct(int productNo, Model model);
   public int addReview(HttpServletRequest request);
+  
+  
 }

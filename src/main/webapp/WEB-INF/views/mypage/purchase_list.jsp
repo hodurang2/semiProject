@@ -85,6 +85,12 @@
           str +=   '<button type="button" class="btn_review">리뷰작성</button>';
           str += '</div>';
           $('#purchase_list').append(str);
+          
+          // 작성한 리뷰가 있을 때만 버튼 생성
+          let str2 = '<button type="button" class="btn_view_review">내가 쓴 리뷰보기</button>';
+          if(pp.reviewContents !== null) {
+        	  $('#purchase_list').append(str2);
+          }
         })
       }
     })
@@ -102,6 +108,12 @@
 	  $(document).on('click', '.purchase_product', function(ev) {
 		  productNo = $(this).data('productNo');
 		  location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
+	  })
+  }
+  
+  const fnViewReview = () => {
+	  $(document).on('click', '.btn_view_review', (ev) => {
+		  
 	  })
   }
 
