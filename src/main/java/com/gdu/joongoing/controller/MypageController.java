@@ -112,9 +112,12 @@ public class MypageController {
      return "redirect:/mypage/purchaseList.do";
    }
 
-   @PostMapping("/modifyReview.form")
-   public String modifyReview(@ModelAttribute("purchaseProduct") ProductDto purchaseProduct) {
-     return "mypage/review_edit";
+   @GetMapping("/viewReview.do")
+   public String viewReview(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
+                            , Model model) {
+     ProductDto purchaseProduct = mypageService.getPurchaseProduct(productNo, model);
+     model.addAttribute("purchaseProduct", purchaseProduct);
+     return "mypage/review_view";
    }
    
    
