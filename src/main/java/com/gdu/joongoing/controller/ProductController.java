@@ -114,7 +114,11 @@ public class ProductController {
 //  public Map<String, Object> getHotProductList(HttpServletRequest request){
 //    return productService.getHotProductList(request);
 //  }
-
-
+  
+  @ResponseBody
+  @PostMapping(value="/addProductComment.do", produces="application/json")
+  public Map<String, Object> addProductComment(HttpServletRequest request) {
+    return productService.addProductComment(request);
+  }
   
 }

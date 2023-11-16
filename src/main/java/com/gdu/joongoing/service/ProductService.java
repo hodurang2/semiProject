@@ -21,6 +21,6 @@ public interface ProductService {
   public int removeProduct(int productNo);
   public Map<String, Object> getInterestList(HttpServletRequest request);
 
-  
+  public Map<String, Object> addProductComment(HttpServletRequest request);
   
 }

@@ -69,42 +69,41 @@
     <form id="frm_comment_add">
       <textarea rows="3" cols="50" name="contents" placeholder="댓글을 작성해 주세요"></textarea>
       <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">   <!-- 세션에 있는 유저에 유저넘버 -->
-      <input type="hidden" name="blogNo" value="${blog.blogNo}">
+      <input type="hidden" name="productNo" value="${product.productNo}">
       <button type="button" id="btn_comment_add">작성완료</button>
     </form>
     <script>
     
-      const fnRequiredLogin = () => {    	  
-        // 로그인을 안하고 작성을 시도하면 로그인 페이지로 보내기
-        $('#contents, #btn_comment_add').click(() => {
-      	  if('${sessionScope.user}' === ''){
-      		  if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-      			  location.href = '${contextPath}/user/login.form';
-      		  } else {
-      			  return;
-      		  }
-      	  }
-        })
-      }
       
-      const fnCommentAdd = () => {
-    	  $('#btn_comment_add').click(() => {
-    		  $.ajax({
-    			  // 요청
-    			  type: 'post',
-    			  url: '${contextPath}/blog/addComment.do',
-    			  data: $('#frm_comment_add').serialize(),
-    			  // 응답
-    			  dataType: 'json',
-    			  success: (resData) => {
-    				  console.log(resData);
-    			  }
-    		  })
+      const fnProductCommentAdd = () => {
+    	$('btn_comment_add').click(() => {
+    	 if('${sessionScope.user}' === ''){
+    		if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+    			location.href = '${contextPath}/user/login.form';
+    		} else {
+    			return;
+    		}
+    	 }
+    	  $.ajax({
+    		// 요청
+    		type: 'post',
+    		url: '${contextPath}/product/addProductComment.do',
+    		data: $('#frm_comment_add').serialize(),
+    		// 응답
+    		dataType: 'json',
+    		success: (resData) => {
+    		  if(resData.addProductCommentResult === 1){
+    			 alert('댓글이 등록되었습니다.');
+    			 $('#contents').val('');
+    			// fnProductCommentList();
+    		  }
+    		}
     	  })
+    	})
       }
       
-      fnRequiredLogin();
-      fnCommentAdd();
+      // 호출
+      fnProductCommentAdd();
       
       
     </script>

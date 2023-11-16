@@ -18,4 +18,5 @@ public class ProductCommentDto {
   private int depth;
   private int groupNo;
   private int status;
+  private UserDto userDto;
 }
