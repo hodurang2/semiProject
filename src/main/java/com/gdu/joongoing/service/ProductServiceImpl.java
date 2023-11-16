@@ -16,8 +16,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.ProductMapper;
 import com.gdu.joongoing.dto.CategoryDto;
+import com.gdu.joongoing.dto.ProductCommentDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
+import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
 
@@ -233,14 +235,28 @@ public class ProductServiceImpl implements ProductService {
     
   }
 
-  
-  /*
-   * @Override public Map<String, Object> getHotProductList(HttpServletRequest
-   * request) { return Map.of("productHotList",
-   * productMapper.getHotProductList()); }
-   */
-  
 
+  @Override
+  public Map<String, Object> addProductComment(HttpServletRequest request) {
+    
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    ProductCommentDto productComment = ProductCommentDto.builder()
+                                          .contents(contents)
+                                          .userDto(UserDto.builder()
+                                                    .userNo(userNo)
+                                                    .build())
+                                          .productNo(productNo)
+                                          .build();
+    
+    int addProductCommentResult = productMapper.insertProductComment(productComment);
+    
+    return Map.of("addProductCommentResult", addProductCommentResult);
+  }
+  
+  
   @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
  
@@ -260,6 +276,5 @@ public class ProductServiceImpl implements ProductService {
                 , "totalPage", myPageUtils.getTotalPage());
   }
   
-
 
 }

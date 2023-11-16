@@ -69,7 +69,7 @@
     </div>
     <div>
     <br>
-      <label for="contents" class="form-labelCT">설명</label>
+      <label for="productInfo" class="form-labelCT">설명</label>
       <textarea rows="5" name="productInfo" id="productInfo" class="form-control"></textarea>
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">

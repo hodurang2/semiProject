@@ -107,7 +107,7 @@ public class ProductController {
                         , RedirectAttributes redirectAttributes) {
     int removeResult = productService.removeProduct(productNo);
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
-    return "redirect:/product/header.do";
+    return "redirect:/product/list.do";
   }
 
 //  @ResponseBody
@@ -116,6 +116,13 @@ public class ProductController {
 //    return productService.getHotProductList(request);
 //  }
   
+
+  @ResponseBody
+  @PostMapping(value="/addProductComment.do", produces="application/json")
+  public Map<String, Object> addProductComment(HttpServletRequest request) {
+    return productService.addProductComment(request);
+  }
+
   @GetMapping(value="/hot_list.do", produces="application/json")
   public String getHotList() {
     return "product/hot_list";
