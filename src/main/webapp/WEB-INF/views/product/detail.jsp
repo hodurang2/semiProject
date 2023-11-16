@@ -68,7 +68,7 @@
 <div>
   <form id="frm_comment_add">
     <textarea rows="3" cols="50" name="contents" placeholder="댓글을 작성해 주세요"></textarea>
-    <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">   <!-- 세션에 있는 유저에 유저넘버 -->
+    <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
   <input type="hidden" name="productNo" value="${product.productNo}">
   <button type="button" id="btn_comment_add">작성완료</button>
 </form>
@@ -82,7 +82,7 @@
 
   
   const fnProductCommentAdd = () => {
-	$('btn_comment_add').click(() => {
+	$('#btn_comment_add').click(() => {
 	 if('${sessionScope.user}' === ''){
 		if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
 			location.href = '${contextPath}/user/login.form';
@@ -99,9 +99,9 @@
 		dataType: 'json',
 		success: (resData) => {
 		  if(resData.addProductCommentResult === 1){
-			 alert('댓글이 등록되었습니다.');
+			 alert('댓글 등록완료');
 			 $('#contents').val('');
-			// fnProductCommentList();
+			 fnProductCommentList();
 		  }
 		}
 	  })
@@ -121,7 +121,10 @@
 	  success: (resData) => {
 		$('#productCommentList').empty();
 		$('#paging').text('');
-		return;
+		if(resData.productCommentList.length === 0){
+		  $('#productCommentList').text('댓글이 없습니다.');
+		  $('#paging').text('');
+          return;
 	  }
 	  $.each(resData.productCommentList, (i, c) => {
           let str = '';
@@ -136,11 +139,11 @@
             str += '  <div>' + c.userDto.name + '</div>';							         
             str += '  <div>' + c.contents + '</div>';		    						        
             str += '  <div style="font-size: 12px;">' + c.createdAt + '</div>';	            
-            if(c.depth === 0){		// depth가 0이면 답글달기 버튼을 보여주자.
+            if(c.depth === 0){		
               str += '  <div><button type="button" class="btn_open_reply"> 답글달기</button></div>'; 
             }
-            /************************** 답글 입력 창 **************************/
-            str += '  <div class="blind frm_add_reply_wrap">';  // 클래스를 더 주고 싶으면 공백으로 구분하여 작성.
+            /************************** 답글 ***********************************/
+            str += '  <div class="blind frm_add_reply_wrap">';  
             str += '    <form class="frm_add_reply">';
             str += '      <textarea rows="3" cols="50" name="contents" placeholder="답글을 입력하세요"></textarea>';
             str += '      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">';
@@ -158,16 +161,16 @@
             }
           }
           str += '</div>';												 			  		
-          $('#productCommentList').append(str);  // comment_list 에 저장.
+          $('#productCommentList').append(str); 
         })
-        $('#paging').append(resData.paging);  // fnAjaxPaging() 함수가 호출되는 곳
+        $('#paging').append(resData.paging);  
       }
     })
   }
 	
   const fnAjaxPaging = (p) => {
     	page = p;
-    	fnProductCommentList(); // 몇페이지로 바뀔거다. 라는 새 목록 갱신.
+    	fnProductCommentList(); 
       }
   	  
   
@@ -182,8 +185,8 @@
 	        }
         var blindTarget = $(ev.target).parent().next();
         if(blindTarget.hasClass('blind')){
-          $('.frm_add_reply_wrap').addClass('blind'); // 모든 답글 입력화면 닫기
-        	blindTarget.removeClass('blind');		  // 지금 타겟의 답글만 입력화면 열기
+          $('.frm_add_reply_wrap').addClass('blind'); 
+        	blindTarget.removeClass('blind');		 
         } else {
           blindTarget.addClass('blind');
         }
@@ -191,7 +194,7 @@
   }
   
   const fnProductCommentReplyAdd = () => {
-  	$(document).on('click', '.btn_add_reply', (ev) => {	// 위 상황처럼 버튼을 사용할 수 없을 때 사용하는 방법 : document 방식.
+  	$(document).on('click', '.btn_add_reply', (ev) => {
 		if('${sessionScope.user}' === ''){
           if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
               location.href = '${contextPath}/user/login.form';
@@ -205,14 +208,14 @@
      		 // 요청
      		 type: 'post',
      		 url: '${contextPath}/product/addProductCommentReply.do',
-     		 data: frmAddReply.serialize(),	// 클릭한 버튼의 부모(.frm_add_reply)클래스의 모든 요소를 보내 준다.
+     		 data: frmAddReply.serialize(),	
      	     // 응답
      	     dataType: 'json',
-     	     success: (resData) => {	// resData = {"addCommentReplyResult": 1}
+     	     success: (resData) => {	
      	       if(resData.addProductCommentReplyResult === 1){
      	    	  alert('답글이 등록되었습니다.');
-     	    	  fnProductCommentList();	 // 목록 갱신하는 함수 호출
-     	    	  frmAddReply.find('textarea').val(''); // 답글내용 초기화 , find : 자식 찾는 메소드
+     	    	  fnProductCommentList();	 
+     	    	  frmAddReply.find('textarea').val(''); 
      	       } else {
      	    	  alert('답글이 등록되지 않았습니다.');
      	       }
@@ -230,10 +233,10 @@
     			// 요청
     			type: 'post',
     			url: '${contextPath}/product/removeProductComment.do',
-    			data: 'commentNo=' + $(ev.target).prev().val(),	  // prev() : 인접형제.
+    			data: 'commentNo=' + $(ev.target).prev().val(),	  
     			// 응답
     			dataType: 'json',
-    			success: (resData) => {  // resData = {"removeResult": 1}
+    			success: (resData) => {  // resData = {"removeProductCommentResult": 1}
     				if(resData.removeProductCommentResult === 1){
     					alert('해당 댓글이 삭제되었습니다.');
     					fnProductCommentList();
