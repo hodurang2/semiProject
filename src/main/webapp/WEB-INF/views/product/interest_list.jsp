@@ -10,7 +10,13 @@
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
-<h3>관심지역 리스트 게시판</h3>
+<div class="wrap wrap_9">
+ 
+  <h3>관심지역 리스트 게시판</h3>
 
+  
+  <div id="upload_list" class="upload_list"></div>
+
+</div>
 
 <%@ include file="../layout/footer.jsp" %>
