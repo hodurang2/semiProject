@@ -27,19 +27,20 @@
   }
   .support_left_wrap {
     width: 245px;
-    padding-right: 45px;
+    padding-right: 50px;
   }
   .support_right_wrap {
     width: 1000px;
   }
-  .left_menu ul {
+  .left_menu ul li:last-child {
     border-bottom: 1px solid #EAEAEA;
+     
   }
   .left_menu ul li {
     display: block;
     border: 1px solid #F4F4F4;
     border-bottom: none;
-    padding: 0 15px;
+    
   }
   a {
     text-decoration: none;
@@ -47,6 +48,9 @@
   }
   ul {
     list-style: none;
+  }
+  .btn_support {
+    width: 168px;
   }
   .btn_support li{
     width: 168px;
@@ -96,14 +100,14 @@
       </ul>
     </div>
   </div>   
-
 <div class="admin">
-  <div>
-    <a href="${contextPath}/notice/write.form">
-      <button type="button" class="btn btn-primary">새글작성</button>
-    </a>
-  </div>
-  
+  <c:if test="${sessionScope.user.userNo == 1}">
+    <div>
+      <a href="${contextPath}/notice/write.form">
+        <button type="button" class="btn btn-primary">새글작성</button>
+      </a>
+    </div>
+  </c:if>
  
     <div class="support_right_wrap">
       <div class="notice_title">공지사항</div>
