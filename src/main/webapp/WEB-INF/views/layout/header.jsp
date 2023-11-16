@@ -31,15 +31,19 @@
     </div>
     
     <!-- 검색 -->
-    <div>
+    <div class="search">
       <form id="search_frm" action="${contextPath}/product/searchList.do">
-        <input type="text" name="searchWord" id="searchWord">
+        <input type="text" name="searchWord" id="searchWord" style="text-align:center">
         <input type="hidden" name="userNo" id="userNo" value="${sessionScope.user.userNo}" >
         <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
       </form>
     </div>
     
-     <!-- 로그인 --> 
+    
+   </div> 
+ </div>
+ 
+  <!-- 로그인 --> 
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
@@ -57,8 +61,6 @@
       </c:if>
       </ul>
      </div>
-   </div> 
- </div>
  
  
     <hr>
