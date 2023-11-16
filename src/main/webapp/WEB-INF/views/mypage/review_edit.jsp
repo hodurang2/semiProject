@@ -117,30 +117,10 @@ h1{
     </div>
 
     <input type="hidden" name="productNo" id="productNo" value="${purchaseProduct.productNo}"/>
-    <p class="title_star">별점과 구매 후기를 남겨주세요.(최대 400자)</p>
 
-    <div class="review_rating rating_point">
-        <div class="rating">
-            <div class="ratefill"></div>
-            <!-- [D] 해당 별점이 선택될 때 그 점수 이하의 input엘리먼트에 checked 클래스 추가 -->
-            <input type="checkbox" name="reviewScore" id="rating1" value="1" class="rate_radio" title="1점">
-            <label for="rating1"></label>
-            <input type="checkbox" name="reviewScore" id="rating2" value="2" class="rate_radio" title="2점">
-            <label for="rating2"></label>
-            <input type="checkbox" name="reviewScore" id="rating3" value="3" class="rate_radio" title="3점" >
-            <label for="rating3"></label>
-            <input type="checkbox" name="reviewScore" id="rating4" value="4" class="rate_radio" title="4점">
-            <label for="rating4"></label>
-            <input type="checkbox" name="reviewScore" id="rating5" value="5" class="rate_radio" title="5점">
-            <label for="rating5"></label>
-        </div>
-    </div>
     <div class="review_contents">
-        <textarea rows="10" class="review_textarea" id="reviewContents" name="reviewContents"></textarea>
-    </div>
-    <div class="pl">
-      <button type="button" id="btn_purchase_list">구매목록보기</button>
-    </div>
+        <textarea rows="10" class="review_textarea" id="reviewContents" name="reviewContents" value="${purchaseProduct.reviewContents}"></textarea>
+    </div>   
     <div class="cmd">
         <button type="submit" name="save" id="save">등록</button>
     </div>
@@ -150,18 +130,7 @@ h1{
 </div>
 
 <script>
-	
-  document.addEventListener('DOMContentLoaded', function(){
-    //별점선택 이벤트 리스너
-    const rateForms = document.querySelectorAll('.rating'); /* 별점 선택 템플릿을 모두 선택 */
-    rateForms.forEach(function(item){//클릭 이벤트 리스너 각각 등록
-    item.addEventListener('click',function(e){
-      let elem = e.target;
-      if(elem.classList.contains('rate_radio')){
-        rating.setRate(elem.parentElement, parseInt(elem.value)); // setRate() 에 ".rating" 요소를 첫 번째 파라메터로 넘김
-      }
-    })
-  });
+
 
     //상품평 작성 글자수 초과 체크 이벤트 리스너
     document.querySelector('.review_textarea').addEventListener('keydown',function(){
@@ -229,13 +198,6 @@ h1{
 }
 
 let rating = new Rating();//별점 인스턴스 생성
-
-  const fnBack = () => {
-	  $(document).on('click', '#btn_purchase_list', () => {
-		  location.href='${contextPath}/mypage/purchaseList.do';
-	  })
-  }
-  fnBack();
 
 </script>
 
