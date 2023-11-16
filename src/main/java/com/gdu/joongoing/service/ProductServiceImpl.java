@@ -122,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
     
     // 게시판내용 + 첨부된 첨부파일목록 2가지를 가지고 컨트롤러로 넘긴다.
     model.addAttribute("product", productMapper.getProduct(productNo));               // 게시판내용
-    model.addAttribute("ProductList", productMapper.getProductImageList(productNo));  // 첨부내역
+    model.addAttribute("productImageList", productMapper.getProductImageList(productNo));  // 첨부내역
     
   }
   
@@ -152,9 +152,9 @@ public class ProductServiceImpl implements ProductService {
   public Map<String, Object> getProductImageList(HttpServletRequest request) {
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-    int imageNo = Integer.parseInt(opt.orElse("0"));
+    int productNo = Integer.parseInt(opt.orElse("0"));
     
-    return Map.of("productImageList", productMapper.getProductImageList(imageNo));
+    return Map.of("productImageList", productMapper.getProductImageList(productNo));
     
   }
   
