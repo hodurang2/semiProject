@@ -5,8 +5,14 @@
 
 <mapper namespace="com.gdu.joongoing.dao.NoticeMapper">
   <select id="getNoticeList" parameterType="Map" resultType="NoticeDto">
-    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT
-      FROM  (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RN,NOTICE_NO, TITLE, CONTENTS, CREATED_AT
+    SELECT NOTICE_NO, TITLE, CONTENTS, CREATED_AT, NUM,
+                    TRUNC(MONTHS_BETWEEN(SYSTIMESTAMP, CREATED_AT) / 12)                      AS YEAR_AGO,
+                    TRUNC(MONTHS_BETWEEN(SYSTIMESTAMP, CREATED_AT))                           AS MONTH_AGO,
+                    EXTRACT(DAY      FROM SYSTIMESTAMP  - CREATED_AT)                         AS DAY_AGO,
+                    EXTRACT(HOUR     FROM SYSTIMESTAMP  - CREATED_AT)                         AS HOUR_AGO,
+                    EXTRACT(MINUTE   FROM SYSTIMESTAMP  - CREATED_AT)                         AS MINUTE_AGO,
+                    TRUNC(EXTRACT(SECOND   FROM SYSTIMESTAMP  - CREATED_AT))                  AS SECOND_AGO
+      FROM  (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO DESC) AS RN,  ROW_NUMBER() OVER(ORDER BY NOTICE_NO ASC) AS NUM, NOTICE_NO, TITLE, CONTENTS, CREATED_AT 
                FROM NOTICE)
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
@@ -71,26 +77,4 @@
      WHERE NOTICE_NO = #{noticeNo}  
   </delete>
   
-  <select id="getHour" parameterType="int" resultType="int">
-    SELECT EXTRACT(DAY      FROM SYSTIMESTAMP - TM) *24
-         + EXTRACT(HOUR     FROM SYSTIMESTAMP - TM) AS HOUR
-      FROM (SELECT CREATED_AT AS TM 
-              FROM NOTICE 
-             WHERE NOTICE_NO = #{noticeNo})
-  </select>
-  
-  <select id="getMinute" parameterType="int" resultType="int">
-    SELECT EXTRACT(MINUTE   FROM SYSTIMESTAMP - TM) AS MINUTE
-      FROM (SELECT CREATED_AT AS TM 
-              FROM NOTICE 
-             WHERE NOTICE_NO = #{noticeNo}) 
-  </select>
-  
-  <select id="getRownum" parameterType="int" resultType="int">
-    SELECT RN
-      FROM (SELECT ROW_NUMBER() OVER(ORDER BY NOTICE_NO ASC) AS RN, NOTICE_NO
-              FROM NOTICE
-             ORDER BY NOTICE_NO DESC)
-     WHERE NOTICE_NO = #{noticeNo}
-  </select>
 </mapper>
