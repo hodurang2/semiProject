@@ -10,7 +10,7 @@
   <jsp:param value="검색결과" name="title"/>
 </jsp:include>
 
-  <h3>""의 검색 결과</h3>
+  <h3>"${searchWord}"의 검색 결과</h3>
   <div class="wrap wrap_10">
     <div id="search_product_list" class="search_product_list"></div>
   </div>
@@ -25,7 +25,7 @@
     $.ajax({
       type:'get',
       url : '${contextPath}/product/getSearchList.do',
-      data: 'page=' + page,
+      data: 'page=' + page + '&searchWord=${searchWord}',
       // 응답
       dataType: 'json',
       success : (resData)  => {
@@ -41,7 +41,7 @@
           } 
           str += '<div>' + product.productCreatedAt + '</div>';
           str += '</div>';
-          $('#product_list').append(str);
+          $('#search_product_list').append(str);
         })
       }
     })  

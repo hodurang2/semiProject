@@ -32,8 +32,9 @@
     
     <!-- 검색 -->
     <div>
-      <form id="search_frm">
-        <input type="text" name="search_word" id="search_word">
+      <form id="search_frm" action="${contextPath}/product/searchList.do">
+        <input type="text" name="searchWord" id="searchWord">
+        <input type="hidden" name="userNo" id="userNo" value="${sessionScope.user.userNo}" >
         <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
       </form>
     </div>
@@ -77,12 +78,21 @@
     }
     
     const fnSearch = () => {
-    	$('#btn_search').click(() = > {
-    		
+    	$('#search_frm').submit((e) => {
+    		if('${sessionScope.user}' === ''){
+    			alert('로그인 해주세요.');
+    			e.preventDefault();
+    			location.href = '${contextPath}/main.do';
+    			return;
+    		}
+    		if($('#searchWord').val() === '') {
+    			e.preventDefault();
+    			return;
+    		}
     	})
     }
     
     fnMain();
-
+		fnSearch();
 
 </script>

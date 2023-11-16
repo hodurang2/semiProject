@@ -151,4 +151,9 @@ public class ProductController {
     return productService.getSearchProductList(request);
   }
   
+  @GetMapping("/searchList.do")
+  public String SearchList(HttpServletRequest request, Model model) {
+    productService.addSearch(request, model);
+    return "product/search_list";
+  }
 }
