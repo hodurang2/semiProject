@@ -9,17 +9,48 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
+<style>
+  .interest_list {
+    margin: 5px auto;
+    display: flex;
+    flex-wrap: wrap;
+   }
+  .interest {
+    width: 200px;
+    height:  230px;
+    border: 1px solid gray;
+    padding-top: 80px;
+    margin: 10px 10px;
+    
+  }
+  .interest:hover {
+    background-color: silver;
+    cursor: pointer;
+  }
+  
+  #image_box{
+    width : 70px;
+    height : 70px;
+    border: 1px solid gray;
+    padding-bottom : 10px;
+    margin : 10px 10px;
+  }
+</style>
 
-<div class="wrap wrap_9">
- 
   <h3>관심지역 리스트 게시판</h3>
-
+<div class="wrap wrap_9">
   
   <div id="interest_list" class="interest_list"></div>
 
 </div>
 
 <script>
+
+$(() => {
+	
+	fnGetInterestList();
+	fnproductDetail();
+	})
 
 //전역 변수
 var page = 1;
@@ -28,32 +59,27 @@ var totalPage = 0;
 	const fnGetInterestList = () =>{
 		$.ajax({
 			type:'get',
-			url : '${contextPath}/product/getProductList.do',
-			data: 'page=' + page,
+			url : '${contextPath}/product/getInterestList.do',
+			data: 'userNo=' + ${sessionScope.user.userNo},
 			// 응답
 			dataType: 'json',
 			success : (resData)  => {
-				totalPage = resData.totalPage;
-				
-				$.each(resData.productList, (i, product) => {
-					let str = '<div class="product" data-productNo="' + product.productNo + '">';
-					str += '<div>' + product.productName + '</div>';		
-					if(product.UserDto == null){
-						str += '<div>' + product.sellerNo + '</div>';
-					} else {
-						str += '<div>' + product.sellerNo + '</div>';
-					} 
-					str += '<div>' + product.productCreatedAt + '</div>';
+				console.log(resData);
+				$.each(resData.interestList, (i, interest) => {
+					let str = '<div class="interest" data-productNo="' + interest.productNo + '">';
+					str += '<div>상품명: ' + interest.productName + '</div>';		
+					str += '<div>작성일: ' + interest.productCreatedAt + '</div>';
+					str += '<div>거래지역: ' + interest.tradeAddress + '</div>';
 					str += '</div>';
-					$('#product_list').append(str);
-				})
+					$('#interest_list').append(str);
+				}) 
 			}
 		})	
 	
 	}
 
   const fnproductDetail = () => {
-      $(document).on('click', '.product', function(){
+      $(document).on('click', '.interest', function(){
         location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('productno');
       })
     }

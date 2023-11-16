@@ -160,4 +160,14 @@
    WHERE PRODUCT_NO = #{productNo}
 </delete>
 
+<select id="getInterestList" parameterType="int" resultMap="ProductMap">
+SELECT PRODUCT_NO, SELLER_NO, BUYER_NO, CATEGORY_ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_INFO, PRODUCT_CREATED_AT, PRODUCT_MODIFIED_AT, PRODUCT_HIT, PRODUCT_STATE, PRODUCT_TRADE_ADDRESS, REVIEW_CONTENTS, REVIEW_SCORE, CREATED_AT, TRADE_AT
+  FROM PRODUCT
+ WHERE PRODUCT_TRADE_ADDRESS LIKE '%' || (SELECT INTEREST_SIGUNGU 
+                                            FROM USER_T 
+                                           WHERE USER_NO = #{userNo}) || '%'
+ ORDER BY PRODUCT_NO DESC
+
+</select>
+
 </mapper>
