@@ -1,64 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="dt" value="<%=System.currentTimeMillis()%>" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="dt" value="<%=System.currentTimeMillis() %>"/>
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마이페이지" name="title" />
+  <jsp:param value="공지 사항" name="title"/>
 </jsp:include>
 
-<div>
 
+<div class="admin">
   <div>
     <a href="${contextPath}/inquiry/write.form">
       <button type="button" class="btn btn-primary">새글작성</button>
     </a>
   </div>
   
-  <hr>
-  
+<hr>
+ 
   <div>
-    <table border="1">
+    <table border="1" class="table">
       <thead>
         <tr>
-          <td>순번</td>
+          <td>글번호</td>
           <td>제목</td>
-          <td>조회수</td>
           <td>작성자</td>
           <td>작성일자</td>
         </tr>
       </thead>
       <tbody>
-        <c:forEach items="${blogList}" var="b" varStatus="vs">
+        <c:forEach items="${inquiryList}" var="i" varStatus="vx">
           <tr>
-            <td>${beginNo - vs.index}</td>
+            <td>${i.inquiryNo}</td>
+            <td><a href="${contextPath}/inquiry/detail.do?inquiryNo=${i.inquiryNo}">${i.inquiryTitle}</a></td>
+            <td>${i.userDto.email}</td>
             <td>
-              <!-- 내가 작성한 블로그의 조회수는 증가하지 않는다. -->
-              <c:if test="${sessionScope.user.userNo == b.userDto.userNo}">
-                <a href="${contextPath}/blog/detail.do?blogNo=${b.blogNo}">${b.title}</a>
-              </c:if>
-              <!-- 내가 작성하지 않았다면 조회수를 증가시킨 뒤 상세보기 요청을 한다. -->
-              <c:if test="${sessionScope.user.userNo != b.userDto.userNo}">
-                <a href="${contextPath}/blog/increseHit.do?blogNo=${b.blogNo}">${b.title}</a>
-              </c:if>
+              <fmt:formatDate pattern="yyyy-MM-dd" value="${i.inquiryCreatedAt}"/>
             </td>
-            <td>${b.hit}</td>
-            <td>${b.userDto.email}</td>
-            <td>${b.createdAt}</td>
           </tr>
         </c:forEach>
       </tbody>
-      <tfoot>
+      <tfoot> 
         <tr>
           <td colspan="5">${paging}</td>
         </tr>
       </tfoot>
-    </table>
+    </table>    
   </div>
-
 </div>
 
-<%@ include file="../layout/footer.jsp" %>
+<script>
+  
+</script>
+
+<%@ include file="../layout/footer.jsp"%>
