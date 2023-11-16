@@ -68,7 +68,6 @@ public class InquiryController {
   @ResponseBody
   @PostMapping(value="/addAnswerReply.do", produces="application/json")
   public Map<String, Object> addAnswerReply(HttpServletRequest request) {
-    System.out.println("컨트롤러 서비스");
     return inquiryService.addAnswerReply(request);
   }
   
