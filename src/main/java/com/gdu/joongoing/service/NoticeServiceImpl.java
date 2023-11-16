@@ -55,20 +55,7 @@ public class NoticeServiceImpl implements NoticeService{
     
     List<NoticeDto> noticeList = noticeMapper.getNoticeList(map);
     
-    List<Integer> hour = new ArrayList<>();
-    List<Integer> minute = new ArrayList<>();
-    List<Integer> num = new ArrayList<>();
     
-    for(NoticeDto notice : noticeList){
-      hour.add(noticeMapper.getHour(notice.getNoticeNo()));
-      minute.add(noticeMapper.getMinute(notice.getNoticeNo()));
-      num.add(noticeMapper.getRownum(notice.getNoticeNo()));
-    }
-    
-    
-    model.addAttribute("num", num);
-    model.addAttribute("noticeMinute", minute);
-    model.addAttribute("noticeHour", hour);
     model.addAttribute("noticeList", noticeList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);
