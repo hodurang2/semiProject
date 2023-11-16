@@ -51,7 +51,7 @@
 	  
 	  fnGetPurchaseList();
 	  fnReview();
-	  //fnDetail();
+	  fnDetail();
 	  
   })
 
@@ -97,14 +97,13 @@
 	  })
   }
   
-  /*
+
   const fnDetail = () => {
-	  $(document).on('click', '.purchase_product', (ev) => {
-		  productNo = $(ev.target).data('productNo');
+	  $(document).on('click', '.purchase_product', function(ev) {
+		  productNo = $(this).data('productNo');
 		  location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
 	  })
   }
-  */
 
 </script>
 

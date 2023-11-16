@@ -40,6 +40,10 @@
       <mapping path="/mypage/wishList.do" />
       <mapping path="/mypage/reviewList.do" />
       <mapping path="/mypage/getSalesList.do" />
+      <mapping path="/mypage/modifyPw.do" />
+      <mapping path="/mypage/getPurchaseList.do" />
+      <mapping path="/mypage/writeReview.form" />
+      <mapping path="/mypage/reviewSave.do" />
       <beans:bean class="com.gdu.joongoing.intercept.RequiredLoginInterceptor" />
     </interceptor>
   
