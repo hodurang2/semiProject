@@ -2,6 +2,7 @@ package com.gdu.joongoing.service;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -254,6 +255,31 @@ public class ProductServiceImpl implements ProductService {
     int addProductCommentResult = productMapper.insertProductComment(productComment);
     
     return Map.of("addProductCommentResult", addProductCommentResult);
+  }
+  
+  
+  @Override
+  public Map<String, Object> loadProductCommentList(HttpServletRequest request) {
+    
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    int page = Integer.parseInt(request.getParameter("page"));
+    int total = productMapper.getProductCommentCount(productNo);
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("productNo", productNo
+                                   , "begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductCommentDto> productCommentList = productMapper.getProductCommentList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("productCommentList", productCommentList);
+    result.put("paging", paging);
+    return result;
   }
   
   
