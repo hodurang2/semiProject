@@ -25,5 +25,7 @@ public interface ProductService {
   public Map<String, Object> addProductComment(HttpServletRequest request);
   public Map<String, Object> getHotList(HttpServletRequest request);
   public Map<String, Object> loadProductCommentList(HttpServletRequest request);
+  public Map<String, Object> addProductCommentReply(HttpServletRequest request);
+  public Map<String, Object> removeProductComment(int commentNo);
   
 }

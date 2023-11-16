@@ -29,5 +29,7 @@ public interface ProductMapper {
   public List<ProductDto> getHotList(Map<String, Object> map);
   public int getProductCommentCount(int productNo);
   public List<ProductCommentDto> getProductCommentList(Map<String, Object> map);
+  public int insertProductCommentReply(ProductCommentDto productCommentDto);
+  public int deleteProductComment(int commentNo);
 }
   
