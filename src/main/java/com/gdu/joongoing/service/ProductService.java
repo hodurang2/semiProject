@@ -12,7 +12,7 @@ import com.gdu.joongoing.dto.ProductDto;
 public interface ProductService {
   public boolean addProduct(MultipartHttpServletRequest multipartRequest) throws Exception; 
   public Map<String, Object> getProductList(HttpServletRequest request);
-  public void loadProduct(HttpServletRequest request, Model model);
+  public void loadProduct(HttpServletRequest request, Model model); // 상세보기
   public void removeTempFiles();
   public ProductDto getProduct(int productNo);
   public int modifyProduct(ProductDto product);

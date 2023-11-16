@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
   
   @Transactional(readOnly=true)
   @Override
-  public void loadProduct(HttpServletRequest request, Model model) {
+  public void loadProduct(HttpServletRequest request, Model model) {  // 상세보기
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
     int productNo = Integer.parseInt(opt.orElse("0"));  // productNo는 정수변환이 필요하니까 파스인트쓰고, 전달이 안됐을 때는 0을 사용한다.
