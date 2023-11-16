@@ -19,6 +19,7 @@
       <div>상품가격: ${product.productPrice}</div>
       <div>거래지역: ${product.tradeAddress}</div>
       <div>설명:     ${product.productInfo}</div>
+      <div>조회수 : ${product.hit}</div>
       <input type="hidden" name="productNo"     value="${product.productNo}">
       <c:if test="${sessionScope.user.userNo == product.sellerNo}">
         <button type="button" id="btn_edit" class="btn btn-warning btn-sm">수정</button>
