@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -101,7 +102,15 @@ public class ProductController {
 //  public Map<String, Object> getHotProductList(HttpServletRequest request){
 //    return productService.getHotProductList(request);
 //  }
-
+  
+  @PostMapping("/hot_list.do")
+  public String hotProductList(MultipartHttpServletRequest multipartRequest
+                    , RedirectAttributes redirectAttributes) throws Exception {
+      boolean listResult = productService.getHotList(multipartRequest);
+      redirectAttributes.addFlashAttribute("listResult", listResult);
+      
+      return "redirect:/product/hot_list.do";
+  }
 
   
 }
