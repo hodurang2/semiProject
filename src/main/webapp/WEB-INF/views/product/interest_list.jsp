@@ -114,6 +114,8 @@ var totalPage = 0;
         location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('productno');
       })
     }
+  
+  
 
 </script>
 
