@@ -2,6 +2,7 @@ package com.gdu.joongoing.service;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,8 +17,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.ProductMapper;
 import com.gdu.joongoing.dto.CategoryDto;
+import com.gdu.joongoing.dto.ProductCommentDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
+import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
 
@@ -233,14 +236,53 @@ public class ProductServiceImpl implements ProductService {
     
   }
 
-  
-  /*
-   * @Override public Map<String, Object> getHotProductList(HttpServletRequest
-   * request) { return Map.of("productHotList",
-   * productMapper.getHotProductList()); }
-   */
-  
 
+  @Override
+  public Map<String, Object> addProductComment(HttpServletRequest request) {
+    
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    ProductCommentDto productComment = ProductCommentDto.builder()
+                                          .contents(contents)
+                                          .userDto(UserDto.builder()
+                                                    .userNo(userNo)
+                                                    .build())
+                                          .productNo(productNo)
+                                          .build();
+    
+    int addProductCommentResult = productMapper.insertProductComment(productComment);
+    
+    return Map.of("addProductCommentResult", addProductCommentResult);
+  }
+  
+  
+  @Override
+  public Map<String, Object> loadProductCommentList(HttpServletRequest request) {
+    
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    int page = Integer.parseInt(request.getParameter("page"));
+    int total = productMapper.getProductCommentCount(productNo);
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("productNo", productNo
+                                   , "begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductCommentDto> productCommentList = productMapper.getProductCommentList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("productCommentList", productCommentList);
+    result.put("paging", paging);
+    return result;
+  }
+  
+  
   @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
  
@@ -260,6 +302,5 @@ public class ProductServiceImpl implements ProductService {
                 , "totalPage", myPageUtils.getTotalPage());
   }
   
-
 
 }
