@@ -79,7 +79,7 @@
   
   const fnproductDetail = () => {
     $(document).on('click', '.product', function(){
-      location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('product_no');
+      location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('productno');
     })
   }
 

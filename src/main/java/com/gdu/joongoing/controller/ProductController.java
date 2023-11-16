@@ -57,6 +57,18 @@ public class ProductController {
     return productService.getProductList(request);
   }
   
+  @ResponseBody
+  @GetMapping(value="/getInterestList.do", produces="application/json")
+  public Map<String, Object> getInterestList(HttpServletRequest request){
+    System.out.println(request.getParameter("userNo"));
+    return productService.getInterestList(request);
+  }
+  
+  @GetMapping(value="/interest_list.do", produces="application/json")
+  public String getInterestList(){
+    return "product/interest_list";
+  }
+  
   @GetMapping("/detail.do")
   public String detail(HttpServletRequest request, Model model) {
     productService.loadProduct(request, model);

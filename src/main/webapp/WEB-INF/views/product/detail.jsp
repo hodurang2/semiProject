@@ -10,27 +10,27 @@
   <jsp:param value="${product.productName}" name="title"/>
 </jsp:include>
 
-<div class="wrap wrap_8">
-
   <h1>${product.productName}</h1>
   
   <div class="text-left">
+   <div>
     <c:if test="">
-    <form id-="frn_btn" method="post">
-      <input type="hidden" name="ProductNo" value="${product.productNo}">
-      <input type="hidden" name="title"     value="${product.productName}">
-      <input type="hidden" name="contents"  value="${product.productInfo}">
-      <button type="button" id="btn_edit" class="btn btn-warning btn-sm">편집</button>
-      <button type="button" id="btn_remove" class="btn btn-danger btn-sm">삭제</button>
+      <form id ="frn_btn" method="post">
+        <input type="hidden" name="ProductNo"     value="${product.productNo}">
+        <button type="button" id="btn_edit" class="btn btn-warning btn-sm">수정</button>
+        <button type="button" id="btn_remove" class="btn btn-danger btn-sm">삭제</button>
+      </form>
     </c:if>
-    </form>
-  <ul>
-    <li>${product.productName}</li>
-    <li>작성자: ${product.sellerNo}</li>
-    <li>작성일: ${product.productCreatedAt}</li>
-    <li>수정일: ${product.productModifiedAt}</li>
-    <li>${product.productInfo}</li>
-  </ul>
+   </div>
+   
+    <div>작성자:   ${product.sellerNo}</div>
+    <div>상품명:   ${product.productName}</div>
+    <div>카테고리: ${product.categoryDto}</div>
+    <div>상품가격: ${product.productPrice}</div>
+    <div>거래지역: ${product.tradeAddress}</div>
+    <div>설명:     ${product.productInfo}</div>
+    <div>작성일:   ${product.productCreatedAt}</div>
+    <div>수정일:   ${product.productModifiedAt}</div>
 
   <!-- 구분선 -->
   <hr class="my-3">
@@ -47,17 +47,7 @@
   		})
   	}
   	
-  	// 삭제
-  	const fnRemoveProduct = () => {
-  		$('#btn_remove').click(() => {
-  			if(confirm('게시글을 삭제하시겠습니까?')){
-  				frmBtn.attr('action', '${contextPath}/product/remove.do');
-  				frmBtn.submit();
-  			}
-  		})
-  	}
-  	
-  	// 수정alert
+ // 수정alert
   	const fnModifyResult = () => {
   		let modifyResult = '${modifyResult}';
   		if(modifyResult !== ''){
@@ -69,9 +59,19 @@
   		}
   	}
   	
+  	// 삭제
+  	const fnRemoveProduct = () => {
+  		$('#btn_remove').click(() => {
+  			if(confirm('게시글을 삭제하시겠습니까?')){
+  				frmBtn.attr('action', '${contextPath}/product/remove.do');
+  				frmBtn.submit();
+  			}
+  		})
+  	}
+  	
   	fnEditProduct();
-  	fnRemoveProduct();
   	fnModifyResult();
+  	fnRemoveProduct();
   	
   
   </script>
@@ -287,12 +287,9 @@
 	
 </script>
 
-
+</div>
 
 
 
 <%@ include file="../layout/footer.jsp" %>
-
-
-</div>
 
