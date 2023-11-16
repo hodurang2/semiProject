@@ -116,10 +116,23 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Map<String, Object> getInterestList(HttpServletRequest request) {
     
-    Optional<String> opt = Optional.ofNullable(request.getParameter("userNo"));
-    int userNo = Integer.parseInt(opt.orElse("0"));
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   , "userNo", userNo);
+    
+    List<ProductDto> interestList = productMapper.getInterestList(map);
   
-    return Map.of("interestList", productMapper.getInterestList(userNo));
+    return Map.of("interestList", interestList
+                 , "totalPage", myPageUtils.getTotalPage());
   }
   
   @Transactional(readOnly=true)
