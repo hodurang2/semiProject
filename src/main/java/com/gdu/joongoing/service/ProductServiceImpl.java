@@ -20,6 +20,7 @@ import com.gdu.joongoing.dto.CategoryDto;
 import com.gdu.joongoing.dto.ProductCommentDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
+import com.gdu.joongoing.dto.SearchDto;
 import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
@@ -331,21 +332,46 @@ public class ProductServiceImpl implements ProductService {
   @Transactional(readOnly=true)
   @Override
   public Map<String, Object> getSearchProductList(HttpServletRequest request) {
-
+    String searchWord = request.getParameter("searchWord");
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
-    int total = productMapper.getProductCount();
+    int total = productMapper.getSearchProductCount(searchWord);
     int display = 9;
     
     myPageUtils.setPaging(page, total, display);
     
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd());
+                                   , "end", myPageUtils.getEnd()
+                                   , "searchWord", searchWord);
     
-    List<ProductDto> productList = productMapper.getProductList(map);
+    List<ProductDto> productList = productMapper.getSearchList(map);
     
     return Map.of("productList", productList
                 , "totalPage", myPageUtils.getTotalPage());
+    
+  }
+  
+  @Override
+  public void addSearch(HttpServletRequest request, Model model) {
+    String searchWord = request.getParameter("searchWord");
+    String userNum = request.getParameter("userNo");
+    if(userNum.isEmpty()) {
+      SearchDto search = SearchDto.builder()
+          .searchWord(searchWord)
+          .build(); 
+      productMapper.insertSearch(search);
+      model.addAttribute("searchWord", search.getSearchWord());
+          
+    } else {
+      int userNo = Integer.parseInt(userNum);
+      SearchDto search = SearchDto.builder()
+          .userNo(userNo)
+          .searchWord(searchWord)
+          .build();      
+      productMapper.insertSearch(search);
+      model.addAttribute("searchWord", search.getSearchWord());
+    }
+      
     
   }
 }

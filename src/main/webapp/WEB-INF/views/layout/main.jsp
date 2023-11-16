@@ -39,13 +39,13 @@
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/hot_list.do">인기</a></button></li>
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/interest_list.do">관심지역</a></button></li>
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/myarea_list.do">내 주변 매물</a></button></li> 
-    <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/latest_list.do">최근에 본 상품</a></button></li>
+    <li><button type="button" class="btn btn-outline-primary">최근에 본 상품</button></li>
   </ul>
 </div>
 
 
 <br><hr><br>
-<h4>전체상품보기</h3>
+<h4>전체상품보기</h4>
 
 <div class="wrap wrap_9">
   <div id="product_list" class="product_list"></div>

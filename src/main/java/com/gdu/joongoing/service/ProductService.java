@@ -22,6 +22,8 @@ public interface ProductService {
   public Map<String, Object> getInterestList(HttpServletRequest request);
   public Map<String, Object> getSearchProductList(HttpServletRequest request);
 
+  public void addSearch(HttpServletRequest request, Model model);
+  
   public Map<String, Object> addProductComment(HttpServletRequest request);
   public Map<String, Object> getHotList(HttpServletRequest request);
   public Map<String, Object> loadProductCommentList(HttpServletRequest request);
