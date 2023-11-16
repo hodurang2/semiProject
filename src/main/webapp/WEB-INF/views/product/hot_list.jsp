@@ -5,21 +5,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
-
+<jsp:include page="../layout/header.jsp">
+  <jsp:param value="인기게시판" name="title"/>
+</jsp:include>
 
 <style>
-  .product_list {
+  .product_Hotlist {
     margin: 5px auto;
     display: flex;
     flex-wrap: wrap;
    }
+   
   .product {
-    width: 150px;
-    height:  180px;
+    width: 200px;
+    height:  230px;
     border: 1px solid gray;
     padding-top: 80px;
     margin: 10px 10px;
-    text-align:left;
+    
   }
   .product:hover {
     background-color: silver;
@@ -36,34 +39,50 @@
   
 </style>
 
-<jsp:include page="../layout/header.jsp">
-  <jsp:param value="인기게시판" name="title"/>
-</jsp:include>
 
-<h1>인기 조회수</h1>
+<h3>인기 조회수</h3>
 
-<c:if test="${not empty productHotList}">
-  <table>
-    <thead>
-      <tr>
-        <th>제품명</th>
-        <th>가격</th>
-        <th>생성일</th>
-        <th>조회수</th>
-      </tr>
-    </thead>
-    <tbody>
-      <c:forEach var="product" items="${productHotList}">
-        <tr>
-          <td>${product.productName}</td>
-          <td>${product.productPrice}</td>
-          <td>${product.productCreatedAt}</td>
-          <td>${product.hit}</td>
-        </tr>
-      </c:forEach>
-    </tbody>
-  </table>
-</c:if>
+
+<div class="wrap wrap_9">
+  <div id="product_Hotlist" class="product_Hotlist"></div>
+</div>
+
+<script>
+
+  // 전역 변수
+  var page = 1;
+  var totalPage = 0;
+  
+  const fnGetProductList = () =>{
+    $.ajax({
+      type:'get',
+      url : '${contextPath}/product/list.do',
+      data: 'page=' + page,
+      // 응답
+      dataType: 'json',
+      success : (resData)  => {
+        totalPage = resData.totalPage;
+        $.each(resData.productHotList, (i, product) => {
+          let str = '<div class="product" data-productNo="' + product.productNo + '">';
+          str += '<div>' + product.productName + '</div>';    
+          if(product.UserDto == null){
+            str += '<div>' + product.sellerNo + '</div>';
+          } else {
+            str += '<div>' + product.sellerNo + '</div>';
+          } 
+          str += '<div>' + product.productCreatedAt + '</div>';
+          str += '</div>';
+          $('#product_Hotlist').append(str);
+        })
+      }
+    })  
+  
+  }
+  fnGetProductList();
+  
+  </script>
+
+
 
 
 

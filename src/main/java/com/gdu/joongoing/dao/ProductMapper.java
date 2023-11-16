@@ -22,6 +22,6 @@ public interface ProductMapper {
   public int deleteProductImage(int imageNo);
   public int deleteProduct(int productNo);
 
-  public int getHotList(ProductDto product);
+  public List<ProductDto> getHotList(Map<String, Object> map);
 }
   

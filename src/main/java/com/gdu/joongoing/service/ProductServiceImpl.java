@@ -218,66 +218,25 @@ public class ProductServiceImpl implements ProductService {
    * productMapper.getHotProductList()); }
    */
   
-
   @Override
-  public boolean getHotList(MultipartHttpServletRequest multipartRequest) throws Exception {
-
-    String productName = multipartRequest.getParameter("productName");
-    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
-    int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
-    String tradeAddress = multipartRequest.getParameter("tradeAddress");
-    String productInfo = multipartRequest.getParameter("productInfo");
-    int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
-
-    ProductDto product = ProductDto.builder()
-        .productName(productName)
-        .categoryDto(CategoryDto.builder()
-                     .categoryId(categoryId)
-                     .build())
-        .productPrice(productPrice)
-        .tradeAddress(tradeAddress)
-        .productInfo(productInfo)
-        .sellerNo(sellerNo)
-        .build();
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+ 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
     
-    int productCount = productMapper.getHotList(product);
-
-    List<MultipartFile> files = multipartRequest.getFiles("files");
-      
-      
-      
-     int productImageCount; if(files.get(0).getSize() == 0) { // 첨부가 없었으면,
-     productImageCount = 1; } else { productImageCount = 0; }
-      
-     for(MultipartFile multipartFile : files) {
-      
-     if(multipartFile != null && !multipartFile.isEmpty()) {
-      
-     String path = myFileUtils.getProductImagePath(); 
-     File dir = new File(path);
-     if(!dir.exists()) { dir.mkdirs(); }
-      
-     String imageOriginalName = multipartFile.getOriginalFilename(); 
-     String filesystemName = myFileUtils.getFilesystemName(imageOriginalName); 
-     File file = new File(dir, filesystemName);
-      
-      multipartFile.transferTo(file); 
-     String contentType = Files.probeContentType(file.toPath()); 
-     int hasThumbnail = (contentType != null && contentType.startsWith("image")) ? 1 : 0; 
-     if(hasThumbnail == 1) { File thumbnail = new File(dir, "s_" + filesystemName); Thumbnails.of(file) .size(100, 100) .toFile(thumbnail); }
-     ProductImageDto productImage = ProductImageDto.builder() .path(path)
-                                       .imageOriginalName(imageOriginalName) .filesystemName(filesystemName)
-                                       .hasThumbnail(hasThumbnail) .productNo(productMapper.getProductNo(sellerNo)) .build();
-      
-     productImageCount += productMapper.insertProductImage(productImage);
-      
-     } // if
-      
-     } // for
-        
-    return (productCount == 1) && (files.size() == productImageCount);
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productHotList = productMapper.getHotList(map);
+    
+    return Map.of("productList", productHotList
+                , "totalPage", myPageUtils.getTotalPage());
 
   }
-
+  
 
 }

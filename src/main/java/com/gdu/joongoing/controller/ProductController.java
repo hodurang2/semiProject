@@ -103,13 +103,9 @@ public class ProductController {
 //    return productService.getHotProductList(request);
 //  }
   
-  @PostMapping("/hot_list.do")
-  public String hotProductList(MultipartHttpServletRequest multipartRequest
-                    , RedirectAttributes redirectAttributes) throws Exception {
-      boolean listResult = productService.getHotList(multipartRequest);
-      redirectAttributes.addFlashAttribute("listResult", listResult);
-      
-      return "redirect:/product/hot_list.do";
+  @RequestMapping(value="/hot_list.do", method = RequestMethod.GET)
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+    return productService.getHotList(request);
   }
 
   
