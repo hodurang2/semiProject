@@ -24,23 +24,22 @@
   
   .btn_five{
     text-align: center;
+    font-size: 120px;
   }
   
 
   
 </style>
 
-
-
-
+  <br>
 <div>
-  
   <ul class="btn_five">
-    <li><a href="${contextPath}/product/list.do">최신</a></li>
-    <li><a href="${contextPath}/product/hot_list.do">인기</a></li>
-    <li><a href="${contextPath}/product/interest_list.do">관심지역</a></li>
-    <li><a href="${contextPath}/product/myarea_list.do">내 주변 매물</a></li> 
-    <li><a href="${contextPath}/product/latest_list.do">최근에 본 상품</a></li>
+    <!-- 버튼 부트스트랩으로 갖고왔습니다~ -->
+    <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/list.do">최신</a></button></li>
+    <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/hot_list.do">인기</a></button></li>
+    <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/interest_list.do">관심지역</a></button></li>
+    <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/myarea_list.do">내 주변 매물</a></button></li> 
+    <li><button type="button" class="btn btn-outline-primary">최근에 본 상품</button></li>
   </ul>
 </div>
 

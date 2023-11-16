@@ -19,8 +19,12 @@
 .logo {
     width: 100px; /* 로고의 너비를 조절합니다. */
     height: auto; /* 로고의 높이를 자동으로 조절합니다. */
+    cursor: pointer;
 }
 
+.logo:hover{
+  
+}
 
 /* .logo {
   width: 510px;

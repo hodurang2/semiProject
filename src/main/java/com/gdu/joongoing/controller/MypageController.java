@@ -8,11 +8,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.service.MypageService;
 
 import lombok.RequiredArgsConstructor;
@@ -90,6 +94,21 @@ public class MypageController {
    @GetMapping(value="/getPurchaseList.do", produces="application/json")
    public Map<String, Object> getPurchaseList(HttpServletRequest request) {
      return mypageService.getPurchaseList(request);
+   }
+   
+   @GetMapping("/writeReview.form")
+   public String writeReview(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
+                           , Model model) {
+     ProductDto purchaseProduct = mypageService.getPurchaseProduct(productNo, model);
+     model.addAttribute("purchaseProduct", purchaseProduct);
+     return "mypage/review_write";
+   }
+   
+   @PostMapping(value="/reviewSave.do")
+   public String addReview(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+     int addReviewResult = mypageService.addReview(request);
+     redirectAttributes.addFlashAttribute("addReviewResult", addReviewResult);
+     return "redirect:/mypage/purchaseList.do";
    }
 
 }
