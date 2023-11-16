@@ -31,11 +31,10 @@
   
 </style>
 
-
-
   <br>
 <div>
   <ul class="btn_five">
+    <!-- 버튼 부트스트랩으로 갖고왔습니다~ -->
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/list.do">최신</a></button></li>
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/hot_list.do">인기</a></button></li>
     <li><button type="button" class="btn btn-outline-primary"><a href="${contextPath}/product/interest_list.do">관심지역</a></button></li>
