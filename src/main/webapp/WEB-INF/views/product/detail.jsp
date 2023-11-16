@@ -9,8 +9,6 @@
 <jsp:include page="../layout/header.jsp">
   <jsp:param value="${product.productName}" name="title"/>
 </jsp:include>
-
-  <h1>${product.productName}</h1>
   
   <div class="text-left">
    <div>
@@ -21,7 +19,7 @@
       <div>상품가격: ${product.productPrice}</div>
       <div>거래지역: ${product.tradeAddress}</div>
       <div>설명:     ${product.productInfo}</div>
-      <input type="hidden" name="ProductNo"     value="${product.productNo}">
+      <input type="hidden" name="productNo"     value="${product.productNo}">
       <c:if test="${sessionScope.user.userNo == product.sellerNo}">
         <button type="button" id="btn_edit" class="btn btn-warning btn-sm">수정</button>
         <button type="button" id="btn_remove" class="btn btn-danger btn-sm">삭제</button>
@@ -35,7 +33,7 @@
   <hr class="my-3">
  
   <script>
-  	/* 게시글 수정  */	
+  	// 게시글 수정	
   	var frmBtn = $('#frm_btn');
   	
   	// 수정
@@ -52,7 +50,7 @@
   	const fnRemoveProduct = () => {
   		$('#btn_remove').click(() => {
   			if(confirm('게시글을 삭제하시겠습니까?')){
-  				frmBtn.attr('action', '${contextPath}/product/remove.do');
+  				frmBtn.attr('action', '${contextPath}/product/removeProduct.do');
   				frmBtn.submit();
   			}
   		})
@@ -66,15 +64,50 @@
 
   <hr>
   
+  <!-- 댓글 -->
   <div>
     <form id="frm_comment_add">
-      <div class="input-group mb-3">
-         <input type="hidden" name="userNo" value="${sessionScope.user}"><!-- user 놔두기  -->
-         <input type="hidden" name="productNo" value="${product.productNo}">
-         <textarea rows="5" cols="contents" class="form-control"  id="contents" placeholder="댓글을 작성해주세요"></textarea>
-         <button type="button" class="btn btn-primary btn-sm"  id="btn_comment_add">작성완료=</button>
-      </div>
-    </form>  
+      <textarea rows="3" cols="50" name="contents" placeholder="댓글을 작성해 주세요"></textarea>
+      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">   <!-- 세션에 있는 유저에 유저넘버 -->
+      <input type="hidden" name="blogNo" value="${blog.blogNo}">
+      <button type="button" id="btn_comment_add">작성완료</button>
+    </form>
+    <script>
+    
+      const fnRequiredLogin = () => {    	  
+        // 로그인을 안하고 작성을 시도하면 로그인 페이지로 보내기
+        $('#contents, #btn_comment_add').click(() => {
+      	  if('${sessionScope.user}' === ''){
+      		  if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+      			  location.href = '${contextPath}/user/login.form';
+      		  } else {
+      			  return;
+      		  }
+      	  }
+        })
+      }
+      
+      const fnCommentAdd = () => {
+    	  $('#btn_comment_add').click(() => {
+    		  $.ajax({
+    			  // 요청
+    			  type: 'post',
+    			  url: '${contextPath}/blog/addComment.do',
+    			  data: $('#frm_comment_add').serialize(),
+    			  // 응답
+    			  dataType: 'json',
+    			  success: (resData) => {
+    				  console.log(resData);
+    			  }
+    		  })
+    	  })
+      }
+      
+      fnRequiredLogin();
+      fnCommentAdd();
+      
+      
+    </script>
   </div>
 
 <hr class="my-3">
@@ -84,7 +117,7 @@
 <div id="paging"></div>
 
 <script>
- /*
+
 	const fnCommentClick = () => {
 		$('#contents').click(() => {
 			if('${sessionScope.user}' === ''){

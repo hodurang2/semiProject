@@ -105,7 +105,7 @@ public class ProductController {
                         , RedirectAttributes redirectAttributes) {
     int removeResult = productService.removeProduct(productNo);
     redirectAttributes.addFlashAttribute("removeResult", removeResult);
-    return "redirect:/product/header.do";
+    return "redirect:/product/list.do";
   }
 
 //  @ResponseBody

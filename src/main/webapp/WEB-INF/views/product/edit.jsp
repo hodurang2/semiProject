@@ -24,10 +24,11 @@
       <div>거래지역: <input type="text" name="tradeAddress" value="${product.tradeAddress}"></div>
       <div>설명</div>
       <div><textarea name="productInfo" rows="5">${product.productInfo}</textarea></div>
-      <input type="hidden" name="ProductNo"     value="${product.productNo}">
+      <input type="hidden" name="productNo"     value="${product.productNo}">
       <c:if test="${sessionScope.user.userNo == product.sellerNo}">
-        <button type="submit" id="btn_modify" class="btn btn-warning btn-sm">수정</button>
+        <button type="submit" id="btn_modify" class="btn btn-warning btn-sm">수정완료</button>
       </c:if>
+      <br>
       <div>작성일:   ${product.productCreatedAt}</div>
       <div>수정일:   ${product.productModifiedAt}</div>
     </form>
@@ -39,16 +40,16 @@
 
   
   
-  const fnproductModify = () => {
-    $('#frm_product_edit').submit((ev) => {
-      if($('#productName').val() === ''){
-        alert('제목은 반드시 입력해야 합니다.');
-        $('#productName').focus();
-        ev.preventDefault();
-        return;
-      }
-    })
-  }
+    const fnproductModify = () => {
+      $('#frm_product_edit').submit((ev) => {
+        if($('#productName').val() === ''){
+          alert('제목은 반드시 입력해야 합니다.');
+          $('#productName').focus();
+          ev.preventDefault();
+          return;
+        }
+      })
+    }
   
 	const fnModifyResult = () => {
 		let modifyResult = '${modifyResult}';

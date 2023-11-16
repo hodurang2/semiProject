@@ -170,4 +170,30 @@ SELECT PRODUCT_NO, SELLER_NO, BUYER_NO, CATEGORY_ID, PRODUCT_NAME, PRODUCT_PRICE
 
 </select>
 
+<insert id="insertProductComment" parameterType="ProductCommentDto">
+    INSERT INTO PRODUCT_COMMENT(
+        COMMENT_NO
+      , PRODUCT_NO
+      , USER_NO
+      , CONTENTS
+      , CREATED_AT
+      , DEPTH
+      , GROUP_NO
+      , STATUS
+    ) VALUES(
+        PRODUCT_COMMENT_SEQ.NEXTVAL
+      , #{productNo}
+      , #{userNo}
+      , #{contents}
+      , SYSTIMESTAMP
+      , 0
+      , PRODUCT_COMMENT_SEQ.CURRVAL 
+      , 1
+    )
+</insert>
+
+
+
+
+
 </mapper>
