@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import com.gdu.joongoing.dao.MypageMapper;
 import com.gdu.joongoing.dto.ProductDto;
@@ -201,5 +202,33 @@ public class MypageServiceImpl implements MypageService {
                 , "totalPage", myPageUtils.getTotalPage()); // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
     
     }
+  
+
+  @Override
+  public ProductDto getPurchaseProduct(int productNo, Model model) {
+    return mypageMapper.getPurchaseProduct(productNo);
+  }
+  
+  @Override
+  public int addReview(HttpServletRequest request) {
+    
+    String reviewContents = request.getParameter("reviewContents");
+    String[] reviewScore = request.getParameterValues("reviewScore");
+    
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    ProductDto purchaseProduct = ProductDto.builder()
+                                           .reviewContents(reviewContents)
+                                           .reviewScore(Integer.parseInt(reviewScore[reviewScore.length-1]))
+                                           .productNo(productNo)
+                                           .build();
+    int updateReviewResult = mypageMapper.updateReview(purchaseProduct);
+    
+    return updateReviewResult;
+  
+  }
+  
+  
+  
   
 }

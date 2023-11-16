@@ -8,6 +8,12 @@
 
 <jsp:include page="../mypage/info.jsp"></jsp:include>
 
+<style>
+  h1 {
+    margin: 30px 0;
+  }
+</style>
+
 <div>
 
     <h1 class="text-center mb-4">찜한 상품</h1>
