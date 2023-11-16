@@ -1,7 +1,5 @@
 package com.gdu.joongoing.dto;
 
-import java.sql.Timestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class InquiryDto {
+public class InquiryAttachDto {
+  private int attachNo;
   private int inquiryNo;
-  private String inquiryTitle;
-  private String inquiryContent;
-  private Timestamp inquiryCreatedAt;
-  private UserDto userDto;
-  
+  private String path;
+  private String filesystemName;
 }

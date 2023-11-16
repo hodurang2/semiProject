@@ -8,3 +8,25 @@
   min-height: 500px;
   padding-top: 20px;
 }
+
+
+  .product_list {
+    margin: 5px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+   }
+   
+  .product {
+    width: 200px;
+    height:  230px;
+    border: 1px solid gray;
+    padding-top: 80px;
+    margin: 10px 10px;
+    
+  }
+  .product:hover {
+    background-color: silver;
+    cursor: pointer;
+  }

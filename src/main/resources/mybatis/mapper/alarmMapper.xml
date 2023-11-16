@@ -3,9 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.gdu.joongoing.dao.InquiryMapper">
+<mapper namespace="com.gdu.joongoing.dao.AlarmMapper">
   
-  <resultMap type="InquiryDto" id="InquiryMap">
+  <resultMap type="AlarmDto" id="InquiryMap">
     <id     column="INQUIRY_NO"           property="inquiryNo" />
     <result column="INQUIRY_TITLE"        property="inquiryTitle"/>
     <result column="INQUIRY_CONTENT"      property="inquiryContent"/>

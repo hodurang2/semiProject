@@ -1,9 +1,6 @@
 package com.gdu.joongoing.service;
 
 import java.io.File;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -55,20 +52,7 @@ public class NoticeServiceImpl implements NoticeService{
     
     List<NoticeDto> noticeList = noticeMapper.getNoticeList(map);
     
-    List<Integer> hour = new ArrayList<>();
-    List<Integer> minute = new ArrayList<>();
-    List<Integer> num = new ArrayList<>();
     
-    for(NoticeDto notice : noticeList){
-      hour.add(noticeMapper.getHour(notice.getNoticeNo()));
-      minute.add(noticeMapper.getMinute(notice.getNoticeNo()));
-      num.add(noticeMapper.getRownum(notice.getNoticeNo()));
-    }
-    
-    
-    model.addAttribute("num", num);
-    model.addAttribute("noticeMinute", minute);
-    model.addAttribute("noticeHour", hour);
     model.addAttribute("noticeList", noticeList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/notice/list.do"));
     model.addAttribute("beginNo", total - (page - 1) * display);

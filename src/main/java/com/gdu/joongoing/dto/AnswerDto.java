@@ -11,16 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Builder
-public class NoticeDto {
-  private int noticeNo;
-  private String title;
+public class AnswerDto {
+  private int answerNo;
+  private int inquiryNo;
   private String contents;
   private Timestamp createdAt;
-  private int num;
-  private int yearAgo;
-  private int monthAgo;
-  private int dayAgo;
-  private int hourAgo;
-  private int minuteAgo;
-  private int secondAgo;
+  private int depth;
+  private int status;
+  private int groupNo;
+  
 }

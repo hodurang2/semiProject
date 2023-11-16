@@ -7,15 +7,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class InquiryDto {
-  private int inquiryNo;
-  private String inquiryTitle;
-  private String inquiryContent;
-  private Timestamp inquiryCreatedAt;
-  private UserDto userDto;
+public class AlarmDto {
+
+  public int alarmNo;
+  public String alarmContents;
+  public String notifiType;
+  public Timestamp createdAt;
+  public Timestamp notifiAt;
+  public ProductDto productDto;
+  public InquiryDto InquiryDto;
   
 }

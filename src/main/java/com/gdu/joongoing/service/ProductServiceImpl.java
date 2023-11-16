@@ -2,6 +2,7 @@ package com.gdu.joongoing.service;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,8 +17,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.joongoing.dao.ProductMapper;
 import com.gdu.joongoing.dto.CategoryDto;
+import com.gdu.joongoing.dto.ProductCommentDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
+import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyFileUtils;
 import com.gdu.joongoing.util.MyPageUtils;
 
@@ -113,16 +116,38 @@ public class ProductServiceImpl implements ProductService {
     
   }
   
+  @Override
+  public Map<String, Object> getInterestList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   , "userNo", userNo);
+    
+    List<ProductDto> interestList = productMapper.getInterestList(map);
+  
+    return Map.of("interestList", interestList
+                 , "totalPage", myPageUtils.getTotalPage());
+  }
+  
   @Transactional(readOnly=true)
   @Override
-  public void loadProduct(HttpServletRequest request, Model model) {
+  public void loadProduct(HttpServletRequest request, Model model) {  // 상세보기
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
     int productNo = Integer.parseInt(opt.orElse("0"));  // productNo는 정수변환이 필요하니까 파스인트쓰고, 전달이 안됐을 때는 0을 사용한다.
     
     // 게시판내용 + 첨부된 첨부파일목록 2가지를 가지고 컨트롤러로 넘긴다.
     model.addAttribute("product", productMapper.getProduct(productNo));               // 게시판내용
-    model.addAttribute("ProductList", productMapper.getProductImageList(productNo));  // 첨부내역
+    model.addAttribute("productImageList", productMapper.getProductImageList(productNo));  // 첨부내역
     
   }
   
@@ -152,9 +177,9 @@ public class ProductServiceImpl implements ProductService {
   public Map<String, Object> getProductImageList(HttpServletRequest request) {
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-    int imageNo = Integer.parseInt(opt.orElse("0"));
+    int productNo = Integer.parseInt(opt.orElse("0"));
     
-    return Map.of("productImageList", productMapper.getProductImageList(imageNo));
+    return Map.of("productImageList", productMapper.getProductImageList(productNo));
     
   }
   
@@ -211,14 +236,116 @@ public class ProductServiceImpl implements ProductService {
     
   }
 
+
+  @Override
+  public Map<String, Object> addProductComment(HttpServletRequest request) {
+    
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    ProductCommentDto productComment = ProductCommentDto.builder()
+                                          .contents(contents)
+                                          .userDto(UserDto.builder()
+                                                    .userNo(userNo)
+                                                    .build())
+                                          .productNo(productNo)
+                                          .build();
+    
+    int addProductCommentResult = productMapper.insertProductComment(productComment);
+    
+    return Map.of("addProductCommentResult", addProductCommentResult);
+  }
   
-  /*
-   * @Override public Map<String, Object> getHotProductList(HttpServletRequest
-   * request) { return Map.of("productHotList",
-   * productMapper.getHotProductList()); }
-   */
   
+  @Override
+  public Map<String, Object> loadProductCommentList(HttpServletRequest request) {
+    
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    int page = Integer.parseInt(request.getParameter("page"));
+    int total = productMapper.getProductCommentCount(productNo);
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("productNo", productNo
+                                   , "begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductCommentDto> productCommentList = productMapper.getProductCommentList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("productCommentList", productCommentList);
+    result.put("paging", paging);
+    return result;
+  }
+  
+  @Override
+  public Map<String, Object> addProductCommentReply(HttpServletRequest request) {
+    String contents = request.getParameter("contents");
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+    
+    ProductCommentDto productComment = ProductCommentDto.builder()
+                           .contents(contents)
+                           .userDto(UserDto.builder()
+                                     .userNo(userNo)
+                                     .build())
+                           .productNo(productNo)
+                           .groupNo(groupNo)
+                           .build();
+    
+    int addProductCommentReplyResult = productMapper.insertProductCommentReply(productComment);
+    
+    return Map.of("addProductCommentReplyResult",addProductCommentReplyResult);
+  }
+  
+  @Override
+  public Map<String, Object> removeProductComment(int commentNo) {
+    int removeProductCommentResult = productMapper.deleteProductComment(commentNo);
+    return Map.of("removeProductCommentResult", removeProductCommentResult);
+  }
+  
+  @Override
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+ 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productHotList = productMapper.getHotList(map);
+    
+    return Map.of("productHotList", productHotList
+                , "totalPage", myPageUtils.getTotalPage());
+  }
+  
+  @Transactional(readOnly=true)
+  @Override
+  public Map<String, Object> getSearchProductList(HttpServletRequest request) {
 
-
-
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productList = productMapper.getProductList(map);
+    
+    return Map.of("productList", productList
+                , "totalPage", myPageUtils.getTotalPage());
+    
+  }
 }
