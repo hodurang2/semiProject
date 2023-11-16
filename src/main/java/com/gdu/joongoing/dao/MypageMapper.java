@@ -23,4 +23,8 @@ public interface MypageMapper {
   public int getPurchaseCount(int buyerNo);
   public List<ProductDto> getPurchaseList(Map<String, Object> map);
   
+  // 구매상품 리뷰
+  public ProductDto getPurchaseProduct(int productNo);
+  public int updateReview(ProductDto purchaseProduct);
+  
 }
