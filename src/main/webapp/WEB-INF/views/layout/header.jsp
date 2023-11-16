@@ -29,12 +29,21 @@
      <div class="logo">
       <img src="${contextPath}/resources/image/logo.png" width="150px">
     </div>
+    
+    <!-- 검색 -->
+    <div>
+      <form>
+        <input type="text" name="search_word" id="search_word">
+        <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
+      </form>
+    </div>
+    
      <!-- 로그인 --> 
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
           <li><a href="${contextPath}/user/login.form"  id="login_btn">로그인</a></li>
-          <li>고객센터</li>
+          <li><a href="${contextPath}/notice/list.do"  id="support_btn">고객센터</a></li>
         </ul>
       </c:if>
       <ul class="ul_menu right_wrap">
@@ -43,10 +52,10 @@
           <li><a href="${contextPath}/product/write.form" id="joongo_btn">중고판매하기</a></li>
           <li><a href="${contextPath}/mypage/detail.do">마이페이지</a></li>
           <li><a href="${contextPath}/user/logout.do">로그아웃</a></li>
-          <li>고객센터</li>
-        </div>
+          <li><a href="${contextPath}/notice/list.do"  id="support_btn">고객센터</a></li>
       </c:if>
       </ul>
+     </div>
    </div> 
  </div>
  
