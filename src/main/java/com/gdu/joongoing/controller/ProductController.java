@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -110,13 +109,6 @@ public class ProductController {
     return "redirect:/product/list.do";
   }
 
-//  @ResponseBody
-//  @GetMapping(value = "/hot_list.do", produces="application/json")
-//  public Map<String, Object> getHotProductList(HttpServletRequest request){
-//    return productService.getHotProductList(request);
-//  }
-  
-
   @ResponseBody
   @PostMapping(value="/addProductComment.do", produces="application/json")
   public Map<String, Object> addProductComment(HttpServletRequest request) {
@@ -124,11 +116,23 @@ public class ProductController {
   }
   
   @ResponseBody
-  @GetMapping(value="/ProductCommentList.do", produces="application/json")
+  @GetMapping(value="/productCommentList.do", produces="application/json")
   public Map<String, Object> productCommentList(HttpServletRequest request){
     return productService.loadProductCommentList(request);
   }
-
+  
+  @ResponseBody
+  @PostMapping(value="/addProductCommentReply.do", produces="application/json")
+  public Map<String, Object> addProductCommentReply(HttpServletRequest request) {
+    return productService.addProductCommentReply(request);
+  }
+  
+  @ResponseBody
+  @PostMapping(value="/removeProductComment.do", produces="application/json")
+  public Map<String, Object> removeProductComment(@RequestParam(value="commentNo", required = false, defaultValue = "0") int commentNo) {
+    return productService.removeProductComment(commentNo);
+  }
+    
   @GetMapping(value="/hot_list.do", produces="application/json")
   public String getHotList() {
     return "product/hot_list";
