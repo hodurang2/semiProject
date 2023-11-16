@@ -20,6 +20,7 @@ import com.gdu.joongoing.dto.UserDto;
 import com.gdu.joongoing.util.MyPageUtils;
 import com.gdu.joongoing.util.MySecurityUtils;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.RequiredArgsConstructor;
 
 @Transactional
@@ -154,26 +155,51 @@ public class MypageServiceImpl implements MypageService {
   }
   
   
-  @Override
-  public Map<String, Object> getSalesList(HttpServletRequest request) {
-    
+  
+  @Override public Map<String, Object> getSalesList(HttpServletRequest request) {
+  
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt.orElse("1"));
-    Optional<String> opt2 = Optional.ofNullable(request.getParameter("sellerNo"));
-    int sellerNo = Integer.parseInt(opt2.orElse("0"));  // 판매자 번호
-    int total = mypageMapper.getSalesCount(sellerNo);   // 판매 상품 갯수
-    int display = 9;    // 3 x 3 목록 만들기 위해
+    Optional<String> opt2 = Optional.ofNullable(request.getParameter("sellerNo")); 
+    int sellerNo = Integer.parseInt(opt2.orElse("0")); // 판매자 번호
+    int total = mypageMapper.getSalesCount(sellerNo); // 판매 상품 갯수 
+    int display = 9; // 3 x 3목록 만들기 위해
     
-    myPageUtils.setPaging(page, total, display);  // begin, end 계산
+    myPageUtils.setPaging(page, total, display); // begin, end 계산
     
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
-                                   , "end", myPageUtils.getEnd()); 
+                                   , "end", myPageUtils.getEnd()
+                                   , "sellerNo", sellerNo);
     
     // 전달하고 목록 받기
     List<ProductDto> salesList = mypageMapper.getSalesList(map);
-   
+    
     return Map.of("salesList", salesList
-                , "totalPage", myPageUtils.getTotalPage());   // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
-  }
+                , "totalPage", myPageUtils.getTotalPage()); // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
+    
+    }
+  
+  @Override public Map<String, Object> getPurchaseList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    Optional<String> opt2 = Optional.ofNullable(request.getParameter("buyerNo")); 
+    int buyerNo = Integer.parseInt(opt2.orElse("0")); // 판매자 번호
+    int total = mypageMapper.getSalesCount(buyerNo); // 판매 상품 갯수 
+    int display = 9; // 3 x 3목록 만들기 위해
+    
+    myPageUtils.setPaging(page, total, display); // begin, end 계산
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   , "buyerNo", buyerNo);
+    
+    // 전달하고 목록 받기
+    List<ProductDto> purchaseList = mypageMapper.getPurchaseList(map);
+    
+    return Map.of("purchaseList", purchaseList
+                , "totalPage", myPageUtils.getTotalPage()); // 전체 페이지 이후에도 가져오려고 할 수도 있어서 전체 페이지 수도 같이 보낸다.
+    
+    }
   
 }

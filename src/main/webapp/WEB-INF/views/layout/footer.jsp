@@ -2,9 +2,14 @@
     pageEncoding="UTF-8"%>
 
 <style>
-  .footer_wrap1{
-    text-align: left;
-  }
+
+.footer_wrap {
+  margin-top: 500px;
+}
+
+.footer_wrap1{
+  text-align: left;
+}
 
 .ul_menu {
   display: flex;

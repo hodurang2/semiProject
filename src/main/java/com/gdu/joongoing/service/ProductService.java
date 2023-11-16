@@ -19,8 +19,7 @@ public interface ProductService {
   public Map<String, Object> getProductImageList(HttpServletRequest request);
   public Map<String, Object> removeProductImage(HttpServletRequest request);
   public int removeProduct(int productNo);
-  
-  public int hotProductList(MultipartHttpServletRequest multipartRequest) throws Exception;
+
   
   
 }

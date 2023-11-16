@@ -26,6 +26,23 @@
 	
 	<context:component-scan base-package="com.gdu.joongoing" />
 	
-	
+  <interceptors>
+  
+    <interceptor>
+      <mapping path="/mypage/detail.do" />
+      <mapping path="/mypage/modifyInterest.form" />
+      <mapping path="/mypage/modifyInterest.do" />
+      <mapping path="/mypage/modify.form" />
+      <mapping path="/mypage/modifyPw.form" />
+      <mapping path="/mypage/modify.do" />
+      <mapping path="/mypage/salesList.do" />
+      <mapping path="/mypage/purchaseList.do" />
+      <mapping path="/mypage/wishList.do" />
+      <mapping path="/mypage/reviewList.do" />
+      <mapping path="/mypage/getSalesList.do" />
+      <beans:bean class="com.gdu.joongoing.intercept.RequiredLoginInterceptor" />
+    </interceptor>
+  
+  </interceptors>
 	
 </beans:beans>

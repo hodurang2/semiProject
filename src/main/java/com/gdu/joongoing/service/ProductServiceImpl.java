@@ -218,30 +218,7 @@ public class ProductServiceImpl implements ProductService {
    * productMapper.getHotProductList()); }
    */
   
-  @Override
-  public int hotProductList(MultipartHttpServletRequest multipartRequest) throws Exception {
 
-    String productName = multipartRequest.getParameter("productName");
-    int categoryId = Integer.parseInt(multipartRequest.getParameter("categoryId"));
-    int productPrice = Integer.parseInt(multipartRequest.getParameter("productPrice"));
-    String tradeAddress = multipartRequest.getParameter("tradeAddress");
-    int hit = Integer.parseInt(multipartRequest.getParameter("hit"));
-    int sellerNo = Integer.parseInt(multipartRequest.getParameter("userNo"));
-    
-    ProductDto product = ProductDto.builder()
-        .productName(productName)
-        .categoryDto(CategoryDto.builder()
-                     .categoryId(categoryId)
-                     .build())
-        .productPrice(productPrice)
-        .tradeAddress(tradeAddress)
-        .hit(hit)
-        .sellerNo(sellerNo)
-        .build();
-    
-    int productCount = productMapper.insertProduct(product);
-    return productMapper.insertProduct(product);
-  }
 
 
 }
