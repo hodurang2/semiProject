@@ -244,6 +244,7 @@ public class ProductServiceImpl implements ProductService {
   
 
   @Override
+<<<<<<< HEAD
   public Map<String, Object> addProductComment(HttpServletRequest request) {
     
     String contents = request.getParameter("contents");
@@ -262,5 +263,26 @@ public class ProductServiceImpl implements ProductService {
     
     return Map.of("addProductCommentResult", addProductCommentResult);
   }
+=======
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+ 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productHotList = productMapper.getHotList(map);
+    
+    return Map.of("productHotList", productHotList
+                , "totalPage", myPageUtils.getTotalPage());
+  }
+  
+
+>>>>>>> main
 
 }

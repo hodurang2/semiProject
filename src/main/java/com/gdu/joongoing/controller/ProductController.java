@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -115,10 +116,25 @@ public class ProductController {
 //    return productService.getHotProductList(request);
 //  }
   
+<<<<<<< HEAD
   @ResponseBody
   @PostMapping(value="/addProductComment.do", produces="application/json")
   public Map<String, Object> addProductComment(HttpServletRequest request) {
     return productService.addProductComment(request);
   }
+=======
+  @GetMapping(value="/hot_list.do", produces="application/json")
+  public String getHotList() {
+    return "product/hot_list";
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/getHotList.do", produces="application/json")
+  public Map<String, Object> getHotList(HttpServletRequest request){
+    System.out.println(request.getParameter("productNo"));
+    return productService.getHotList(request);
+  }
+
+>>>>>>> main
   
 }
