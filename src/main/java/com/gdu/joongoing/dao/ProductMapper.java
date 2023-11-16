@@ -17,6 +17,7 @@ public interface ProductMapper {
   public int getProductCount();
   public List<ProductDto> getProductList(Map<String, Object> map);  // 매퍼.xml 에서는 ProductMap 으로 적었지만, 자바가 인식하기는 ProductDto로 인식한다.
   public List<ProductDto> getInterestList(Map<String, Object> map);  // 매퍼.xml 에서는 ProductMap 으로 적었지만, 자바가 인식하기는 ProductDto로 인식한다.
+  public List<ProductDto> getSearchList(Map<String, Object> map); 
   public ProductDto getProduct(int productNo);
   public List<ProductImageDto> getProductImageList(int productNo);
   public ProductImageDto getProductImage(int imageNo);

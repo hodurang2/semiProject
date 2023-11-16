@@ -316,7 +316,7 @@ public class ProductServiceImpl implements ProductService {
     Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
                                    , "end", myPageUtils.getEnd());
     
-    List<ProductDto> productList = productMapper.getProductList(map);
+    List<ProductDto> productList = productMapper.getSearchList(map);
     
     return Map.of("productList", productList
                 , "totalPage", myPageUtils.getTotalPage());

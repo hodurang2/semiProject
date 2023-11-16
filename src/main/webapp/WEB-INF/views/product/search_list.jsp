@@ -24,7 +24,7 @@
   const fnGetSearchProductList = () =>{
     $.ajax({
       type:'get',
-      url : '${contextPath}/product/getSearchProductList.do',
+      url : '${contextPath}/product/getSearchList.do',
       data: 'page=' + page,
       // 응답
       dataType: 'json',

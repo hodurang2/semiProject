@@ -46,7 +46,7 @@
 
 
 <br><hr><br>
-<h4>전체상품보기</h3>
+<h4>전체상품보기</h4>
 
 <div class="wrap wrap_9">
   <div id="product_list" class="product_list"></div>

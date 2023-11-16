@@ -32,7 +32,7 @@
     
     <!-- 검색 -->
     <div>
-      <form>
+      <form id="search_frm">
         <input type="text" name="search_word" id="search_word">
         <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
       </form>
@@ -75,6 +75,13 @@
     		location.href = '${contextPath}/main.do';
     	})
     }
+    
+    const fnSearch = () => {
+    	$('#btn_search').click(() = > {
+    		
+    	})
+    }
+    
     fnMain();
 
 
