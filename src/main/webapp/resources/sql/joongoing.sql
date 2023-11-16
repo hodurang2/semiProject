@@ -172,14 +172,14 @@ CREATE TABLE INQUIRY (
 
 -- 알림 테이블
 CREATE TABLE ALARM (
-    NOTICE_NO        NUMBER                 NOT NULL   ,  -- 알림번호
+    ALARM_NO         NUMBER                 NOT NULL   ,  -- 알림번호
     PRODUCT_NO       NUMBER                 NULL       ,  -- 알림 온 상품번호
     INQUIRY_NO       NUMBER                 NULL       ,  -- 알림 온 문의번호
-    NOTIFI_CONTENTS  VARCHAR2(100 BYTE)     NOT NULL   ,  -- 알림 내용
-    NOTIFI_TYPE      VARCHAR2(20 BYTE)      NOT NULL   ,  -- 알림 유형
+    ALARM_CONTENTS   VARCHAR2(100 BYTE)     NOT NULL   ,  -- 알림 내용
+    ALARM_TYPE       VARCHAR2(20 BYTE)      NOT NULL   ,  -- 알림 유형
     CREATED_AT       TIMESTAMP              NULL       ,  -- 알림 생성된 일자
-    NOTIFI_AT        TIMESTAMP              NULL       ,  -- 알림 확인 일자
-    CONSTRAINT PK_NOTIFICATION PRIMARY KEY (NOTICE_NO),
+    ALARM_AT         TIMESTAMP              NULL       ,  -- 알림 확인 일자
+    CONSTRAINT PK_NOTIFICATION PRIMARY KEY (ALARM_NO),
     CONSTRAINT FK_PRODUCT_NOTIFICATION FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT(PRODUCT_NO) ON DELETE SET NULL,  -- 상품 삭제 시, 상품 번호 NULL 처리
     CONSTRAINT FK_INQUIRY_NOTIFICATION FOREIGN KEY(INQUIRY_NO) REFERENCES INQUIRY(INQUIRY_NO) ON DELETE SET NULL  -- 문의 삭제 시, 문의 번호 NULL 처리
 );
