@@ -119,18 +119,35 @@
         <tbody>
           <c:forEach items="${noticeList}" var="n" varStatus="vx">
             <tr>
-              <td>${num[vx.index]}</td>
-              <td><a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a></td>
+              <td>${n.num}</td>
+              <td>
+                <a class="notice_list_title" href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
+                <c:if test="${n.dayAgo == 0 && n.monthAgo == 0 && n.yearAgo == 0}">
+                  <i class="fa-solid fa-fire fa-2xs" style="color: #da1010;"></i>
+                </c:if>
+              </td>
               <td>
                 <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
               </td>
               <td>
-                <c:choose> 
-                  <c:when test="${noticeHour[vx.index] != null && noticeHour[vx.index] < 24 && noticeHour[vx.index] > 0}">
-                    <div>${noticeHour[vx.index]}시간 전</div>
+                <c:choose>
+                  <c:when test="${n.yearAgo > 0}">
+                    <div>${n.yearAgo}년 전</div>
                   </c:when> 
-                  <c:when test="${noticeHour[vx.index] == 0}">
-                    <div>${noticeMinute[vx.index]}분 전</div>
+                  <c:when test="${n.monthAgo > 0}">
+                    <div>${n.monthAgo}개월 전</div>
+                  </c:when> 
+                  <c:when test="${n.dayAgo > 0}">
+                    <div>${n.dayAgo}일 전</div>
+                  </c:when> 
+                  <c:when test="${n.hourAgo > 0}">
+                    <div>${n.hourAgo}시간 전</div>
+                  </c:when> 
+                  <c:when test="${n.minuteAgo > 0}">
+                    <div>${n.minuteAgo}분 전</div>
+                  </c:when> 
+                  <c:when test="${n.secondAgo > 0}">
+                    <div>${n.secondAgo}초 전</div>
                   </c:when> 
                 </c:choose>
               </td>
