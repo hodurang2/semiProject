@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 
+import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.UserDto;
 
 public interface MypageService {
@@ -22,4 +24,7 @@ public interface MypageService {
   // 구매목록
   public Map<String, Object> getPurchaseList(HttpServletRequest request);
   
+  // 구매상품리뷰
+  public ProductDto getPurchaseProduct(int productNo, Model model);
+  public int addReview(HttpServletRequest request);
 }

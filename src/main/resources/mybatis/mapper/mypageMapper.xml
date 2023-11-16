@@ -112,6 +112,24 @@
                AND P.BUYER_NO = #{buyerNo}) A
     WHERE A.RN BETWEEN #{begin} AND #{end}
   </select>
+  
+<select id="getPurchaseProduct" parameterType="int" resultMap="ProductMap">
+  SELECT P.PRODUCT_NO, P.SELLER_NO, P.BUYER_NO, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_INFO, P.PRODUCT_CREATED_AT, 
+         P.PRODUCT_MODIFIED_AT, P.PRODUCT_HIT, P.PRODUCT_STATE, P.PRODUCT_TRADE_ADDRESS, P.REVIEW_CONTENTS, 
+         P.REVIEW_SCORE, P.CREATED_AT, P.TRADE_AT,
+         USR.USER_NO, USR.EMAIL, USR.NAME
+    FROM USER_T USR RIGHT OUTER JOIN PRODUCT P
+      ON USR.USER_NO = P.BUYER_NO
+   WHERE P.PRODUCT_NO = #{productNo}
+</select>
+
+<update id="updateReview" parameterType="ProductDto">
+  UPDATE PRODUCT
+     SET REVIEW_CONTENTS = #{reviewContents},
+         REVIEW_SCORE = #{reviewScore},
+         CREATED_AT = SYSTIMESTAMP
+   WHERE PRODUCT_NO = #{productNo}
+</update>
  
   
 </mapper>
