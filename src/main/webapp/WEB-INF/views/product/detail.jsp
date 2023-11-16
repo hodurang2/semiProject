@@ -14,23 +14,22 @@
   
   <div class="text-left">
    <div>
-    <c:if test="">
-      <form id ="frn_btn" method="post">
-        <input type="hidden" name="ProductNo"     value="${product.productNo}">
+    <form id ="frm_btn" method="post">
+      <div>작성자:   ${sessionScope.user.name}</div>
+      <div>상품명:   ${product.productName}</div>
+      <div>카테고리: ${product.categoryDto.categoryId}</div>
+      <div>상품가격: ${product.productPrice}</div>
+      <div>거래지역: ${product.tradeAddress}</div>
+      <div>설명:     ${product.productInfo}</div>
+      <input type="hidden" name="ProductNo"     value="${product.productNo}">
+      <c:if test="${sessionScope.user.userNo == product.sellerNo}">
         <button type="button" id="btn_edit" class="btn btn-warning btn-sm">수정</button>
         <button type="button" id="btn_remove" class="btn btn-danger btn-sm">삭제</button>
-      </form>
-    </c:if>
+      </c:if>
+      <div>작성일:   ${product.productCreatedAt}</div>
+      <div>수정일:   ${product.productModifiedAt}</div>
+    </form>
    </div>
-   
-    <div>작성자:   ${product.sellerNo}</div>
-    <div>상품명:   ${product.productName}</div>
-    <div>카테고리: ${product.categoryDto}</div>
-    <div>상품가격: ${product.productPrice}</div>
-    <div>거래지역: ${product.tradeAddress}</div>
-    <div>설명:     ${product.productInfo}</div>
-    <div>작성일:   ${product.productCreatedAt}</div>
-    <div>수정일:   ${product.productModifiedAt}</div>
 
   <!-- 구분선 -->
   <hr class="my-3">
@@ -43,21 +42,11 @@
   	const fnEditProduct = () =>{
   		$('#btn_edit').click(() => {
   			frmBtn.attr('action', '${contextPath}/product/edit.form');
+  			frmBtn.attr('method', 'get')
   			frmBtn.submit();
   		})
   	}
   	
- // 수정alert
-  	const fnModifyResult = () => {
-  		let modifyResult = '${modifyResult}';
-  		if(modifyResult !== ''){
-  			if(modifyResult === '1'){
-  				alert('게시글이 수정되었습니다.');
-  			} else {
-  				alert('게시글이 수정되지 않았습니다.');
-  			}
-  		}
-  	}
   	
   	// 삭제
   	const fnRemoveProduct = () => {
@@ -70,12 +59,11 @@
   	}
   	
   	fnEditProduct();
-  	fnModifyResult();
   	fnRemoveProduct();
   	
-  
+
   </script>
-  
+
   <hr>
   
   <div>
@@ -96,6 +84,7 @@
 <div id="paging"></div>
 
 <script>
+ /*
 	const fnCommentClick = () => {
 		$('#contents').click(() => {
 			if('${sessionScope.user}' === ''){
@@ -177,7 +166,7 @@
 		                str += '  </div>';
 		                /* 일단은 써두는데, REVIEW 관련해서 이야기 좀 해야할듯*/
 		                /************************** 답글 입력 창 **************************/
-		                str += '  <div class="blind frm_add_reply_wrap">';
+  /*	                str += '  <div class="blind frm_add_reply_wrap">';
 		                str += '    <form class="frm_add_reply">';
 		                str += '      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">';
 		                str += '      <input type="hidden" name="blogNo" value="${blog.blogNo}">';
@@ -189,7 +178,7 @@
 		                str += '    </form>';
 		                str += '  </div>';
 		                /******************************************************************/
-		              }
+     /*	              }
 		              str += '</div>';
 		              str += '<hr class="my-3">';
 		              $('#comment_list').append(str);
@@ -277,14 +266,13 @@
 		        })
 		      }
 		      
-		      fnContentsClick();
 		      fnCommentAdd();
 		      fnCommentList();
 		      fnBlind();
 		      fnCommentReplyAdd();
 		      fnCommentRemove();
 		      
-	
+	*/
 </script>
 
 </div>

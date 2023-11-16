@@ -7,73 +7,62 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="블로그편집" name="title"/>
+  <jsp:param value="${product.productName} 게시글수정" name="title"/>
 </jsp:include>
 
 <div class="wrap wrap_9">
 
 
-<h1 class="title">${product.productName} 편집</h1>
+<h1 class="title">수정</h1>
 
-  <form id="frm_product_modify" method="post" action="${contextPath}/product/modifyproduct.do">
-    
-    <div>
-      <label for="title">제목</label>
-      <input type="text" name="title" id="title" class="form-control" value="${product.title}">
-    </div>
-    
-    <div>
-      <label for="contents">내용</label>
-      <textarea name="contents" id="contents" style="display: none;"></textarea>
-      <div id="toolbar-container"></div>
-      <div id="ckeditor">${product.contents}</div>
-    </div>
-    
-    <div class="text-center my-3">
-      <a href="${contextPath}/product/detail.do?productNo=${product.productNo}">
-        <button class="btn btn-secondary" type="button">블로그로 돌아가기</button>
-      </a>
-      <input type="hidden" name="productNo" value="${product.productNo}">
-      <button class="btn btn-primary" type="submit">수정완료</button>
-    </div>
-    
-  </form>
+   <div>
+    <form id ="frm_product_edit" method="post" action="${contextPath}/product/modify.do">
+      <div>작성자:   ${sessionScope.user.name}</div>
+      <div>상품명:   <input type="text" name="productName" value="${product.productName}"></div>
+      <div>카테고리: ${product.categoryDto.categoryId}</div>
+      <div>상품가격: <input type="text" name="productPrice" value="${product.productPrice}"></div>
+      <div>거래지역: <input type="text" name="tradeAddress" value="${product.tradeAddress}"></div>
+      <div>설명</div>
+      <div><textarea name="productInfo" rows="5">${product.productInfo}</textarea></div>
+      <input type="hidden" name="ProductNo"     value="${product.productNo}">
+      <c:if test="${sessionScope.user.userNo == product.sellerNo}">
+        <button type="submit" id="btn_modify" class="btn btn-warning btn-sm">수정</button>
+      </c:if>
+      <div>작성일:   ${product.productCreatedAt}</div>
+      <div>수정일:   ${product.productModifiedAt}</div>
+    </form>
+   </div>
 
 </div>
 
 <script>
 
-  const fnCkeditor = () => {
-    DecoupledEditor
-      .create(document.getElementById('ckeditor'), {
-        ckfinder: {
-          // 이미지 업로드 경로
-          uploadUrl: '${contextPath}/product/getProductImageList.do'         
-        }
-      })
-      .then(editor => {
-        const toolbarContainer = document.getElementById('toolbar-container');
-        toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
+  
   
   const fnproductModify = () => {
-    $('#frm_product_modify').submit((ev) => {
-      if($('#title').val() === ''){
+    $('#frm_product_edit').submit((ev) => {
+      if($('#productName').val() === ''){
         alert('제목은 반드시 입력해야 합니다.');
-        $('#title').focus();
+        $('#productName').focus();
         ev.preventDefault();
         return;
       }
-      $('#contents').val($('#ckeditor').html());
     })
   }
   
-  fnCkeditor();
+	const fnModifyResult = () => {
+		let modifyResult = '${modifyResult}';
+		if(modifyResult !== ''){
+			if(modifyResult === '1'){
+				alert('게시글이 수정되었습니다.');
+			} else {
+				alert('게시글이 수정되지 않았습니다.');
+			}
+		}
+	}
+  
   fnproductModify();
+  fnModifyResult();
   
 </script>
 
