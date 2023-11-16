@@ -116,13 +116,13 @@ public class ProductController {
 //    return productService.getHotProductList(request);
 //  }
   
-<<<<<<< HEAD
+
   @ResponseBody
   @PostMapping(value="/addProductComment.do", produces="application/json")
   public Map<String, Object> addProductComment(HttpServletRequest request) {
     return productService.addProductComment(request);
   }
-=======
+
   @GetMapping(value="/hot_list.do", produces="application/json")
   public String getHotList() {
     return "product/hot_list";
@@ -135,6 +135,5 @@ public class ProductController {
     return productService.getHotList(request);
   }
 
->>>>>>> main
   
 }

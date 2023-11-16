@@ -235,16 +235,8 @@ public class ProductServiceImpl implements ProductService {
     
   }
 
-  
-  /*
-   * @Override public Map<String, Object> getHotProductList(HttpServletRequest
-   * request) { return Map.of("productHotList",
-   * productMapper.getHotProductList()); }
-   */
-  
 
   @Override
-<<<<<<< HEAD
   public Map<String, Object> addProductComment(HttpServletRequest request) {
     
     String contents = request.getParameter("contents");
@@ -263,7 +255,9 @@ public class ProductServiceImpl implements ProductService {
     
     return Map.of("addProductCommentResult", addProductCommentResult);
   }
-=======
+  
+  
+  @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
  
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
@@ -282,7 +276,5 @@ public class ProductServiceImpl implements ProductService {
                 , "totalPage", myPageUtils.getTotalPage());
   }
   
-
->>>>>>> main
 
 }

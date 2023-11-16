@@ -20,12 +20,9 @@ public interface ProductService {
   public Map<String, Object> removeProductImage(HttpServletRequest request);
   public int removeProduct(int productNo);
   public Map<String, Object> getInterestList(HttpServletRequest request);
-<<<<<<< HEAD
 
   public Map<String, Object> addProductComment(HttpServletRequest request);
-=======
   public Map<String, Object> getHotList(HttpServletRequest request);
   
->>>>>>> main
   
 }
