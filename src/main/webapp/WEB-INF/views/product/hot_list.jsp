@@ -53,6 +53,7 @@
 
   $(() => {
 	  fnGetProductHotList();
+	  fnproductDetail();
   })
 
   // 전역 변수
@@ -80,7 +81,12 @@
     })  
   
   }
-  
+
+  const fnproductDetail = () => {
+	    $(document).on('click', '.product', function(){
+	      location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('productno');
+	    })
+	  }
   </script>
 
 

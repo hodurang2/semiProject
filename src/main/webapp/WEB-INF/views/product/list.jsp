@@ -10,35 +10,6 @@
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
-<style>
-  .product_list {
-    margin: 5px auto;
-    display: flex;
-    flex-wrap: wrap;
-   }
-  .product {
-    width: 200px;
-    height:  230px;
-    border: 1px solid gray;
-    padding-top: 80px;
-    margin: 10px 10px;
-    
-  }
-  .product:hover {
-    background-color: silver;
-    cursor: pointer;
-  }
-  
-  #image_box{
-    width : 70px;
-    height : 70px;
-    border: 1px solid gray;
-    padding-bottom : 10px;
-    margin : 10px 10px;
-  }
-  
-</style>
-
 <div class="wrap wrap_9">
   <div id="product_list" class="product_list"></div>
 </div>
