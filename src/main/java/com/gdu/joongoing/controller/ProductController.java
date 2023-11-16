@@ -122,6 +122,12 @@ public class ProductController {
   public Map<String, Object> addProductComment(HttpServletRequest request) {
     return productService.addProductComment(request);
   }
+  
+  @ResponseBody
+  @GetMapping(value="/ProductCommentList.do", produces="application/json")
+  public Map<String, Object> productCommentList(HttpServletRequest request){
+    return productService.loadProductCommentList(request);
+  }
 
   @GetMapping(value="/hot_list.do", produces="application/json")
   public String getHotList() {
@@ -134,6 +140,11 @@ public class ProductController {
     System.out.println(request.getParameter("productNo"));
     return productService.getHotList(request);
   }
-
+  
+  @ResponseBody
+  @GetMapping(value="/getSearchProductList.do", produces="application/json")
+  public Map<String, Object> getSearchProductList(HttpServletRequest request){
+    return productService.getSearchProductList(request);
+  }
   
 }

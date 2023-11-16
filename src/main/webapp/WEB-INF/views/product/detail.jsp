@@ -64,98 +64,66 @@
 
   <hr>
   
-  <!-- 댓글 -->
-  <div>
-    <form id="frm_comment_add">
-      <textarea rows="3" cols="50" name="contents" placeholder="댓글을 작성해 주세요"></textarea>
-      <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">   <!-- 세션에 있는 유저에 유저넘버 -->
-      <input type="hidden" name="productNo" value="${product.productNo}">
-      <button type="button" id="btn_comment_add">작성완료</button>
-    </form>
-    <script>
-    
-      
-      const fnProductCommentAdd = () => {
-    	$('btn_comment_add').click(() => {
-    	 if('${sessionScope.user}' === ''){
-    		if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-    			location.href = '${contextPath}/user/login.form';
-    		} else {
-    			return;
-    		}
-    	 }
-    	  $.ajax({
-    		// 요청
-    		type: 'post',
-    		url: '${contextPath}/product/addProductComment.do',
-    		data: $('#frm_comment_add').serialize(),
-    		// 응답
-    		dataType: 'json',
-    		success: (resData) => {
-    		  if(resData.addProductCommentResult === 1){
-    			 alert('댓글이 등록되었습니다.');
-    			 $('#contents').val('');
-    			// fnProductCommentList();
-    		  }
-    		}
-    	  })
-    	})
-      }
-      
-      // 호출
-      fnProductCommentAdd();
-      
-      
-    </script>
-  </div>
-
-<hr class="my-3">
-
-<!-- 블로그 댓글 목록 -->
-<div id="commnet_list"></div>
-<div id="paging"></div>
+<!-- 댓글 -->
+<div>
+  <form id="frm_comment_add">
+    <textarea rows="3" cols="50" name="contents" placeholder="댓글을 작성해 주세요"></textarea>
+    <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">   <!-- 세션에 있는 유저에 유저넘버 -->
+  <input type="hidden" name="productNo" value="${product.productNo}">
+  <button type="button" id="btn_comment_add">작성완료</button>
+</form>
 
 <script>
 
-	const fnCommentClick = () => {
-		$('#contents').click(() => {
-			if('${sessionScope.user}' === ''){
-				if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-					location.href = '${contextPath}/user/login.form';
-				} else {
-					return;
-				}
-			}
-		})
-	}
+  
+  const fnProductCommentAdd = () => {
+	$('btn_comment_add').click(() => {
+	 if('${sessionScope.user}' === ''){
+		if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+			location.href = '${contextPath}/user/login.form';
+		} else {
+			return;
+		}
+	 }
+	  $.ajax({
+		// 요청
+		type: 'post',
+		url: '${contextPath}/product/addProductComment.do',
+		data: $('#frm_comment_add').serialize(),
+		// 응답
+		dataType: 'json',
+		success: (resData) => {
+		  if(resData.addProductCommentResult === 1){
+			 alert('댓글이 등록되었습니다.');
+			 $('#contents').val('');
+			// fnProductCommentList();
+		  }
+		}
+	  })
+	})
+  }
+  
+  var page = 1;
+  
+  const fnProductCommentList = () => {
+	$.ajax({
+	  // 요청
+	  type: 'get',
+	  url: '${contextPath}/product/'
+	})
+  }
+  
+  
+  // 호출
+  fnProductCommentAdd();
+  
+  
+</script>
+</div>
 
-	const fnCommentAdd = () => {
-		$('#btn_comment_add').click(() => {
-			if('${sessionScope.user}' === ''){
-				if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-					location.href = '${contextPath}/user/login.form';
-				} else {
-					return;
-				}
-			}
-			$.ajax({
-				type:'post',
-				url : '${contextPath}/product/addComment.do',
-				data : $('#frm_comment_add').serialize(),
-				// 응답
-				dataType : 'json',
-				success : (resData) => {
-					if(resData.addCommentResult === 1){
-						alert('댓글이 등록되었습니다.');
-						$('#contents').val('');
-						ffnCommentList();
-					}
-				}
-				
-			})
-		})
-		
-	}
+
+<script>
+/*
 	
 	var page = 1;
 	

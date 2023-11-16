@@ -2,6 +2,7 @@ package com.gdu.joongoing.service;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -258,6 +259,31 @@ public class ProductServiceImpl implements ProductService {
   
   
   @Override
+  public Map<String, Object> loadProductCommentList(HttpServletRequest request) {
+    
+    int productNo = Integer.parseInt(request.getParameter("productNo"));
+    
+    int page = Integer.parseInt(request.getParameter("page"));
+    int total = productMapper.getProductCommentCount(productNo);
+    int display = 10;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("productNo", productNo
+                                   , "begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductCommentDto> productCommentList = productMapper.getProductCommentList(map);
+    String paging = myPageUtils.getAjaxPaging();
+    
+    Map<String, Object> result = new HashMap<String, Object>();
+    result.put("productCommentList", productCommentList);
+    result.put("paging", paging);
+    return result;
+  }
+  
+  
+  @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
  
     Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
@@ -276,5 +302,24 @@ public class ProductServiceImpl implements ProductService {
                 , "totalPage", myPageUtils.getTotalPage());
   }
   
+  @Transactional(readOnly=true)
+  @Override
+  public Map<String, Object> getSearchProductList(HttpServletRequest request) {
 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productList = productMapper.getProductList(map);
+    
+    return Map.of("productList", productList
+                , "totalPage", myPageUtils.getTotalPage());
+    
+  }
 }
