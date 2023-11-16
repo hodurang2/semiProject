@@ -10,13 +10,15 @@
 </jsp:include>
 
 <style>
-  .product_Hotlist {
+  .producthot_list {
     margin: 5px auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
    }
    
-  .product {
+  .productHot {
     width: 200px;
     height:  230px;
     border: 1px solid gray;
@@ -36,7 +38,7 @@
     padding-bottom : 10px;
     margin : 10px 10px;
   }
-  
+
 </style>
 
 
@@ -44,41 +46,40 @@
 
 
 <div class="wrap wrap_9">
-  <div id="product_Hotlist" class="product_Hotlist"></div>
+  <div id="producthot_list" class="producthot_list"></div>
 </div>
 
 <script>
+
+  $(() => {
+	  fnGetProductHotList();
+  })
 
   // 전역 변수
   var page = 1;
   var totalPage = 0;
   
-  const fnGetProductList = () =>{
+  const fnGetProductHotList = () =>{
     $.ajax({
       type:'get',
-      url : '${contextPath}/product/list.do',
+      url : '${contextPath}/product/getHotList.do',
       data: 'page=' + page,
       // 응답
       dataType: 'json',
       success : (resData)  => {
-        totalPage = resData.totalPage;
-        $.each(resData.productHotList, (i, product) => {
-          let str = '<div class="product" data-productNo="' + product.productNo + '">';
-          str += '<div>' + product.productName + '</div>';    
-          if(product.UserDto == null){
-            str += '<div>' + product.sellerNo + '</div>';
-          } else {
-            str += '<div>' + product.sellerNo + '</div>';
-          } 
-          str += '<div>' + product.productCreatedAt + '</div>';
+    	console.log(resData);
+        $.each(resData.productHotList, (i, producthot) => {
+          let str = '<div class="productHot" data-productNo="' + producthot.productNo + '">';
+          str += '<div>' + producthot.productName + '</div>';    
+          str += '<div>' + producthot.sellerNo + '</div>';
+          str += '<div>' + producthot.productCreatedAt + '</div>';
           str += '</div>';
-          $('#product_Hotlist').append(str);
+          $('#producthot_list').append(str);
         })
       }
     })  
   
   }
-  fnGetProductList();
   
   </script>
 

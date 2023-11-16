@@ -227,6 +227,7 @@ public class ProductServiceImpl implements ProductService {
    * productMapper.getHotProductList()); }
    */
   
+
   @Override
   public Map<String, Object> getHotList(HttpServletRequest request) {
  
@@ -242,10 +243,10 @@ public class ProductServiceImpl implements ProductService {
     
     List<ProductDto> productHotList = productMapper.getHotList(map);
     
-    return Map.of("productList", productHotList
+    return Map.of("productHotList", productHotList
                 , "totalPage", myPageUtils.getTotalPage());
-
   }
   
+
 
 }

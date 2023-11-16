@@ -115,8 +115,15 @@ public class ProductController {
 //    return productService.getHotProductList(request);
 //  }
   
-  @RequestMapping(value="/hot_list.do", method = RequestMethod.GET)
-  public Map<String, Object> getHotList(HttpServletRequest request) {
+  @GetMapping(value="/hot_list.do", produces="application/json")
+  public String getHotList() {
+    return "product/hot_list";
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/getHotList.do", produces="application/json")
+  public Map<String, Object> getHotList(HttpServletRequest request){
+    System.out.println(request.getParameter("productNo"));
     return productService.getHotList(request);
   }
 
