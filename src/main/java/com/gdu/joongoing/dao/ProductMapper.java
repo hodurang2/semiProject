@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.gdu.joongoing.dto.ProductCommentDto;
 import com.gdu.joongoing.dto.ProductDto;
 import com.gdu.joongoing.dto.ProductImageDto;
 
@@ -23,6 +24,11 @@ public interface ProductMapper {
   public int deleteProductImage(int imageNo);
   public int deleteProduct(int productNo);
 
+  public int insertProductComment(ProductCommentDto productCommentDto);
   public List<ProductDto> getHotList(Map<String, Object> map);
+  public int getProductCommentCount(int productNo);
+  public List<ProductCommentDto> getProductCommentList(Map<String, Object> map);
+  public int insertProductCommentReply(ProductCommentDto productCommentDto);
+  public int deleteProductComment(int commentNo);
 }
   

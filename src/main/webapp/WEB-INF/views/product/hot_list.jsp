@@ -9,44 +9,15 @@
   <jsp:param value="인기게시판" name="title"/>
 </jsp:include>
 
-<style>
-  .producthot_list {
-    margin: 5px auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-   }
-   
-  .productHot {
-    width: 200px;
-    height:  230px;
-    border: 1px solid gray;
-    padding-top: 80px;
-    margin: 10px 10px;
-    
-  }
-  .product:hover {
-    background-color: silver;
-    cursor: pointer;
-  }
-  
-  #image_box{
-    width : 70px;
-    height : 70px;
-    border: 1px solid gray;
-    padding-bottom : 10px;
-    margin : 10px 10px;
-  }
 
-</style>
+<link rel="stylesheet" href="css/list.css">
 
 
 <h3>인기 조회수</h3>
 
 
 <div class="wrap wrap_9">
-  <div id="producthot_list" class="producthot_list"></div>
+  <div id="product_list" class="product_list"></div>
 </div>
 
 <script>
@@ -69,13 +40,13 @@
       dataType: 'json',
       success : (resData)  => {
     	console.log(resData);
-        $.each(resData.productHotList, (i, producthot) => {
-          let str = '<div class="productHot" data-productNo="' + producthot.productNo + '">';
-          str += '<div>' + producthot.productName + '</div>';    
-          str += '<div>' + producthot.sellerNo + '</div>';
-          str += '<div>' + producthot.productCreatedAt + '</div>';
+        $.each(resData.productHotList, (i, product) => {
+          let str = '<div class="product" data-productNo="' + product.productNo + '">';
+          str += '<div>' + product.productName + '</div>';    
+          str += '<div>' + product.sellerNo + '</div>';
+          str += '<div>' + product.productCreatedAt + '</div>';
           str += '</div>';
-          $('#producthot_list').append(str);
+          $('#product_list').append(str);
         })
       }
     })  

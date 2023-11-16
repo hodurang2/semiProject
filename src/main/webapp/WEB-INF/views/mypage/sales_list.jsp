@@ -16,16 +16,18 @@
     flex-wrap: wrap;
    }
   .sales_product {
-    width: 150px;
-    height:  180px;
+    width: 200px;
+    height:  230px;
     border: 1px solid gray;
     padding-top: 80px;
     margin: 10px 10px;
-    text-align:left;
   }
   .sales_product:hover {
     background-color: silver;
     cursor: pointer;
+  }
+  h1 {
+    margin: 30px 0;
   }
 
 </style>
@@ -46,6 +48,11 @@
 </div>
 
 <script>
+
+  $(() => {
+	  fnGetSalesList();
+	  //fnDetail();
+  })
 
   // 전역 변수
   var page = 1;
@@ -86,7 +93,15 @@
     })
   }
   
-  fnGetSalesList();
+  /*
+  const fnDetail = () => {
+    $(document).on('click', '.purchase_product', (ev) => {
+      productNo = $(ev.target).data('productNo');
+      location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
+    })
+  }
+  */
+
 
 </script>
 

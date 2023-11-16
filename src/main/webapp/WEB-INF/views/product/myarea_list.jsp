@@ -10,13 +10,11 @@
   <jsp:param value="업로드게시판" name="title"/>
 </jsp:include>
 
+<link rel="stylesheet" href="css/list.css">
 <h3>내 지역 게시판</h3>
 
-<div class="myarea_joongo">
-    <ul>
-      <li>${UserDto.interestSido}</li>
-      <li>${UserDto.interestSigungu}</li>
-    </ul>
+<div class="wrap wrap_9">
+  <div id="product_list" class="product_list"></div>
 </div>
 
 <script>

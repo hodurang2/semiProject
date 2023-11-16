@@ -16,16 +16,21 @@
     flex-wrap: wrap;
    }
   .purchase_product {
-    width: 150px;
-    height:  180px;
+    width: 200px;
+    height:  230px;
     border: 1px solid gray;
     padding-top: 80px;
     margin: 10px 10px;
-    text-align:left;
   }
   .purchase_product:hover {
     background-color: silver;
     cursor: pointer;
+  }
+  h1 {
+    margin: 30px 0;
+  }
+  .btn_review {
+    margin-top: 20px;
   }
 
 </style>
@@ -42,9 +47,18 @@
 
 <script>
 
+  $(() => {
+	  
+	  fnGetPurchaseList();
+	  fnReview();
+	  //fnDetail();
+	  
+  })
+
   // 전역 변수
   var page = 1;
   var totalPage = 0;
+  var productNo;
   
   const fnGetPurchaseList = () => {
     $.ajax({
@@ -56,17 +70,19 @@
       dataType: 'json',
       success: (resData) => {   // resData = {"buyerNo": 1, "purchaseList": [], "totalPage" : 10}
         totalPage = resData.totalPage;
-        buyerNo = resData.buyerNo;
         $.each(resData.purchaseList, (i, pp) => {
-          let str = '<div class="purchase_product" data-product_no="' + pp.productNo + '">';
+          let str = '<div class="purchase_product" data-product-no="' + pp.productNo + '">';
           str += '<div>상품명: ' + pp.productName + '</div>';
           if(pp.buyerNo === null) {
             str += '<div>탈퇴한 판매자</div>';
           } else {
-            str += '<div>판매자: ' + pp.buyerNo + '</div>';
+            str += '<div>판매자: ' + pp.sellerNo + '</div>';
           }
           str += '<div>등록일: ' + pp.productCreatedAt + '</div>';
-          str += '<button type="button" class="btn_review" id="btn' + pp.productNo + '">리뷰작성</button>';
+          str += '</div>';
+          
+          str += '<div class="review_wrap">';
+          str +=   '<button type="button" class="btn_review">리뷰작성</button>';
           str += '</div>';
           $('#purchase_list').append(str);
         })
@@ -74,15 +90,18 @@
     })
   }
   
-  fnGetPurchaseList();
+  const fnReview = () => {
+	  $(document).on('click', '.btn_review', (ev) => {
+		  productNo = $(ev.target).parent().prev().data('productNo');
+		  location.href = '${contextPath}/mypage/writeReview.form?productNo=' + productNo;
+	  })
+  }
   
   /*
-  fnReview();
-  
-  const fnReview = () => {
-	  $('.btn_review').on('click', () => {
-		  
-		  $(ev.target).prop('id')
+  const fnDetail = () => {
+	  $(document).on('click', '.purchase_product', (ev) => {
+		  productNo = $(ev.target).data('productNo');
+		  location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
 	  })
   }
   */
