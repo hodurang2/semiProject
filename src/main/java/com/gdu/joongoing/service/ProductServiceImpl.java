@@ -113,6 +113,15 @@ public class ProductServiceImpl implements ProductService {
     
   }
   
+  @Override
+  public Map<String, Object> getInterestList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("userNo"));
+    int userNo = Integer.parseInt(opt.orElse("0"));
+  
+    return Map.of("interestList", productMapper.getInterestList(userNo));
+  }
+  
   @Transactional(readOnly=true)
   @Override
   public void loadProduct(HttpServletRequest request, Model model) {  // 상세보기
