@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+
+
+ .product_list {
+  margin: 5px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+ }
+ 
+.product {
+  width: 200px;
+  height:  230px;
+  border: 1px solid gray;
+  padding-top: 80px;
+  margin: 10px 10px;
+  
+}
+.product:hover {
+  background-color: silver;
+  cursor: pointer;
+}
+
