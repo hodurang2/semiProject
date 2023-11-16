@@ -113,16 +113,38 @@ public class ProductServiceImpl implements ProductService {
     
   }
   
+  @Override
+  public Map<String, Object> getInterestList(HttpServletRequest request) {
+    
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    int userNo = Integer.parseInt(request.getParameter("userNo"));
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd()
+                                   , "userNo", userNo);
+    
+    List<ProductDto> interestList = productMapper.getInterestList(map);
+  
+    return Map.of("interestList", interestList
+                 , "totalPage", myPageUtils.getTotalPage());
+  }
+  
   @Transactional(readOnly=true)
   @Override
-  public void loadProduct(HttpServletRequest request, Model model) {
+  public void loadProduct(HttpServletRequest request, Model model) {  // 상세보기
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
     int productNo = Integer.parseInt(opt.orElse("0"));  // productNo는 정수변환이 필요하니까 파스인트쓰고, 전달이 안됐을 때는 0을 사용한다.
     
     // 게시판내용 + 첨부된 첨부파일목록 2가지를 가지고 컨트롤러로 넘긴다.
     model.addAttribute("product", productMapper.getProduct(productNo));               // 게시판내용
-    model.addAttribute("ProductList", productMapper.getProductImageList(productNo));  // 첨부내역
+    model.addAttribute("productImageList", productMapper.getProductImageList(productNo));  // 첨부내역
     
   }
   
@@ -152,9 +174,9 @@ public class ProductServiceImpl implements ProductService {
   public Map<String, Object> getProductImageList(HttpServletRequest request) {
     
     Optional<String> opt = Optional.ofNullable(request.getParameter("productNo"));
-    int imageNo = Integer.parseInt(opt.orElse("0"));
+    int productNo = Integer.parseInt(opt.orElse("0"));
     
-    return Map.of("productImageList", productMapper.getProductImageList(imageNo));
+    return Map.of("productImageList", productMapper.getProductImageList(productNo));
     
   }
   
@@ -219,6 +241,25 @@ public class ProductServiceImpl implements ProductService {
    */
   
 
+  @Override
+  public Map<String, Object> getHotList(HttpServletRequest request) {
+ 
+    Optional<String> opt = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt.orElse("1"));
+    int total = productMapper.getProductCount();
+    int display = 9;
+    
+    myPageUtils.setPaging(page, total, display);
+    
+    Map<String, Object> map = Map.of("begin", myPageUtils.getBegin()
+                                   , "end", myPageUtils.getEnd());
+    
+    List<ProductDto> productHotList = productMapper.getHotList(map);
+    
+    return Map.of("productHotList", productHotList
+                , "totalPage", myPageUtils.getTotalPage());
+  }
+  
 
 
 }

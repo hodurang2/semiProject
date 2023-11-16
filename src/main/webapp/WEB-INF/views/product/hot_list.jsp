@@ -5,21 +5,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
-
+<jsp:include page="../layout/header.jsp">
+  <jsp:param value="인기게시판" name="title"/>
+</jsp:include>
 
 <style>
-  .product_list {
+  .producthot_list {
     margin: 5px auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
    }
-  .product {
-    width: 150px;
-    height:  180px;
+   
+  .productHot {
+    width: 200px;
+    height:  230px;
     border: 1px solid gray;
     padding-top: 80px;
     margin: 10px 10px;
-    text-align:left;
+    
   }
   .product:hover {
     background-color: silver;
@@ -33,37 +38,58 @@
     padding-bottom : 10px;
     margin : 10px 10px;
   }
-  
+
 </style>
 
-<jsp:include page="../layout/header.jsp">
-  <jsp:param value="인기게시판" name="title"/>
-</jsp:include>
 
-<h1>인기 조회수</h1>
+<h3>인기 조회수</h3>
 
-<c:if test="${not empty productHotList}">
-  <table>
-    <thead>
-      <tr>
-        <th>제품명</th>
-        <th>가격</th>
-        <th>생성일</th>
-        <th>조회수</th>
-      </tr>
-    </thead>
-    <tbody>
-      <c:forEach var="product" items="${productHotList}">
-        <tr>
-          <td>${product.productName}</td>
-          <td>${product.productPrice}</td>
-          <td>${product.productCreatedAt}</td>
-          <td>${product.hit}</td>
-        </tr>
-      </c:forEach>
-    </tbody>
-  </table>
-</c:if>
+
+<div class="wrap wrap_9">
+  <div id="producthot_list" class="producthot_list"></div>
+</div>
+
+<script>
+
+  $(() => {
+	  fnGetProductHotList();
+	  fnproductDetail();
+  })
+
+  // 전역 변수
+  var page = 1;
+  var totalPage = 0;
+  
+  const fnGetProductHotList = () =>{
+    $.ajax({
+      type:'get',
+      url : '${contextPath}/product/getHotList.do',
+      data: 'page=' + page,
+      // 응답
+      dataType: 'json',
+      success : (resData)  => {
+    	console.log(resData);
+        $.each(resData.productHotList, (i, producthot) => {
+          let str = '<div class="productHot" data-productNo="' + producthot.productNo + '">';
+          str += '<div>' + producthot.productName + '</div>';    
+          str += '<div>' + producthot.sellerNo + '</div>';
+          str += '<div>' + producthot.productCreatedAt + '</div>';
+          str += '</div>';
+          $('#producthot_list').append(str);
+        })
+      }
+    })  
+  
+  }
+
+  const fnproductDetail = () => {
+	    $(document).on('click', '.product', function(){
+	      location.href = '${contextPath}/product/detail.do?productNo=' + $(this).data('productno');
+	    })
+	  }
+  </script>
+
+
 
 
 

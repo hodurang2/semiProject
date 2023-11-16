@@ -18,6 +18,10 @@
     padding: 10px;
     margin: 0 auto;  
   }
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="wrap wrap_5">

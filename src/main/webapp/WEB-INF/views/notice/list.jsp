@@ -27,19 +27,20 @@
   }
   .support_left_wrap {
     width: 245px;
-    padding-right: 45px;
+    padding-right: 50px;
   }
   .support_right_wrap {
     width: 1000px;
   }
-  .left_menu ul {
+  .left_menu ul li:last-child {
     border-bottom: 1px solid #EAEAEA;
+     
   }
   .left_menu ul li {
     display: block;
     border: 1px solid #F4F4F4;
     border-bottom: none;
-    padding: 0 15px;
+    
   }
   a {
     text-decoration: none;
@@ -47,6 +48,15 @@
   }
   ul {
     list-style: none;
+  }
+  .notice_head {
+    display: flex;
+  }
+  .btn_write{
+    flex-grow: 1;
+  }
+  .btn_support {
+    width: 168px;
   }
   .btn_support li{
     width: 168px;
@@ -68,12 +78,12 @@
   }
   .notice_title {
     margin-bottom: 25px;
-    display: flex;
     align-items: center;
     justify-content: space-between;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 22px;
     margin-top: 10px;
+    flex-grow: 1;
   }
   
   .support_right_wrap table {
@@ -96,17 +106,18 @@
       </ul>
     </div>
   </div>   
-
-<div class="admin">
-  <div>
-    <a href="${contextPath}/notice/write.form">
-      <button type="button" class="btn btn-primary">새글작성</button>
-    </a>
-  </div>
-  
  
     <div class="support_right_wrap">
-      <div class="notice_title">공지사항</div>
+      <div class="notice_head">
+        <div class="notice_title">공지사항</div>
+          <c:if test="${sessionScope.user.userNo == 1}">
+            <div>
+              <a href="${contextPath}/notice/write.form">
+                <button type="button" class="btn btn-dark btn_write">새글작성</button>
+              </a>
+            </div>
+        </c:if>
+      </div>
       <table border="1" class="table">
         <thead>
           <tr>
@@ -119,18 +130,35 @@
         <tbody>
           <c:forEach items="${noticeList}" var="n" varStatus="vx">
             <tr>
-              <td>${num[vx.index]}</td>
-              <td><a href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a></td>
+              <td>${n.num}</td>
+              <td>
+                <a class="notice_list_title" href="${contextPath}/notice/detail.do?noticeNo=${n.noticeNo}">${n.title}</a>
+                <c:if test="${n.dayAgo == 0 && n.monthAgo == 0 && n.yearAgo == 0}">
+                  <i class="fa-solid fa-fire fa-2xs" style="color: #da1010;"></i>
+                </c:if>
+              </td>
               <td>
                 <fmt:formatDate pattern="yyyy-MM-dd" value="${n.createdAt}"/>
               </td>
               <td>
-                <c:choose> 
-                  <c:when test="${noticeHour[vx.index] != null && noticeHour[vx.index] < 24 && noticeHour[vx.index] > 0}">
-                    <div>${noticeHour[vx.index]}시간 전</div>
+                <c:choose>
+                  <c:when test="${n.yearAgo > 0}">
+                    <div>${n.yearAgo}년 전</div>
                   </c:when> 
-                  <c:when test="${noticeHour[vx.index] == 0}">
-                    <div>${noticeMinute[vx.index]}분 전</div>
+                  <c:when test="${n.monthAgo > 0}">
+                    <div>${n.monthAgo}개월 전</div>
+                  </c:when> 
+                  <c:when test="${n.dayAgo > 0}">
+                    <div>${n.dayAgo}일 전</div>
+                  </c:when> 
+                  <c:when test="${n.hourAgo > 0}">
+                    <div>${n.hourAgo}시간 전</div>
+                  </c:when> 
+                  <c:when test="${n.minuteAgo > 0}">
+                    <div>${n.minuteAgo}분 전</div>
+                  </c:when> 
+                  <c:when test="${n.secondAgo > 0}">
+                    <div>${n.secondAgo}초 전</div>
                   </c:when> 
                 </c:choose>
               </td>
@@ -144,7 +172,6 @@
         </tfoot>
       </table>    
     </div>
-  </div>
 </div>
 <script>
 	

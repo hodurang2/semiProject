@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -56,6 +57,19 @@ public class ProductController {
     return productService.getProductList(request);
   }
   
+  @ResponseBody
+  @GetMapping(value="/getInterestList.do", produces="application/json")
+  public Map<String, Object> getInterestList(HttpServletRequest request){
+    System.out.println(request.getParameter("userNo"));
+    System.out.println(request.getParameter("page"));
+    return productService.getInterestList(request);
+  }
+  
+  @GetMapping(value="/interest_list.do", produces="application/json")
+  public String getInterestList(){
+    return "product/interest_list";
+  }
+  
   @GetMapping("/detail.do")
   public String detail(HttpServletRequest request, Model model) {
     productService.loadProduct(request, model);
@@ -101,7 +115,18 @@ public class ProductController {
 //  public Map<String, Object> getHotProductList(HttpServletRequest request){
 //    return productService.getHotProductList(request);
 //  }
-
+  
+  @GetMapping(value="/hot_list.do", produces="application/json")
+  public String getHotList() {
+    return "product/hot_list";
+  }
+  
+  @ResponseBody
+  @GetMapping(value="/getHotList.do", produces="application/json")
+  public Map<String, Object> getHotList(HttpServletRequest request){
+    System.out.println(request.getParameter("productNo"));
+    return productService.getHotList(request);
+  }
 
   
 }
