@@ -49,6 +49,12 @@
   ul {
     list-style: none;
   }
+  .notice_head {
+    display: flex;
+  }
+  .btn_write{
+    flex-grow: 1;
+  }
   .btn_support {
     width: 168px;
   }
@@ -72,12 +78,12 @@
   }
   .notice_title {
     margin-bottom: 25px;
-    display: flex;
     align-items: center;
     justify-content: space-between;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 22px;
     margin-top: 10px;
+    flex-grow: 1;
   }
   
   .support_right_wrap table {
@@ -100,17 +106,18 @@
       </ul>
     </div>
   </div>   
-<div class="admin">
-  <c:if test="${sessionScope.user.userNo == 1}">
-    <div>
-      <a href="${contextPath}/notice/write.form">
-        <button type="button" class="btn btn-primary">새글작성</button>
-      </a>
-    </div>
-  </c:if>
  
     <div class="support_right_wrap">
-      <div class="notice_title">공지사항</div>
+      <div class="notice_head">
+        <div class="notice_title">공지사항</div>
+          <c:if test="${sessionScope.user.userNo == 1}">
+            <div>
+              <a href="${contextPath}/notice/write.form">
+                <button type="button" class="btn btn-dark btn_write">새글작성</button>
+              </a>
+            </div>
+        </c:if>
+      </div>
       <table border="1" class="table">
         <thead>
           <tr>
@@ -165,7 +172,6 @@
         </tfoot>
       </table>    
     </div>
-  </div>
 </div>
 <script>
 	
