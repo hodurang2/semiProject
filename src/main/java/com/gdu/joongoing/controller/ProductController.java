@@ -60,6 +60,7 @@ public class ProductController {
   @GetMapping(value="/getInterestList.do", produces="application/json")
   public Map<String, Object> getInterestList(HttpServletRequest request){
     System.out.println(request.getParameter("userNo"));
+    System.out.println(request.getParameter("page"));
     return productService.getInterestList(request);
   }
   
