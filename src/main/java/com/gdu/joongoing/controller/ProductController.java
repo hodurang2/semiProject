@@ -140,6 +140,11 @@ public class ProductController {
     System.out.println(request.getParameter("productNo"));
     return productService.getHotList(request);
   }
-
+  
+  @ResponseBody
+  @GetMapping(value="/getSearchProductList.do", produces="application/json")
+  public Map<String, Object> getSearchProductList(HttpServletRequest request){
+    return productService.getSearchProductList(request);
+  }
   
 }
