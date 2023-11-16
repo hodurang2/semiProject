@@ -227,9 +227,8 @@ CREATE TABLE ANSWER (
 CREATE TABLE INQUIRY_ATTACH (
     ATTACH_NO           NUMBER              NOT NULL    ,  -- 첨부한 파일의 번호
     INQUIRY_NO          NUMBER              NOT NULL    ,  -- 문의번호
-    PATH                VARCHAR2(100 BYTE)  NOT NULL    ,  -- 파일의 위치경로
-    ORIGINAL_FILENAME   VARCHAR2(300 BYTE)  NOT NULL    ,  -- 원본 파일의 이름
-    FILESYSTEM_NAME     VARCHAR2(300 BYTE)  NOT NULL    ,  -- 변경된 파일 이름
+    PATH                VARCHAR2(100 BYTE)  NULL    ,  -- 파일의 위치경로
+    FILESYSTEM_NAME     VARCHAR2(300 BYTE)  NULL    ,  -- 변경된 파일 이름
     CONSTRAINT PK_INQUIRY_ATTACH PRIMARY KEY (ATTACH_NO),
     CONSTRAINT FK_INQUIRY_ATTACH FOREIGN KEY (INQUIRY_NO) REFERENCES INQUIRY(INQUIRY_NO) ON DELETE CASCADE  -- 1:1 문의 삭제 시, 첨부된 사진 삭제
 );
