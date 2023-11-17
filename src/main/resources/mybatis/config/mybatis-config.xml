@@ -22,8 +22,6 @@
     <typeAlias alias="CategoryDto"       type="com.gdu.joongoing.dto.CategoryDto"/>
     <typeAlias alias="SearchDto"         type="com.gdu.joongoing.dto.SearchDto"/>
     
-    <typeAlias alias="AlarmDto"          type="com.gdu.joongoing.dto.AlarmDto"/>
-    
     <typeAlias alias="InquiryDto"        type="com.gdu.joongoing.dto.InquiryDto"/>
     <typeAlias alias="InquiryAttachDto"  type="com.gdu.joongoing.dto.InquiryAttachDto"/>
     <typeAlias alias="AnswerDto"         type="com.gdu.joongoing.dto.AnswerDto"/>
