@@ -50,30 +50,39 @@
   
   <script>
     const fnAnswerAdd = () => {
-        $('#btn_answer_add').click(() => {
-          if('${sessionScope.user}' === ''){
-            if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
-              location.href = '${contextPath}/user/login.form';
-            } else {
-              return;
+      $('#btn_answer_add').click(() => {
+        if('${sessionScope.user}' === ''){
+          if(confirm('로그인이 필요한 기능입니다. 로그인할까요?')){
+            location.href = '${contextPath}/user/login.form';
+          } else {
+            return;
+          }
+        }
+        $.ajax({
+          // 요청
+          type: 'post',
+          url: '${contextPath}/inquiry/addAnswer.do',
+          data: $('#frm_answer_add').serialize(),
+          // 응답
+          dataType: 'json',
+          success: (resData) => {  // {"addAnswerResult": 1}
+            if(resData.addAnswerResult === 1){
+              alert('댓글이 등록되었습니다.');
+              $('#contents').val('');
+              fnAlarmAdd();
+              fnAnswerList();
             }
           }
-          $.ajax({
-            // 요청
-            type: 'post',
-            url: '${contextPath}/inquiry/addAnswer.do',
-            data: $('#frm_answer_add').serialize(),
-            // 응답
-            dataType: 'json',
-            success: (resData) => {  // {"addAnswerResult": 1}
-              if(resData.addAnswerResult === 1){
-                alert('댓글이 등록되었습니다.');
-                $('#contents').val('');
-                fnAnswerList();
-              }
-            }
-          })
         })
+      })
+    }
+    const fnAlarmAdd = () => {
+  	  $.ajax({
+  		  type: 'post',
+  		  url: '${contextPath}/addAlarm.do'
+  		  data: ${inquiry.inquiryTitle},
+  		  dataType: 'json',
+  	  })
     }
     
     // 전역 변수

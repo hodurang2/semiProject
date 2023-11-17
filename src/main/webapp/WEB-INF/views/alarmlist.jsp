@@ -27,7 +27,7 @@
       <tbody>
         <c:forEach items="${alarmList}" var="a" varStatus="vx">
           <tr>
-            <td>${i.inquiryNo}</td>
+            <td>${a.alarmNo}</td>
             <td><a href="${contextPath}/inquiry/detail.do?inquiryNo=${a.inquiryNo}">${i.inquiryTitle}</a></td>
             <td>${i.userDto.email}</td>
             <td>

@@ -22,6 +22,10 @@ public class AlarmServiceImpl implements AlarmService{
   private final AlarmMapper alarmMapper;
   private final MyPageUtils myPageUtils;
   
+  @Override
+  public Map<String, Object> addAlarm(HttpServletRequest request) {
+    return null;
+  }
   
   @Override
   public void loadAlarmList(HttpServletRequest request, Model model) {

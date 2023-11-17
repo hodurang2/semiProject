@@ -11,19 +11,37 @@
   </select>
   
   <select id="getAlarmList" parameterType="Map" resultType="AlarmDto">
+    <!--
     SELECT ALARM_NO, A.PRODUCT_NO, INQUIRY_NO, ALARM_CONTENTS, ALARM_TYPE, A.CREATED_AT, ALARM_AT, P.SELLER_NO AS USER_NO
       FROM ALARM A INNER JOIN PRODUCT P
         ON A.PRODUCT_NO = P.PRODUCT_NO
      WHERE P.SELLER_NO = #{sessionScope.user.userNo}
      UNION ALL
+    -->
     SELECT ALARM_NO, A.PRODUCT_NO, A.INQUIRY_NO, ALARM_CONTENTS, ALARM_TYPE, A.CREATED_AT, ALARM_AT, I.USER_NO
       FROM ALARM A INNER JOIN INQUIRY I
         ON A.INQUIRY_NO = I.INQUIRY_NO
-     WHERE I.USER_NO = #{sessionScope.user.userNo}
+     WHERE I.USER_NO = ${sessionScope.user.userNo}
   </select>  
     
   <insert id="insertAlarm">
-  
+    INSERT INTO ALARM(
+        ALARM_NO
+      , INQUIRY_NO
+      , PRODUCT_NO
+      , ALARM_CONTENTS
+      , ALARM_TYPE
+      , CREATED_AT
+      , ALARM_AT
+    ) VALUES (
+        ALARM_SEQ.NEXTVAL
+      , #{inquiryNo}
+      , #{productNo}
+      , #{alarmContents}
+      , 1
+      , SYSTIMESTAMP
+      , #{alarmAt}
+    )
   </insert>
   
   <delete id="">
