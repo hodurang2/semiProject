@@ -33,9 +33,9 @@
     <!-- 검색 -->
     <div class="search">
       <form id="search_frm" action="${contextPath}/product/searchList.do">
-        <input type="text" name="searchWord" id="searchWord" style="text-align:center">
+        <input type="text" name="searchWord" id="searchWord" class="searchWord input-group-text">
+        <button type="submit" id="btn_search" class="btn_search"><i class="fa-solid fa-magnifying-glass search_icon" style="color: #1937cc;"></i></button>
         <input type="hidden" name="userNo" id="userNo" value="${sessionScope.user.userNo}" >
-        <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
       </form>
     </div>
     
