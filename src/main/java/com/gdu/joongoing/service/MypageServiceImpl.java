@@ -213,13 +213,16 @@ public class MypageServiceImpl implements MypageService {
   public int addReview(HttpServletRequest request) {
     
     String reviewContents = request.getParameter("reviewContents");
-    String[] reviewScore = request.getParameterValues("reviewScore");
+    
+    String[] reviewScoreArray = request.getParameterValues("reviewScore");
+    Optional<String> opt = Optional.ofNullable(reviewScoreArray[reviewScoreArray.length-1]);
+    int reviewScore = Integer.parseInt(opt.orElse("0"));
     
     int productNo = Integer.parseInt(request.getParameter("productNo"));
     
     ProductDto purchaseProduct = ProductDto.builder()
                                            .reviewContents(reviewContents)
-                                           .reviewScore(Integer.parseInt(reviewScore[reviewScore.length-1]))
+                                           .reviewScore(reviewScore)
                                            .productNo(productNo)
                                            .build();
     int updateReviewResult = mypageMapper.updateReview(purchaseProduct);
@@ -227,7 +230,6 @@ public class MypageServiceImpl implements MypageService {
     return updateReviewResult;
   
   }
-  
   
   
   

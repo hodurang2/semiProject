@@ -57,6 +57,8 @@
   // 전역 변수
   var page = 1;
   var totalPage = 0;
+  var productNo;
+  
   let sta = '';
   
   const fnGetSalesList = () => {
@@ -95,12 +97,14 @@
   
   /*
   const fnDetail = () => {
-    $(document).on('click', '.purchase_product', (ev) => {
-      productNo = $(ev.target).data('productNo');
+    $(document).on('click', '.sales_product', function(ev) {
+      productNo = $(this).data('productNo');
+      console.log(productNo);
       location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
     })
   }
   */
+  
 
 
 </script>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -111,4 +112,13 @@ public class MypageController {
      return "redirect:/mypage/purchaseList.do";
    }
 
+   @GetMapping("/viewReview.do")
+   public String viewReview(@RequestParam(value="productNo", required=false, defaultValue="0") int productNo
+                            , Model model) {
+     ProductDto purchaseProduct = mypageService.getPurchaseProduct(productNo, model);
+     model.addAttribute("purchaseProduct", purchaseProduct);
+     return "mypage/review_view";
+   }
+   
+   
 }

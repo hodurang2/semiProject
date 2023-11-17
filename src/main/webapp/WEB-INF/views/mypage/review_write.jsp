@@ -137,7 +137,10 @@ h1{
     </div>
     <div class="review_contents">
         <textarea rows="10" class="review_textarea" id="reviewContents" name="reviewContents"></textarea>
-    </div>   
+    </div>
+    <div class="pl">
+      <button type="button" id="btn_purchase_list">구매목록보기</button>
+    </div>
     <div class="cmd">
         <button type="submit" name="save" id="save">등록</button>
     </div>
@@ -226,6 +229,13 @@ h1{
 }
 
 let rating = new Rating();//별점 인스턴스 생성
+
+  const fnBack = () => {
+	  $(document).on('click', '#btn_purchase_list', () => {
+		  location.href='${contextPath}/mypage/purchaseList.do';
+	  })
+  }
+  fnBack();
 
 </script>
 

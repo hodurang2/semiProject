@@ -51,7 +51,8 @@
 	  
 	  fnGetPurchaseList();
 	  fnReview();
-	  //fnDetail();
+	  fnDetail();
+	  fnViewReview();
 	  
   })
 
@@ -80,11 +81,17 @@
           }
           str += '<div>등록일: ' + pp.productCreatedAt + '</div>';
           str += '</div>';
+    
+          if(pp.reviewContents === null) {
+            // 작성한 리뷰가 없을 때만 버튼 생성
+        	  str += '<button type="button" class="btn_review">리뷰작성</button>';
+          } else if(pp.reviewContents !== null) {
+            // 작성한 리뷰가 있을 때만 버튼 생성
+        	  str += '<button type="button" class="btn_view_review">내가 쓴 리뷰보기</button>';
+          }
           
-          str += '<div class="review_wrap">';
-          str +=   '<button type="button" class="btn_review">리뷰작성</button>';
-          str += '</div>';
           $('#purchase_list').append(str);
+        
         })
       }
     })
@@ -92,19 +99,25 @@
   
   const fnReview = () => {
 	  $(document).on('click', '.btn_review', (ev) => {
-		  productNo = $(ev.target).parent().prev().data('productNo');
+		  productNo = $(ev.target).prev().data('productNo');
 		  location.href = '${contextPath}/mypage/writeReview.form?productNo=' + productNo;
 	  })
   }
   
-  /*
+
   const fnDetail = () => {
-	  $(document).on('click', '.purchase_product', (ev) => {
-		  productNo = $(ev.target).data('productNo');
+	  $(document).on('click', '.purchase_product', function(ev) {
+		  productNo = $(this).data('productNo');
 		  location.href = '${contextPath}/product/detail.do?productNo=' + productNo;
 	  })
   }
-  */
+  
+  const fnViewReview = () => {
+	  $(document).on('click', '.btn_view_review', (ev) => {
+		  productNo = $(ev.target).prev().data('productNo');
+		  location.href = '${contextPath}/mypage/viewReview.do?productNo=' + productNo;
+	  })
+  }
 
 </script>
 

@@ -31,14 +31,19 @@
     </div>
     
     <!-- 검색 -->
-    <div>
-      <form>
-        <input type="text" name="search_word" id="search_word">
+    <div class="search">
+      <form id="search_frm" action="${contextPath}/product/searchList.do">
+        <input type="text" name="searchWord" id="searchWord" style="text-align:center">
+        <input type="hidden" name="userNo" id="userNo" value="${sessionScope.user.userNo}" >
         <button type="submit" id="btn_search"><i class="fa-solid fa-magnifying-glass" style="color: #1937cc;"></i></button>
       </form>
     </div>
     
-     <!-- 로그인 --> 
+    
+   </div> 
+ </div>
+ 
+  <!-- 로그인 --> 
     <div class="login_wrap">
       <c:if test="${sessionScope.user == null}">
         <ul class="ul_menu right_wrap">
@@ -56,8 +61,6 @@
       </c:if>
       </ul>
      </div>
-   </div> 
- </div>
  
  
     <hr>
@@ -75,7 +78,23 @@
     		location.href = '${contextPath}/main.do';
     	})
     }
+    
+    const fnSearch = () => {
+    	$('#search_frm').submit((e) => {
+    		if('${sessionScope.user}' === ''){
+    			alert('로그인 해주세요.');
+    			e.preventDefault();
+    			location.href = '${contextPath}/main.do';
+    			return;
+    		}
+    		if($('#searchWord').val() === '') {
+    			e.preventDefault();
+    			return;
+    		}
+    	})
+    }
+    
     fnMain();
-
+		fnSearch();
 
 </script>

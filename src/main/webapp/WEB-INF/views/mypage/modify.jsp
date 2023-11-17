@@ -7,7 +7,7 @@
 <c:set var="dt" value="<%=System.currentTimeMillis()%>" />
 
 <jsp:include page="../layout/header.jsp">
-  <jsp:param value="마이페이지" name="title"/>
+  <jsp:param value="회원정보수정" name="title"/>
 </jsp:include>
 
 <div>
